@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+const makePromise = require('makePromise')
+const fs = require('fs')
+const path = require('path')
+const CWD = process.cwd()
+
+Promise.resolve().then(() => {
+    const packageName = process.argv[2]
+    if (!packageName) {
+        throw new Error('Please give package name')
+    }
+    const packagePath = path.join(CWD, packageName)
+
+    return makePromise(fs.mkdir, packagePath)
+})
+    .catch((err) => {
+        console.error(err.message)
+    })

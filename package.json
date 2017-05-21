@@ -1,14 +1,16 @@
 {
-  "name": "my-package-name",
+  "name": "my-new-package",
   "version": "0.1.0",
   "description": "Quickly create a Node.js package with a Github repository Edit",
   "main": "src/index.js",
+  "bin": "./bin/mpn",
   "scripts": {
-    "test": "zoroaster test/spec"
+    "test": "zoroaster test/spec",
+    "test-watch": "zoroaster test/spec --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sobesednik/my-package-name.git"
+    "url": "git+https://github.com/Sobesednik/my-new-package.git"
   },
   "keywords": [
     "npm",
@@ -22,7 +24,15 @@
   "author": "Anton <anton@sobesednik.media>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Sobesednik/my-package-name/issues"
+    "url": "https://github.com/Sobesednik/my-new-package/issues"
   },
-  "homepage": "https://github.com/Sobesednik/my-package-name#readme"
+  "homepage": "https://github.com/Sobesednik/my-new-package#readme",
+  "devDependencies": {
+    "makepromise": "^1.0.0",
+    "spawncommand": "^1.1.0",
+    "zoroaster": "^0.4.4"
+  },
+  "dependencies": {
+    "makepromise": "^1.0.0"
+  }
 }
