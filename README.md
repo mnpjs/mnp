@@ -78,7 +78,7 @@ test/
 
 ### npm t
 
-(Zoroaster)[https://www.npmjs.com/package/zoroaster] is used as the testing framework for this
+[Zoroaster](https://www.npmjs.com/package/zoroaster) is used as the testing framework for this
 project.
 
 ```bash
