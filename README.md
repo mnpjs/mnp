@@ -1,20 +1,28 @@
-# my-new-package
-Quickly create a Node.js package with a Github repository
+# mnp
+
+`mnp` aka _My New Package_ is a global npm module which allows to quickly create a Node.js package
+with a default minimal structure (src, test, etc) and get ready to publish in minutes.
 
 ## Create a new pacakge with globally installed mpn
 
+To use the module, enter `mnp cool-package-name`. The software will create a new package in the
+current directory.
+
 ```bash
 cd ~/Packages
-mnp my-example-package
-...
-ls
+mnp my-example-package # scaffold your new app
 cd my-example-package
-ls
-{{ structure }}
-
+code . # do your thing, express yourself
+npm t
+npm version
+git push
+git push --tags
+npm publish
 ```
 
 ### Structure
+
+The following structure will be initialised, which is pretty much essential for any Node.js project.
 
 ```fs
 CHANGELOG.md
@@ -37,7 +45,7 @@ test/
 {
   "name": "my-example-package",
   "version": "0.1.0",
-  "description": "A new package generated with my-new-package",
+  "description": "A new package generated with mnp",
   "main": "src/index.js",
   "scripts": {
     "test": "zoroaster test/spec",
@@ -70,7 +78,8 @@ test/
 
 ### npm t
 
-(Zoroaster)[https://www.npmjs.com/package/zoroaster] is the testing framework
+(Zoroaster)[https://www.npmjs.com/package/zoroaster] is used as the testing framework for this
+project.
 
 ```bash
 > zoroaster test/spec
@@ -78,22 +87,22 @@ test/
  test/spec
    index.js
     ✓  should be a function
-my-new-package called
+my-example-package called
     ✓  should call package without error
 
 Executed 2 tests.
 ```
 
-## myPackageName()
+## src/index.js
 
-Require and call your new pacakge:
+The index file exports your main function.
 
 ```js
-const myPackageName = require('my-new-package')
+const myExamplePackage = require('my-example-package')
 
-myPackageName()
+myExamplePackage() // well done now!
 ```
 
 ---
 
-(c) 2017
+(c) Sobesednik-Media 2017
