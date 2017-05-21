@@ -8,6 +8,9 @@
     "test": "zoroaster test/spec",
     "test-watch": "zoroaster test/spec --watch"
   },
+  "files": [
+    "bin/mnp"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sobesednik/mnp.git"
