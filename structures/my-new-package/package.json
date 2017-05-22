@@ -1,0 +1,29 @@
+{
+  "name": "my-new-package",
+  "version": "0.1.0",
+  "description": "A new package created with mnp",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "zoroaster test/spec",
+    "test-watch": "zoroaster test/spec --watch"
+  },
+  "files": [
+    "src/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sobesednik/my-new-package.git"
+  },
+  "keywords": [
+    "mnp"
+  ],
+  "author": "Anton <anton@sobesednik.media>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sobesednik/my-new-package/issues"
+  },
+  "homepage": "https://github.com/Sobesednik/my-new-package#readme",
+  "devDependencies": {
+    "zoroaster": "0.4.4"
+  }
+}
