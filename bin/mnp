@@ -1,12 +1,19 @@
 #!/usr/bin/env node
+'use strict'
 
-const makePromise = require('makePromise')
 const fs = require('fs')
+const makePromise = require('makepromise')
+const os = require('os')
 const path = require('path')
-const CWD = process.cwd()
-const lib = require('../src/lib')
+const readline = require('readline')
 const spawnCommand = require('spawncommand')
 const wrote = require('wrote')
+
+const lib = require('../src/lib')
+const CWD = process.cwd()
+
+const DEFAULT_CONFIG_PATH = path.join(__dirname, 'default-config.json')
+const CONFIG_PATH = path.join(os.homedir(), '/.mnp.json')
 
 let githubResult
 let packagePath
@@ -15,27 +22,77 @@ let packageJsonPath
 
 const DEFAULT_STRUCTURE_PATH = path.join(__dirname, '../structures/my-new-package')
 
-Promise.resolve().then(() => {
-    packageName = process.argv[2]
-    if (!packageName) {
-        throw new Error('Please give package name')
-    }
-    packagePath = path.join(CWD, packageName)
-    packageJsonPath = path.join(packagePath, 'package.json')
+function readLine(question) {
+    return new Promise((resolve) => {
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+        })
 
-    const token = process.argv[3]
-    if (!token) {
-        throw new Error('Please give token')
-    }
-    const org = process.argv[4]
+        rl.question(question, (answer) => {
+            rl.close()
+            resolve(answer)
+        })
+    })
+}
 
-    return lib.createRepo(token, packageName, org)
-})
+function ask() {
+    let token
+    let org
+    return readLine('GitHub access token: ')
+        .then((res) => {
+            if (!res) {
+                throw new Error('Please specify token')
+            }
+            token = res
+        })
+        .then(() => {
+            return readLine('Organisation: ')
+        })
+        .then((res) => {
+            org = res || null
+        })
+        .then(() => ({
+            token,
+            org,
+        }))
+}
+
+let conf
+lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
     .then((res) => {
-        githubResult = res
+        if (res.token === null) {
+            let newConfig
+            return ask()
+                .then((res) => {
+                    newConfig = res
+                    return wrote(CONFIG_PATH)
+                })
+                .then((ws) => {
+                    console.log('updating .mnp.json in the home directory...')
+                    return makePromise(ws.end.bind(ws), `${JSON.stringify(newConfig, null, 2)}\n`)
+                })
+                .then(() => {
+                    return newConfig
+                })
+        }
+        return res
+    })
+    .then((res) => {
+        conf = res
+    })
+    .then(() => {
+        packageName = process.argv[2]
+        if (!packageName) {
+            throw new Error('Please give package name')
+        }
+        packagePath = path.join(CWD, packageName)
+        packageJsonPath = path.join(packagePath, 'package.json')
+    })
+    .then(() =>{
         return makePromise(fs.stat, packagePath)
             .then(() => {
-                throw new Error('directory or file alread exists')
+                throw new Error('directory exists')
             }, (err) => {
                 if (!/ENOENT/.test(err.message)) {
                     throw err
@@ -43,12 +100,17 @@ Promise.resolve().then(() => {
             })
     })
     .then(() => {
+        return lib.createRepo(conf.token, packageName, conf.org)
+    })
+    .then((res) => {
+        githubResult = res
+    })
+    .then(() => {
         const proc = spawnCommand('cp', ['-R', DEFAULT_STRUCTURE_PATH, packagePath])
         return proc.promise
     })
     .then(() => {
         const packageJson = require(packageJsonPath)
-        console.log(packageJson)
         const newPackage = Object.assign({}, packageJson, {
             name: packageName,
             repository: {
@@ -60,10 +122,9 @@ Promise.resolve().then(() => {
             },
             homepage: `${githubResult.html_url}#readme`,
         })
-        console.log(newPackage)
+        console.log('Created new repo: %s', newPackage.homepage)
         return wrote(packageJsonPath)
             .then((ws) => {
-                console.log(ws)
                 return makePromise(ws.end.bind(ws), JSON.stringify(newPackage, null, 2))
             })
     })

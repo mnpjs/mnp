@@ -1,6 +1,58 @@
+'use strict'
+
 const https = require('https')
 const Catchment = require('catchment')
+const wrote = require('wrote')
+const fs = require('fs')
+const makePromise = require('makepromise')
 
+function readFile(filepath) {
+    const rs = fs.createReadStream(filepath)
+    const catchment = new Catchment()
+    rs.pipe(catchment)
+    return catchment.promise
+}
+
+function requireConfig(dataPath) {
+    return Promise.resolve()
+        .then(() => {
+            const config = require(dataPath)
+            return config
+        })
+}
+
+function cloneConfig(srcPath, destPath) {
+    let defaultConfig
+    return readFile(srcPath)
+        .then((res) => {
+            defaultConfig = res
+            return wrote(destPath)
+        })
+        .then((ws) => {
+            return makePromise(ws.end.bind(ws), defaultConfig)
+        })
+}
+
+function readConfig(configPath, defaultConfigPath) {
+    return requireConfig(configPath)
+        .catch((er) => {
+            // does not exist
+            if (!/Cannot find module/.test(er.message)) {
+                throw er
+            }
+            return cloneConfig(defaultConfigPath, configPath)
+                .then(() => {
+                    return requireConfig(configPath)
+                }) // should work now
+        })
+}
+
+/**
+ * Create a new github repo
+ * @param {string} token github access token
+ * @param {string} packageName Name of the new package and directory to create
+ * @param {string} [org] Organisation
+ */
 function createRepo(token, packageName, org) {
     const data = JSON.stringify({
         name: packageName,
@@ -44,4 +96,6 @@ function createRepo(token, packageName, org) {
 
 module.exports = {
     createRepo,
+    readConfig,
+    readFile,
 }
