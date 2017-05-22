@@ -52,9 +52,11 @@ function readConfig(configPath, defaultConfigPath) {
  * @param {string} token github access token
  * @param {string} packageName Name of the new package and directory to create
  * @param {string} [org] Organisation
+ * @param {string} [description] Description for github
  */
-function createRepo(token, packageName, org) {
+function createRepo(token, packageName, org, description) {
     const data = JSON.stringify({
+        description,
         name: packageName,
         auto_init: true,
         gitignore_template: 'Node',

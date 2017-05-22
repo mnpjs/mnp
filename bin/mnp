@@ -59,6 +59,7 @@ function ask() {
 }
 
 let conf
+let description
 lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
     .then((res) => {
         if (res.token === null) {
@@ -100,7 +101,11 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
             })
     })
     .then(() => {
-        return lib.createRepo(conf.token, packageName, conf.org)
+        return readLine('Description: ')
+    })
+    .then((answer) => {
+        description = answer.trim()
+        return lib.createRepo(conf.token, packageName, conf.org, description || undefined)
     })
     .then((res) => {
         githubResult = res
@@ -121,7 +126,7 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
                 url: `${githubResult.html_url}/issues`,
             },
             homepage: `${githubResult.html_url}#readme`,
-        })
+        }, description ? { description } : {})
         console.log('Created new repo: %s', newPackage.homepage)
         return wrote(packageJsonPath)
             .then((ws) => {
