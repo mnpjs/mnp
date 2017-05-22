@@ -4,16 +4,69 @@ const makePromise = require('makePromise')
 const fs = require('fs')
 const path = require('path')
 const CWD = process.cwd()
+const lib = require('../src/lib')
+const spawnCommand = require('spawncommand')
+const wrote = require('wrote')
+
+let githubResult
+let packagePath
+let packageName
+let packageJsonPath
+
+const DEFAULT_STRUCTURE_PATH = path.join(__dirname, '../structures/my-new-package')
 
 Promise.resolve().then(() => {
-    const packageName = process.argv[2]
+    packageName = process.argv[2]
     if (!packageName) {
         throw new Error('Please give package name')
     }
-    const packagePath = path.join(CWD, packageName)
+    packagePath = path.join(CWD, packageName)
+    packageJsonPath = path.join(packagePath, 'package.json')
 
-    return makePromise(fs.mkdir, packagePath)
+    const token = process.argv[3]
+    if (!token) {
+        throw new Error('Please give token')
+    }
+    const org = process.argv[4]
+
+    return lib.createRepo(token, packageName, org)
 })
+    .then((res) => {
+        githubResult = res
+        return makePromise(fs.stat, packagePath)
+            .then(() => {
+                throw new Error('directory or file alread exists')
+            }, (err) => {
+                if (!/ENOENT/.test(err.message)) {
+                    throw err
+                }
+            })
+    })
+    .then(() => {
+        const proc = spawnCommand('cp', ['-R', DEFAULT_STRUCTURE_PATH, packagePath])
+        return proc.promise
+    })
+    .then(() => {
+        const packageJson = require(packageJsonPath)
+        console.log(packageJson)
+        const newPackage = Object.assign({}, packageJson, {
+            name: packageName,
+            repository: {
+                type: 'git',
+                url: githubResult.git_url,
+            },
+            bugs: {
+                url: `${githubResult.html_url}/issues`,
+            },
+            homepage: `${githubResult.html_url}#readme`,
+        })
+        console.log(newPackage)
+        return wrote(packageJsonPath)
+            .then((ws) => {
+                console.log(ws)
+                return makePromise(ws.end.bind(ws), JSON.stringify(newPackage, null, 2))
+            })
+    })
     .catch((err) => {
         console.error(err.message)
     })

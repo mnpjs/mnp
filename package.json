@@ -36,6 +36,9 @@
     "zoroaster": "^0.4.4"
   },
   "dependencies": {
-    "makepromise": "^1.0.0"
+    "catchment": "^1.0.0",
+    "makepromise": "^1.0.0",
+    "spawncommand": "^1.1.0",
+    "wrote": "^0.2.0"
   }
 }
