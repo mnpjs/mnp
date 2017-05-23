@@ -10,7 +10,9 @@
   },
   "files": [
     "bin/mnp",
-    "src/"
+    "etc/default-config.json",
+    "src/lib.js",
+    "structures/my-new-package"
   ],
   "repository": {
     "type": "git",
