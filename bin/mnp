@@ -20,7 +20,7 @@ let packagePath
 let packageName
 let packageJsonPath
 
-const DEFAULT_STRUCTURE_PATH = path.join(__dirname, '../structures/my-new-package')
+const DEFAULT_STRUCTURE_PATH = path.join(__dirname, '../structures/my-new-package/')
 
 function readLine(question) {
     return new Promise((resolve) => {
@@ -58,6 +58,17 @@ function ask() {
         }))
 }
 
+function assertDoesNotExist(dir) {
+    return makePromise(fs.stat, dir)
+        .then(() => {
+            throw new Error('directory exists')
+        }, (err) => {
+            if (!/ENOENT/.test(err.message)) {
+                throw err
+            }
+        })
+}
+
 let conf
 let description
 lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
@@ -91,30 +102,49 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
         packageJsonPath = path.join(packagePath, 'package.json')
     })
     .then(() =>{
-        return makePromise(fs.stat, packagePath)
-            .then(() => {
-                throw new Error('directory exists')
-            }, (err) => {
-                if (!/ENOENT/.test(err.message)) {
-                    throw err
-                }
-            })
+        return assertDoesNotExist(packagePath)
     })
     .then(() => {
+        const proc = spawnCommand('git', ['rev-parse', '--git-dir'])
+        return proc.promise
+    })
+    .then((res) => {
+        if (/\.git/.test(res.stdout)) {
+            throw new Error('Current dir is in git path!')
+        }
         return readLine('Description: ')
     })
     .then((answer) => {
-        description = answer.trim()
-        return lib.createRepo(conf.token, packageName, conf.org, description || undefined)
+        description = typeof answer === 'string' ? answer.trim() : undefined
+        return lib.createRepo(conf.token, packageName, conf.org, description)
     })
     .then((res) => {
         githubResult = res
     })
     .then(() => {
-        const proc = spawnCommand('cp', ['-R', DEFAULT_STRUCTURE_PATH, packagePath])
+        console.log('cloning %s', githubResult.ssh_url)
+        const proc = spawnCommand('git', ['clone', githubResult.ssh_url, packagePath])
         return proc.promise
     })
     .then(() => {
+        process.chdir(packagePath)
+    })
+    .then(() => {
+        const proc = spawnCommand('rsync', [
+            '-av',
+            DEFAULT_STRUCTURE_PATH,
+            packagePath,
+        ])
+        return proc.promise
+    })
+    .then((res) => {
+        if (res.stderr) {
+            throw new Error(res.stderr)
+        }
+        if (!/package\.json/.test(res.stdout)) {
+            throw new Error('Expected to have copied files')
+        }
+        console.log(`cloned the structure to ${packagePath}`)
         const packageJson = require(packageJsonPath)
         const newPackage = Object.assign({}, packageJson, {
             name: packageName,
@@ -132,6 +162,25 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
             .then((ws) => {
                 return makePromise(ws.end.bind(ws), JSON.stringify(newPackage, null, 2))
             })
+    })
+    .then(() => {
+        const proc = spawnCommand('git', ['add', '.'])
+        return proc.promise
+    })
+    .then(() => {
+        const proc = spawnCommand('git', ['commit', '-m', 'initialise package'])
+        proc.stdout.pipe(process.stdout)
+        proc.stderr.pipe(process.stderr)
+        return proc.promise
+    })
+    .then(() => {
+        const proc = spawnCommand('git', ['push', 'origin', 'master'])
+        proc.stdout.pipe(process.stdout)
+        proc.stderr.pipe(process.stderr)
+        return proc.promise
+    })
+    .then(() => {
+        console.log('success')
     })
     .catch((err) => {
         console.error(err.message)
