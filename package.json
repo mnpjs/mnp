@@ -9,7 +9,8 @@
     "test-watch": "zoroaster test/spec --watch"
   },
   "files": [
-    "bin/mnp"
+    "bin/mnp",
+    "src/"
   ],
   "repository": {
     "type": "git",
