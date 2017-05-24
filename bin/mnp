@@ -173,6 +173,7 @@ fullInit(CONFIG_PATH, DEFAULT_CONFIG_PATH)
             bugs: {
                 url: `${githubResult.html_url}/issues`,
             },
+            author: `${conf.name} <${conf.email}>`,
             homepage: `${githubResult.html_url}#readme`,
         }, description ? { description } : {})
         console.log('Created new repo: %s', newPackage.homepage)
