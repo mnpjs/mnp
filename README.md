@@ -116,4 +116,4 @@ myExamplePackage() // well done now!
 
 ---
 
-(c) Sobesednik-Media 2017
+(c) [Sobesednik-Media](https://sobesednik.media) 2017
