@@ -91,13 +91,27 @@ function createRepo(token, packageName, org, description) {
                 return `${errMsg}\n${acc}`
             }, '').trim()
             throw new Error(reduced)
+        } else if (parsed.message === 'Bad credentials') {
+            throw new Error(parsed.message)
         }
         return parsed
     })
+}
+
+function assertDoesNotExist(dir) {
+    return makePromise(fs.stat, dir)
+        .then(() => {
+            throw new Error(`directory ${dir} exists`)
+        }, (err) => {
+            if (!/ENOENT/.test(err.message)) {
+                throw err
+            }
+        })
 }
 
 module.exports = {
     createRepo,
     readConfig,
     readFile,
+    assertDoesNotExist,
 }
