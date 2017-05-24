@@ -16,6 +16,7 @@ be used in `package.json` and in local git config.
 
 To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. The software will check if directory does not exist, create a Github repo, clone it, set the config, and update `package.json` with appropriate information.
 
+![creation process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-make.gif)
 
 
 ```bash
