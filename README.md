@@ -3,10 +3,20 @@
 `mnp` aka _My New Package_ is a global npm module which allows to quickly create a Node.js package
 with a default minimal structure (src, test, etc) and get ready to publish in minutes.
 
-## Create a new pacakge with globally installed mpn
+## config
 
-To use the module, enter `mnp cool-package-name`. The software will create a new package in the
-current directory.
+When launched for the first time, you will be asked to complete the setup process.
+You will need a [GitHub token](https://github.com/settings/tokens). Organisation
+name is optional, if supplied repos will be open for it. `name` and `email` will
+be used in `package.json` and in local git config.
+
+![configuration process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-config2.gif)
+
+## Create a new package
+
+To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. The software will check if directory does not exist, create a Github repo, clone it, set the config, and update `package.json` with appropriate information.
+
+
 
 ```bash
 cd ~/Packages
