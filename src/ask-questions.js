@@ -60,9 +60,7 @@ function askQuestions(questions, timeout, singleValue) {
                 answer = question.postProcess(answer)
             }
             const realAnswer = answer || question.defaultInQuestion || question.defaultValue
-            console.log(answer, question.defaultInQuestion, question.defaultValue, realAnswer)
-            //  (!answer && question.defaultValue !== undefined)
-            //     ? question.defaultValue : answer
+            // console.log(answer, question.defaultInQuestion, question.defaultValue, realAnswer)
             return Object.assign({}, previousResult, { [questionKey]: realAnswer })
         })
     }, Promise.resolve({}))
