@@ -7,9 +7,6 @@
     "test": "zoroaster test/spec",
     "test-watch": "zoroaster test/spec --watch"
   },
-  "files": [
-    "src/"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sobesednik/my-new-package.git"

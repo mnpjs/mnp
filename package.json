@@ -1,6 +1,6 @@
 {
   "name": "mnp",
-  "version": "0.2.2",
+  "version": "0.2.6",
   "description": "Quickly create a Node.js package with a Github repository Edit",
   "main": "src/index.js",
   "bin": "./bin/mnp",
@@ -12,7 +12,8 @@
     "bin/mnp",
     "etc/default-config.json",
     "src/lib.js",
-    "structures/my-new-package"
+    "src/ask-questions.js",
+    "structures/my-new-package/**/*"
   ],
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
   "dependencies": {
     "catchment": "^1.0.0",
     "makepromise": "^1.0.0",
+    "reloquent": "^0.1.2",
     "spawncommand": "^1.1.0",
     "wrote": "^0.2.0"
   }

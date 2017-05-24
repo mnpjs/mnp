@@ -1,108 +1,116 @@
 #!/usr/bin/env node
 'use strict'
 
-const fs = require('fs')
 const makePromise = require('makepromise')
 const os = require('os')
 const path = require('path')
-const readline = require('readline')
 const spawnCommand = require('spawncommand')
 const wrote = require('wrote')
 
+const askQuestions = require('../src/ask-questions')
 const lib = require('../src/lib')
 const CWD = process.cwd()
 
 const DEFAULT_CONFIG_PATH = path.join(__dirname, '../etc/default-config.json')
 const CONFIG_PATH = path.join(os.homedir(), '/.mnp.json')
 
+const DEFAULT_STRUCTURE_PATH = path.join(__dirname, '../structures/my-new-package/')
+const ANSWER_TIMEOUT = undefined
+
+/**
+ * Initialise default config
+ */
+function init() {
+    const questions = {
+        token: {
+            text: 'GitHub access token: ',
+            validation: (a) => {
+                if (!a) {
+                    throw new Error('Please specify token')
+                }
+            },
+        },
+        org: {
+            text: 'Organisation: ',
+            defaultValue: null,
+        },
+        name: {
+            getDefault: () => git(['config', 'user.name'], true)
+                .then((res) => {
+                    return res.stdout.trim()
+                }),
+            text: 'user',
+        },
+        email: {
+            getDefault: () => git(['config', 'user.email'], true)
+                .then((res) => {
+                    return res.stdout.trim()
+                }),
+            text: 'email',
+        },
+    }
+    return askQuestions(questions)
+}
+
+function updateConfig(newConfig, configPath) {
+    return wrote(configPath).then((ws) => {
+        console.log(`...updating ${configPath}`)
+        return makePromise(ws.end.bind(ws), `${JSON.stringify(newConfig, null, 2)}\n`, newConfig)
+    })
+}
+
+function initAndUpdate(configPath) {
+    return init().then((newConfig) => {
+        return updateConfig(newConfig, configPath)
+    })
+}
+
+function fullInit(configPath, defaultConfigPath) {
+    return lib.readConfig(configPath, defaultConfigPath).then((res) => {
+        if (res.token === null) {
+            return initAndUpdate(configPath)
+        }
+        return res
+    })
+}
+
+function git(args, noPipe) {
+    const proc = spawnCommand('git', args)
+    if (!noPipe) {
+        proc.stdout.pipe(process.stdout)
+        proc.stderr.pipe(process.stderr)
+    }
+    return proc.promise
+}
+
+let conf
+let description
 let githubResult
 let packagePath
 let packageName
 let packageJsonPath
 
-const DEFAULT_STRUCTURE_PATH = path.join(__dirname, '../structures/my-new-package/')
-
-function readLine(question) {
-    return new Promise((resolve) => {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-        })
-
-        rl.question(question, (answer) => {
-            rl.close()
-            resolve(answer)
-        })
-    })
-}
-
-function ask() {
-    let token
-    let org
-    return readLine('GitHub access token: ')
-        .then((res) => {
-            if (!res) {
-                throw new Error('Please specify token')
-            }
-            token = res
-        })
-        .then(() => {
-            return readLine('Organisation: ')
-        })
-        .then((res) => {
-            org = res || null
-        })
-        .then(() => ({
-            token,
-            org,
-        }))
-}
-
-function assertDoesNotExist(dir) {
-    return makePromise(fs.stat, dir)
-        .then(() => {
-            throw new Error('directory exists')
-        }, (err) => {
-            if (!/ENOENT/.test(err.message)) {
-                throw err
-            }
-        })
-}
-
-let conf
-let description
-lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
-    .then((res) => {
-        if (res.token === null) {
-            let newConfig
-            return ask()
-                .then((res) => {
-                    newConfig = res
-                    return wrote(CONFIG_PATH)
-                })
-                .then((ws) => {
-                    console.log('updating .mnp.json in the home directory...')
-                    return makePromise(ws.end.bind(ws), `${JSON.stringify(newConfig, null, 2)}\n`)
-                })
-                .then(() => {
-                    return newConfig
-                })
-        }
-        return res
-    })
+fullInit(CONFIG_PATH, DEFAULT_CONFIG_PATH)
     .then((res) => {
         conf = res
-    })
-    .then(() => {
-        packageName = process.argv[2]
-        if (!packageName) {
-            throw new Error('Please give package name')
+        const argvPacakgeName = process.argv[2]
+        if (argvPacakgeName) {
+            return argvPacakgeName
         }
+        return askQuestions({
+            package_name: {
+                text: 'Please give package name: ',
+                validation: (a) => {
+                    if (!a) throw new Error('You must specify package name')
+                },
+            },
+        }).then(res => res.package_name)
+    })
+    .then((res) => {
+        packageName = res
         packagePath = path.join(CWD, packageName)
         packageJsonPath = path.join(packagePath, 'package.json')
-    })
-    .then(() =>{
-        return assertDoesNotExist(packagePath)
+        return lib.assertDoesNotExist(packagePath)
     })
     .then(() => {
         const proc = spawnCommand('git', ['rev-parse', '--git-dir'])
@@ -112,10 +120,16 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
         if (/\.git/.test(res.stdout)) {
             throw new Error('Current dir is in git path!')
         }
-        return readLine('Description: ')
+        console.log(`# ${packageName}`)
+        return askQuestions({
+            description: {
+                text: 'Description: ',
+                postProcess: s => s.trim(),
+                defaultValue: '',
+            },
+        }, null, 'description')
     })
-    .then((answer) => {
-        description = typeof answer === 'string' ? answer.trim() : undefined
+    .then((description) => {
         return lib.createRepo(conf.token, packageName, conf.org, description)
     })
     .then((res) => {
@@ -123,11 +137,15 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
     })
     .then(() => {
         console.log('cloning %s', githubResult.ssh_url)
-        const proc = spawnCommand('git', ['clone', githubResult.ssh_url, packagePath])
-        return proc.promise
+        return git(['clone', githubResult.ssh_url, packagePath])
     })
     .then(() => {
         process.chdir(packagePath)
+        console.log('setting user info: %s<%s>', conf.name, conf.email)
+        return git(['config', 'user.name', conf.name])
+            .then(() => {
+                return git(['config', 'user.email', conf.email])
+            })
     })
     .then(() => {
         const proc = spawnCommand('rsync', [
@@ -155,6 +173,7 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
             bugs: {
                 url: `${githubResult.html_url}/issues`,
             },
+            author: `${conf.name} <${conf.email}>`,
             homepage: `${githubResult.html_url}#readme`,
         }, description ? { description } : {})
         console.log('Created new repo: %s', newPackage.homepage)
@@ -164,20 +183,13 @@ lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG_PATH)
             })
     })
     .then(() => {
-        const proc = spawnCommand('git', ['add', '.'])
-        return proc.promise
+        return git(['add', '.'])
     })
     .then(() => {
-        const proc = spawnCommand('git', ['commit', '-m', 'initialise package'])
-        proc.stdout.pipe(process.stdout)
-        proc.stderr.pipe(process.stderr)
-        return proc.promise
+        return git(['commit', '-m', 'initialise package'])
     })
     .then(() => {
-        const proc = spawnCommand('git', ['push', 'origin', 'master'])
-        proc.stdout.pipe(process.stdout)
-        proc.stderr.pipe(process.stderr)
-        return proc.promise
+        return git(['push', 'origin', 'master'])
     })
     .then(() => {
         console.log('success')

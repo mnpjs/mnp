@@ -9,14 +9,8 @@ const BIN_PATH = path.join(__dirname, '../../bin/mnp')
 
 const myPackageNameTestSuite = {
     'should call the binary': () => {
-        const proc = spawnCommand(BIN_PATH)
+        const proc = spawnCommand(BIN_PATH, ['test-package-name'])
         return proc.promise
-    },
-    'should exit with code 1 if package name is not given': () => {
-        return spawnCommand(BIN_PATH).promise
-            .then((res) => {
-                assert.equal(res.stderr.trim(), 'Please give package name')
-            })
     },
     'should create a new package in the cwd': () => {
         const tempPath = path.join(TEMP, `mnp-test-${Date.now()}`)
