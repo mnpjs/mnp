@@ -12,7 +12,7 @@
     "bin/mnp",
     "etc/default-config.json",
     "src/lib.js",
-    "src/ask-questions",
+    "src/ask-questions.js",
     "structures/my-new-package/**/*"
   ],
   "repository": {
