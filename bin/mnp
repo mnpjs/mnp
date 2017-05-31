@@ -7,7 +7,7 @@ const path = require('path')
 const spawnCommand = require('spawncommand')
 const wrote = require('wrote')
 
-const askQuestions = require('../src/ask-questions')
+const askQuestions = require('reloquent').askQuestions
 const lib = require('../src/lib')
 const CWD = process.cwd()
 
@@ -35,14 +35,14 @@ function init() {
             defaultValue: null,
         },
         name: {
-            getDefault: () => git(['config', 'user.name'], true)
+            getDefault: () => lib.git(['config', 'user.name'], true)
                 .then((res) => {
                     return res.stdout.trim()
                 }),
             text: 'user',
         },
         email: {
-            getDefault: () => git(['config', 'user.email'], true)
+            getDefault: () => lib.git(['config', 'user.email'], true)
                 .then((res) => {
                     return res.stdout.trim()
                 }),
@@ -72,15 +72,6 @@ function fullInit(configPath, defaultConfigPath) {
         }
         return res
     })
-}
-
-function git(args, noPipe) {
-    const proc = spawnCommand('git', args)
-    if (!noPipe) {
-        proc.stdout.pipe(process.stdout)
-        proc.stderr.pipe(process.stderr)
-    }
-    return proc.promise
 }
 
 let conf
@@ -134,17 +125,15 @@ fullInit(CONFIG_PATH, DEFAULT_CONFIG_PATH)
     })
     .then((res) => {
         githubResult = res
-    })
-    .then(() => {
         console.log('cloning %s', githubResult.ssh_url)
-        return git(['clone', githubResult.ssh_url, packagePath])
+        return lib.git(['clone', githubResult.ssh_url, packagePath])
     })
     .then(() => {
         process.chdir(packagePath)
         console.log('setting user info: %s<%s>', conf.name, conf.email)
-        return git(['config', 'user.name', conf.name])
+        return lib.git(['config', 'user.name', conf.name])
             .then(() => {
-                return git(['config', 'user.email', conf.email])
+                return lib.git(['config', 'user.email', conf.email])
             })
     })
     .then(() => {
@@ -183,13 +172,13 @@ fullInit(CONFIG_PATH, DEFAULT_CONFIG_PATH)
             })
     })
     .then(() => {
-        return git(['add', '.'])
+        return lib.git(['add', '.'])
     })
     .then(() => {
-        return git(['commit', '-m', 'initialise package'])
+        return lib.git(['commit', '-m', 'initialise package'])
     })
     .then(() => {
-        return git(['push', 'origin', 'master'])
+        return lib.git(['push', 'origin', 'master'])
     })
     .then(() => {
         console.log('success')

@@ -5,6 +5,7 @@ const Catchment = require('catchment')
 const wrote = require('wrote')
 const fs = require('fs')
 const makePromise = require('makepromise')
+const spawnCommand = require('spawncommand')
 
 function readFile(filepath) {
     const rs = fs.createReadStream(filepath)
@@ -109,9 +110,19 @@ function assertDoesNotExist(dir) {
         })
 }
 
+function git(args, noPipe) {
+    const proc = spawnCommand('git', args)
+    if (!noPipe) {
+        proc.stdout.pipe(process.stdout)
+        proc.stderr.pipe(process.stderr)
+    }
+    return proc.promise
+}
+
 module.exports = {
     createRepo,
     readConfig,
     readFile,
     assertDoesNotExist,
+    git,
 }

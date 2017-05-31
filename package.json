@@ -42,7 +42,7 @@
   "dependencies": {
     "catchment": "^1.0.0",
     "makepromise": "^1.0.0",
-    "reloquent": "^0.1.2",
+    "reloquent": "^0.2.0",
     "spawncommand": "^1.1.0",
     "wrote": "^0.2.0"
   }
