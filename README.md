@@ -1,5 +1,7 @@
 # mnp
 
+[![npm version](https://badge.fury.io/js/mnp.svg)](https://badge.fury.io/js/mnp)
+
 `mnp` aka _My New Package_ is a global npm module which allows to quickly create a Node.js package
 with a default minimal structure (src, test, etc) and get ready to publish in minutes.
 
@@ -113,6 +115,10 @@ const myExamplePackage = require('my-example-package')
 
 myExamplePackage() // well done now!
 ```
+
+## todo
+
+* offline
 
 ---
 
