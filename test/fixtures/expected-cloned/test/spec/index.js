@@ -1,17 +1,17 @@
 const assert = require('assert')
 const context = require('../context/')
-const myNewPackage = require('../../src/')
+const testPackage_10 = require('../../src/')
 
-const myNewPackageTestSuite = {
+const testPackage_10TestSuite = {
     context,
     'should be a function': () => {
-        assert.equal(typeof myNewPackage, 'function')
+        assert.equal(typeof testPackage_10, 'function')
     },
     'should call package without error': () => {
         assert.doesNotThrow(() => {
-            myNewPackage()
+            testPackage_10()
         })
     },
 }
 
-module.exports = myNewPackageTestSuite
+module.exports = testPackage_10TestSuite

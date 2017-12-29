@@ -1,60 +1,72 @@
 const assert = require('assert')
-const Catchment = require('catchment')
-const fs = require('fs')
-const makePromise = require('makepromise')
-const path = require('path')
+const { resolve } = require('path')
+const { erase, createWritable, read } = require('wrote')
+const makepromise = require('makepromise')
+const { stat } = require('fs')
 const lib = require('../../src/lib')
 
-const FIXTURES = path.join(__dirname, '../fixtures/')
-const TEMP = path.join(__dirname, '../temp/')
+const testENOENT = (err) => {
+    const { code } = err
+    const isEnoent = code == 'ENOENT'
+    if (isEnoent) {
+        console.log('file does not exist')
+        return false
+    } else {
+        console.log('some other error')
+        throw err
+    }
+}
+const exists = async path => makepromise(stat, path, true).catch(testENOENT)
 
-const _DEFAULT_CONFIG = path.join(FIXTURES, 'default-config.json')
-const _CONFIG_PATH = path.join(TEMP, '.mnp.json')
+const FIXTURES = resolve(__dirname, '../fixtures/')
+const TEMP = resolve(__dirname, '../temp/')
 
-const context = function Context() {
+const DEFAULT_CONFIG = resolve(FIXTURES, '.mnprc')
+const CONFIG_PATH = resolve(TEMP, '.mnprc')
+
+async function ensureErase(path) {
+    if (!path) {
+        throw new Error('path must be specified')
+    }
+    const doesExist = await exists(path)
+    if (doesExist) {
+        const ws = await createWritable(path)
+        await erase(ws)
+    }
+}
+
+const context = async function Context() {
     Object.defineProperties(this, {
         DEFAULT_CONFIG: {
-            get: () => _DEFAULT_CONFIG,
+            get: () => DEFAULT_CONFIG,
         },
         CONFIG_PATH: {
-            get: () => _CONFIG_PATH,
+            get() { return CONFIG_PATH },
         },
-        _destroy: () => {
+        _destroy: { value: async () => {
             // unlink temp if created
-            return makePromise(fs.unlink, this.CONFIG_PATH)
-                .then(() => {}, (err) => {
-                    if (!/ENOENT/.test(err.message)) {
-                        throw err
-                    }
-                })
-        },
+            await ensureErase(CONFIG_PATH)
+        }},
+        readDefaultConf: { value: async () => {
+            const json = await read(DEFAULT_CONFIG)
+            const parsed = JSON.parse(json)
+            return parsed
+        }},
     })
 }
 
 
 const readConfigTestSuite = {
     context,
-    '_should make sure temp is clear': (ctx) => {
-        return makePromise(fs.unlink, ctx.CONFIG_PATH)
-            .then(() => {}, (err) => {
-                if (!/ENOENT/.test(err.message)) {
-                    throw err
-                }
-            })
-    },
-    'should create a new config': (ctx) => {
-        return lib.readConfig(ctx.CONFIG_PATH, ctx.DEFAULT_CONFIG)
-            .then(() => {
-                const rs = fs.createReadStream(ctx.CONFIG_PATH)
-                const catchment = new Catchment()
-                rs.pipe(catchment)
-                return catchment.promise
-            })
-            .then((res) => {
-                const parsedRes = JSON.parse(res)
-                const defaultConf = require(ctx.DEFAULT_CONFIG)
-                assert.deepEqual(parsedRes, defaultConf)
-            })
+    async 'should create a new config if current one does not exist'({
+        CONFIG_PATH, DEFAULT_CONFIG, readDefaultConf,
+    }) {
+        await lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG)
+
+        const json = await read(CONFIG_PATH)
+        const parsed = JSON.parse(json)
+        const expected = await readDefaultConf()
+        assert.deepEqual(parsed, expected)
     },
 }
 

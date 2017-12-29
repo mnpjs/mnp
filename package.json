@@ -35,15 +35,17 @@
   },
   "homepage": "https://github.com/Sobesednik/mnp#readme",
   "devDependencies": {
-    "makepromise": "^1.0.0",
-    "spawncommand": "^1.1.0",
-    "zoroaster": "^0.4.4"
+    "assert-diff": "1.2.4",
+    "zoroaster": "0.4.6"
   },
   "dependencies": {
+    "camel-case": "3.0.0",
     "catchment": "^1.0.0",
-    "makepromise": "^1.0.0",
-    "reloquent": "^0.2.0",
+    "makepromise": "1.1.1",
+    "reloquent": "0.2.0",
+    "restream": "1.2.0",
+    "rqt": "0.2.0",
     "spawncommand": "^1.1.0",
-    "wrote": "^0.2.0"
+    "wrote": "1.1.0"
   }
 }

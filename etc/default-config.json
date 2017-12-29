@@ -1,4 +1,8 @@
 {
     "token": null,
-    "org": null
+    "org": null,
+    "name": null,
+    "email": null,
+    "website": null,
+    "legalName": null
 }

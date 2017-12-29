@@ -14,4 +14,6 @@ myNewPackage()
 
 ---
 
-(c) Sobesednik-Media 2017
+(c) [{{ org }}][1] {{ year }}
+
+[1]: {{ website }}
