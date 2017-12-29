@@ -3,16 +3,14 @@ const { resolve } = require('path')
 const { erase, createWritable, read } = require('wrote')
 const makepromise = require('makepromise')
 const { stat } = require('fs')
-const lib = require('../../src/lib')
+const { readConfig } = require('../../src/lib')
 
 const testENOENT = (err) => {
     const { code } = err
     const isEnoent = code == 'ENOENT'
     if (isEnoent) {
-        console.log('file does not exist')
         return false
     } else {
-        console.log('some other error')
         throw err
     }
 }
@@ -61,7 +59,7 @@ const readConfigTestSuite = {
     async 'should create a new config if current one does not exist'({
         CONFIG_PATH, DEFAULT_CONFIG, readDefaultConf,
     }) {
-        await lib.readConfig(CONFIG_PATH, DEFAULT_CONFIG)
+        await readConfig(CONFIG_PATH, DEFAULT_CONFIG)
 
         const json = await read(CONFIG_PATH)
         const parsed = JSON.parse(json)
