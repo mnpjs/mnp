@@ -1,3 +1,9 @@
+### 30 December 2017
+
+## [0.4.0](https://github.com/Sobesednik/mnp/compare/v0.3.0...v0.4.0)
+
+- [feature] update to `es8` and replace all dynamic data in structures.
+
 ## [0.2.6](https://github.com/Sobesednik/mnp/compare/v0.1.1...v0.2.6), [0.3.0](https://github.com/Sobesednik/mnp/compare/v0.2.6...v0.3.0) (24 May 2017)
 
 - [feature] set `author` in `package.json` based on config [0012474](https://github.com/Sobesednik/mnp/commit/0012474)
