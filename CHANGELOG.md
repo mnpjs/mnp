@@ -1,5 +1,9 @@
 ### 30 December 2017
 
+## [0.4.1](https://github.com/Sobesednik/mnp/compare/v0.4.0...v0.4.1)
+
+- [bugfix] fill in github description
+
 ## [0.4.0](https://github.com/Sobesednik/mnp/compare/v0.3.0...v0.4.0)
 
 - [feature] update to `es8` and replace all dynamic data in structures.
