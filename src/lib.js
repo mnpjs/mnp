@@ -1,128 +1,63 @@
-'use strict'
-
-const https = require('https')
-const Catchment = require('catchment')
-const wrote = require('wrote')
-const fs = require('fs')
+const { createWritable, write, read } = require('wrote')
+const { stat } = require('fs')
 const makePromise = require('makepromise')
 const spawnCommand = require('spawncommand')
 
-function readFile(filepath) {
-    const rs = fs.createReadStream(filepath)
-    const catchment = new Catchment()
-    rs.pipe(catchment)
-    return catchment.promise
+async function requireConfig(path) {
+    const config = await read(path)
+    const parsed = JSON.parse(config)
+    return parsed
 }
 
-function requireConfig(dataPath) {
-    return Promise.resolve()
-        .then(() => {
-            const config = require(dataPath)
-            return config
-        })
+async function cloneConfig(srcPath, destPath) {
+    const defaultConfig = await read(srcPath)
+    const ws = await createWritable(destPath)
+    await write(ws, defaultConfig)
 }
 
-function cloneConfig(srcPath, destPath) {
-    let defaultConfig
-    return readFile(srcPath)
-        .then((res) => {
-            defaultConfig = res
-            return wrote(destPath)
-        })
-        .then((ws) => {
-            return makePromise(ws.end.bind(ws), defaultConfig)
-        })
+async function readConfig(configPath, defaultConfigPath) {
+    try {
+        const config = await requireConfig(configPath)
+        return config
+    } catch (err) {
+        if (err.code != 'ENOENT') {
+            throw err
+        }
+        await cloneConfig(defaultConfigPath, configPath)
+        const config = await requireConfig(configPath) // should work now
+        return config
+    }
 }
 
-function readConfig(configPath, defaultConfigPath) {
-    return requireConfig(configPath)
-        .catch((er) => {
-            // does not exist
-            if (!/Cannot find module/.test(er.message)) {
-                throw er
-            }
-            return cloneConfig(defaultConfigPath, configPath)
-                .then(() => {
-                    return requireConfig(configPath)
-                }) // should work now
-        })
+async function assertDoesNotExist(dir) {
+    try {
+        await makePromise(stat, dir)
+        throw new Error(`directory ${dir} exists`)
+    } catch (err) {
+        if (!/ENOENT/.test(err.message)) {
+            throw err
+        }
+    }
 }
 
 /**
- * Create a new github repo
- * @param {string} token github access token
- * @param {string} packageName Name of the new package and directory to create
- * @param {string} [org] Organisation
- * @param {string} [description] Description for github
+ *
+ * @param {string[]} args arguments to pass to git executable
+ * @param {string} [cwd] working directory
+ * @param {boolean} [noPipe=false] whether not to print to stdout and stderr
  */
-function createRepo(token, packageName, org, description) {
-    const data = JSON.stringify({
-        description,
-        name: packageName,
-        auto_init: true,
-        gitignore_template: 'Node',
-        license_template: 'mit',
-    })
-    const options = {
-        host: 'api.github.com',
-        path: org ? `/orgs/${org}/repos` : '/user/repos',
-        headers: {
-            Authorization: `token ${token}`,
-            'Content-Type': 'application/json',
-            'Content-Length': data.length,
-            'User-Agent': 'Mozilla/5.0 mnp Node.js',
-        },
-        method: 'POST',
-    }
-    return new Promise((resolve) => {
-        const apiRequest = https.request(options, resolve)
-        apiRequest.write(data)
-        apiRequest.end()
-    })
-    .then((res) => {
-        const catchment = new Catchment()
-        res.pipe(catchment)
-        return catchment.promise
-    })
-    .then((res) => {
-        const parsed = JSON.parse(res)
-        if (Array.isArray(parsed.errors)){
-            const reduced = parsed.errors.reduce((acc, error) => {
-                const errMsg = `${error.resource}: ${error.message}`
-                return `${errMsg}\n${acc}`
-            }, '').trim()
-            throw new Error(reduced)
-        } else if (parsed.message === 'Bad credentials') {
-            throw new Error(parsed.message)
-        }
-        return parsed
-    })
-}
-
-function assertDoesNotExist(dir) {
-    return makePromise(fs.stat, dir)
-        .then(() => {
-            throw new Error(`directory ${dir} exists`)
-        }, (err) => {
-            if (!/ENOENT/.test(err.message)) {
-                throw err
-            }
-        })
-}
-
-function git(args, noPipe) {
-    const proc = spawnCommand('git', args)
+async function git(args, cwd, noPipe = false) {
+    const proc = spawnCommand('git', args, cwd ? { cwd } : {})
     if (!noPipe) {
         proc.stdout.pipe(process.stdout)
         proc.stderr.pipe(process.stderr)
     }
-    return proc.promise
+    const res = await proc.promise
+    return res
 }
 
 module.exports = {
-    createRepo,
     readConfig,
-    readFile,
     assertDoesNotExist,
     git,
 }

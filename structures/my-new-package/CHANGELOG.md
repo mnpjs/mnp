@@ -1,4 +1,6 @@
-## 0.1.0 (22 May)
+## {{ create_date }}
 
-- Create `my-new-package`: a package created with `mnp`
+## 0.1.0
+
+- Create `my-new-package` with `mnp`
 - [repo]: `test`, `src`

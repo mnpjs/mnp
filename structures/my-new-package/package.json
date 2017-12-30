@@ -1,7 +1,7 @@
 {
   "name": "my-new-package",
   "version": "0.1.0",
-  "description": "A new package created with mnp",
+  "description": "{{ description }}",
   "main": "src/index.js",
   "scripts": {
     "test": "zoroaster test/spec",
@@ -9,18 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sobesednik/my-new-package.git"
+    "url": "{{ git_url }}"
   },
-  "keywords": [
-    "mnp"
-  ],
-  "author": "Anton <anton@sobesednik.media>",
+  "keywords": ["{{ keywords }}"],
+  "author": "{{ author_name }} <{{ author_email }}>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Sobesednik/my-new-package/issues"
+    "url": "{{ issues_url }}"
   },
-  "homepage": "https://github.com/Sobesednik/my-new-package#readme",
+  "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "zoroaster": "0.4.4"
+    "zoroaster": "0.4.6"
   }
 }
