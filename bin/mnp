@@ -120,7 +120,7 @@ const { argv: [,,argvPackageName] } = process;
             ssh_url: sshUrl,
             git_url: gitUrl,
             html_url: htmlUrl,
-        } = await createRepository(token, packageName, org, 123)
+        } = await createRepository(token, packageName, org, description)
         const readmeUrl = `${htmlUrl}#readme`
         const issuesUrl = `${htmlUrl}/issues`
 
