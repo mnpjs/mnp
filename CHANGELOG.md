@@ -1,5 +1,9 @@
 ### 31 December 2017
 
+## [0.4.3](https://github.com/Sobesednik/mnp/compare/v0.4.2...v0.4.3)
+
+- [bugfix] update files record in `package.json`
+
 ## [0.4.2](https://github.com/Sobesednik/mnp/compare/v0.4.1...v0.4.2)
 
 - [src] update `wrote` and use `exists`
