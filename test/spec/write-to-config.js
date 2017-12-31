@@ -1,20 +1,7 @@
 const assert = require('assert')
 const { resolve } = require('path')
-const { erase, createWritable, read } = require('wrote')
-const makepromise = require('makepromise')
-const { stat } = require('fs')
+const { erase, createWritable, read, exists } = require('wrote')
 const { readConfig } = require('../../src/lib')
-
-const testENOENT = (err) => {
-    const { code } = err
-    const isEnoent = code == 'ENOENT'
-    if (isEnoent) {
-        return false
-    } else {
-        throw err
-    }
-}
-const exists = async path => makepromise(stat, path, true).catch(testENOENT)
 
 const FIXTURES = resolve(__dirname, '../fixtures/')
 const TEMP = resolve(__dirname, '../temp/')
