@@ -1,3 +1,9 @@
+### 31 December 2017
+
+## [0.4.2](https://github.com/Sobesednik/mnp/compare/v0.4.1...v0.4.2)
+
+- [src] update `wrote` and use `exists`
+
 ### 30 December 2017
 
 ## [0.4.1](https://github.com/Sobesednik/mnp/compare/v0.4.0...v0.4.1)
