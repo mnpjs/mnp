@@ -11,8 +11,7 @@
   "files": [
     "bin/mnp",
     "etc/default-config.json",
-    "src/lib.js",
-    "src/ask-questions.js",
+    "src/**/*",
     "structures/my-new-package/**/*"
   ],
   "repository": {
