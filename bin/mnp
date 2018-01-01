@@ -1,83 +1,51 @@
 #!/usr/bin/env node
-const { homedir } = require('os')
 const { resolve } = require('path')
 const spawnCommand = require('spawncommand')
-const { createWritable, write } = require('wrote')
+const { assertDoesNotExist } = require('wrote')
+const africa = require('africa')
 const { askQuestions } = require('reloquent')
-
 const cloneSource = require('../src/clone-source')
-const lib = require('../src/lib')
+const git = require('../src/git')
 const { createRepository } = require('../src/github')
-
-const CWD = process.cwd()
-
-const DEFAULT_CONFIG_PATH = resolve(__dirname, '../etc/default-config.json')
-const CONFIG_PATH = resolve(homedir(), '.mnprc')
 
 const DEFAULT_STRUCTURE_PATH = resolve(__dirname, '../structures/my-new-package/')
 const ANSWER_TIMEOUT = null
 
-/**
- * Initialise default config
- */
-function init() {
-    const questions = {
-        token: {
-            text: 'GitHub access token: ',
-            validation: (a) => {
-                if (!a) {
-                    throw new Error('Please specify token')
-                }
-            },
+const questions = {
+    token: {
+        text: 'GitHub access token: ',
+        validation: (a) => {
+            if (!a) {
+                throw new Error('Please specify token')
+            }
         },
-        org: {
-            text: 'GitHub organisation: ',
-            defaultValue: null,
+    },
+    org: {
+        text: 'GitHub organisation: ',
+        defaultValue: null,
+    },
+    name: {
+        async getDefault() {
+            const { stdout } = await git(['config', 'user.name'], null, true)
+            return stdout.trim()
         },
-        name: {
-            getDefault: async () => {
-                const { stdout } = await lib.git(['config', 'user.name'], null, true)
-                return stdout.trim()
-            },
-            text: 'user',
+        text: 'user',
+    },
+    email: {
+        async getDefault() {
+            const { stdout } = await git(['config', 'user.email'], null, true)
+            return stdout.trim()
         },
-        email: {
-            getDefault: async () => {
-                const { stdout } = await lib.git(['config', 'user.email'], null, true)
-                return stdout.trim()
-            },
-            text: 'email',
-        },
-        website: {
-            text: 'Website (for readme): ',
-            defaultValue: null,
-        },
-        legalName: {
-            text: 'Legal name (for readme & license): ',
-            defaultValue: null,
-        },
-    }
-    return askQuestions(questions)
-}
-
-async function updateConfig(newConfig, configPath) {
-    const ws = await createWritable(configPath)
-    console.log(`...updating ${configPath}`)
-    await write(ws, JSON.stringify(newConfig, null, 2))
-    return newConfig
-}
-
-async function initAndUpdate(configPath) {
-    const newConfig = await init()
-    return updateConfig(newConfig, configPath)
-}
-
-async function fullInit(configPath, defaultConfigPath) {
-    const config = await lib.readConfig(configPath, defaultConfigPath)
-    if (config.token === null) {
-        return initAndUpdate(configPath)
-    }
-    return config
+        text: 'email',
+    },
+    website: {
+        text: 'Website (for readme): ',
+        defaultValue: null,
+    },
+    legalName: {
+        text: 'Legal name (for readme & license): ',
+        defaultValue: null,
+    },
 }
 
 const { argv: [,,argvPackageName] } = process;
@@ -86,7 +54,7 @@ const { argv: [,,argvPackageName] } = process;
     try {
         const {
             org, token, name, email, website, legalName,
-        } = await fullInit(CONFIG_PATH, DEFAULT_CONFIG_PATH)
+        } = await africa('mnp', questions)
 
         const packageName = argvPackageName ? argvPackageName : await askQuestions({
             packageName: {
@@ -97,8 +65,8 @@ const { argv: [,,argvPackageName] } = process;
             },
         }, ANSWER_TIMEOUT, 'packageName')
 
-        const packagePath = resolve(CWD, packageName)
-        await lib.assertDoesNotExist(packagePath)
+        const packagePath = resolve(packageName)
+        await assertDoesNotExist(packagePath)
 
         const proc = spawnCommand('git', ['rev-parse', '--git-dir'])
         const gitRes = await proc.promise
@@ -124,12 +92,12 @@ const { argv: [,,argvPackageName] } = process;
         const readmeUrl = `${htmlUrl}#readme`
         const issuesUrl = `${htmlUrl}/issues`
 
-        await lib.git(['clone', sshUrl, packagePath])
+        await git(['clone', sshUrl, packagePath])
 
         console.log('Setting user %s<%s>...', name, email)
         await Promise.all([
-            lib.git(['config', 'user.name', name], packagePath),
-            lib.git(['config', 'user.email', email], packagePath),
+            git(['config', 'user.name', name], packagePath),
+            git(['config', 'user.email', email], packagePath),
         ])
 
         await cloneSource(DEFAULT_STRUCTURE_PATH, packagePath, {
@@ -147,9 +115,9 @@ const { argv: [,,argvPackageName] } = process;
         console.log('Cloned the structure to %s', packagePath)
         console.log('Created new repository: %s', readmeUrl)
 
-        await lib.git(['add', '.'], packagePath)
-        await lib.git(['commit', '-m', 'initialise package'], packagePath)
-        await lib.git(['push', 'origin', 'master'], packagePath)
+        await git(['add', '.'], packagePath)
+        await git(['commit', '-m', 'initialise package'], packagePath)
+        await git(['push', 'origin', 'master'], packagePath)
     } catch (err) {
         console.error(err)
         process.exit(1)
