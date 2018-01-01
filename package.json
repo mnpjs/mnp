@@ -1,7 +1,7 @@
 {
   "name": "mnp",
   "version": "0.4.3",
-  "description": "Quickly create a Node.js package with a Github repository Edit",
+  "description": "Quickly create a Node.js package with a Github repository",
   "main": "src/index.js",
   "bin": "./bin/mnp",
   "scripts": {
@@ -10,7 +10,6 @@
   },
   "files": [
     "bin/mnp",
-    "etc/default-config.json",
     "src/**/*",
     "structures/my-new-package/**/*"
   ],
@@ -27,7 +26,7 @@
     "repo",
     "repository"
   ],
-  "author": "Anton <anton@sobesednik.media>",
+  "author": "Anton <anton@sobes.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Sobesednik/mnp/issues"

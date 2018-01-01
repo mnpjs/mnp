@@ -1,6 +1,6 @@
 {
   "name": "my-new-package",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "{{ description }}",
   "main": "src/index.js",
   "scripts": {
@@ -19,6 +19,6 @@
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "zoroaster": "0.4.6"
+    "zoroaster": "0.5.2"
   }
 }

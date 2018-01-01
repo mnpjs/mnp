@@ -1,4 +1,4 @@
-function Context () {
+async function Context () {
 
 }
 
