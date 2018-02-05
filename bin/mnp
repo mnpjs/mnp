@@ -7,46 +7,10 @@ const { askQuestions } = require('reloquent')
 const cloneSource = require('../src/clone-source')
 const git = require('../src/git')
 const { createRepository } = require('../src/github')
+const questions = require('./questions')
 
 const DEFAULT_STRUCTURE_PATH = resolve(__dirname, '../structures/my-new-package/')
 const ANSWER_TIMEOUT = null
-
-const questions = {
-    token: {
-        text: 'GitHub access token: ',
-        validation: (a) => {
-            if (!a) {
-                throw new Error('Please specify token')
-            }
-        },
-    },
-    org: {
-        text: 'GitHub organisation: ',
-        defaultValue: null,
-    },
-    name: {
-        async getDefault() {
-            const { stdout } = await git(['config', 'user.name'], null, true)
-            return stdout.trim()
-        },
-        text: 'user',
-    },
-    email: {
-        async getDefault() {
-            const { stdout } = await git(['config', 'user.email'], null, true)
-            return stdout.trim()
-        },
-        text: 'email',
-    },
-    website: {
-        text: 'Website (for readme): ',
-        defaultValue: null,
-    },
-    legalName: {
-        text: 'Legal name (for readme & license): ',
-        defaultValue: null,
-    },
-}
 
 const { argv: [,,argvPackageName] } = process;
 

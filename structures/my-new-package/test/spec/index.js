@@ -1,5 +1,5 @@
 const { equal, assert } = require('zoroaster/assert')
-const context = require('../context/')
+const context = require('../context')
 const myNewPackage = require('../..')
 
 const myNewPackageTestSuite = {

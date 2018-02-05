@@ -1,6 +1,6 @@
 {
   "name": "test-package-10",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Description of the test package",
   "main": "src/index.js",
   "scripts": {
@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/test-org/test-package-10#readme",
   "devDependencies": {
-    "zoroaster": "0.4.6"
+    "zoroaster": "0.5.3"
   }
 }

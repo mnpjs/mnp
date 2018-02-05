@@ -1,13 +1,13 @@
-const assert = require('assert')
-const context = require('../context/')
-const testPackage_10 = require('../../src/')
+const { equal, assert } = require('zoroaster/assert')
+const context = require('../context')
+const testPackage_10 = require('../..')
 
 const testPackage_10TestSuite = {
     context,
-    'should be a function': () => {
-        assert.equal(typeof testPackage_10, 'function')
+    'should be a function'() {
+        equal(typeof testPackage_10, 'function')
     },
-    'should call package without error': () => {
+    'should call package without error'() {
         assert.doesNotThrow(() => {
             testPackage_10()
         })
