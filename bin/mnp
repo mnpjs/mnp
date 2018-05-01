@@ -12,78 +12,78 @@ const questions = require('./questions')
 const DEFAULT_STRUCTURE_PATH = resolve(__dirname, '../structures/my-new-package/')
 const ANSWER_TIMEOUT = null
 
-const { argv: [,,argvPackageName] } = process;
+const { argv: [, , argvPackageName] } = process;
 
 (async () => {
-    try {
-        const {
-            org, token, name, email, website, legalName,
-        } = await africa('mnp', questions)
+  try {
+    const {
+      org, token, name, email, website, legalName,
+    } = await africa('mnp', questions)
 
-        const packageName = argvPackageName ? argvPackageName : await askQuestions({
-            packageName: {
-                text: 'Please give package name: ',
-                validation: (a) => {
-                    if (!a) throw new Error('You must specify package name')
-                },
-            },
-        }, ANSWER_TIMEOUT, 'packageName')
+    const packageName = argvPackageName ? argvPackageName : await askQuestions({
+      packageName: {
+        text: 'Please give package name: ',
+        validation: (a) => {
+          if (!a) throw new Error('You must specify package name')
+        },
+      },
+    }, ANSWER_TIMEOUT, 'packageName')
 
-        const packagePath = resolve(packageName)
-        await assertDoesNotExist(packagePath)
+    const packagePath = resolve(packageName)
+    await assertDoesNotExist(packagePath)
 
-        const proc = spawnCommand('git', ['rev-parse', '--git-dir'])
-        const gitRes = await proc.promise
-        if (/\.git/.test(gitRes.stdout)) {
-            throw new Error('Current dir is in git path!')
-        }
-
-        console.log(`# ${packageName}`)
-
-        const description = await askQuestions({
-            description: {
-                text: 'Description: ',
-                postProcess: s => s.trim(),
-                defaultValue: '',
-            },
-        }, ANSWER_TIMEOUT, 'description')
-
-        const {
-            ssh_url: sshUrl,
-            git_url: gitUrl,
-            html_url: htmlUrl,
-        } = await createRepository(token, packageName, org, description)
-        const readmeUrl = `${htmlUrl}#readme`
-        const issuesUrl = `${htmlUrl}/issues`
-
-        await git(['clone', sshUrl, packagePath])
-
-        console.log('Setting user %s<%s>...', name, email)
-        await Promise.all([
-            git(['config', 'user.name', name], packagePath),
-            git(['config', 'user.email', email], packagePath),
-        ])
-
-        await cloneSource(DEFAULT_STRUCTURE_PATH, packagePath, {
-            org: org || legalName,
-            packageName,
-            website,
-            authorName: name,
-            authorEmail: email,
-            year: `${new Date().getFullYear()}`,
-            issuesUrl,
-            readmeUrl,
-            gitUrl,
-            description,
-        })
-        console.log('Cloned the structure to %s', packagePath)
-        console.log('Created new repository: %s', readmeUrl)
-
-        await git(['add', '.'], packagePath)
-        await git(['commit', '-m', 'initialise package'], packagePath)
-        await git(['push', 'origin', 'master'], packagePath)
-    } catch (err) {
-        console.error(err)
-        process.exit(1)
+    const proc = spawnCommand('git', ['rev-parse', '--git-dir'])
+    const gitRes = await proc.promise
+    if (/\.git/.test(gitRes.stdout)) {
+      throw new Error('Current dir is in git path!')
     }
+
+    console.log(`# ${packageName}`)
+
+    const description = await askQuestions({
+      description: {
+        text: 'Description: ',
+        postProcess: s => s.trim(),
+        defaultValue: '',
+      },
+    }, ANSWER_TIMEOUT, 'description')
+
+    const {
+      ssh_url: sshUrl,
+      git_url: gitUrl,
+      html_url: htmlUrl,
+    } = await createRepository(token, packageName, org, description)
+    const readmeUrl = `${htmlUrl}#readme`
+    const issuesUrl = `${htmlUrl}/issues`
+
+    await git(['clone', sshUrl, packagePath])
+
+    console.log('Setting user %s<%s>...', name, email)
+    await Promise.all([
+      git(['config', 'user.name', name], packagePath),
+      git(['config', 'user.email', email], packagePath),
+    ])
+
+    await cloneSource(DEFAULT_STRUCTURE_PATH, packagePath, {
+      org: org || legalName,
+      packageName,
+      website,
+      authorName: name,
+      authorEmail: email,
+      year: `${new Date().getFullYear()}`,
+      issuesUrl,
+      readmeUrl,
+      gitUrl,
+      description,
+    })
+    console.log('Cloned the structure to %s', packagePath)
+    console.log('Created new repository: %s', readmeUrl)
+
+    await git(['add', '.'], packagePath)
+    await git(['commit', '-m', 'initialise package'], packagePath)
+    await git(['push', 'origin', 'master'], packagePath)
+  } catch (err) {
+    console.error(err)
+    process.exit(1)
+  }
 })()
