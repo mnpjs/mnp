@@ -33,8 +33,8 @@
   },
   "homepage": "https://github.com/artdecocode/mnp#readme",
   "devDependencies": {
-    "assert-diff": "1.2.4",
-    "zoroaster": "0.5.3"
+    "assert-diff": "1.2.6",
+    "zoroaster": "1.0.1"
   },
   "dependencies": {
     "africa": "1.0.1",
@@ -42,7 +42,7 @@
     "makepromise": "1.1.1",
     "reloquent": "0.2.0",
     "restream": "1.2.0",
-    "rqt": "0.2.2",
+    "rqt": "1.0.1",
     "spawncommand": "1.1.0",
     "wrote": "1.4.0"
   }
