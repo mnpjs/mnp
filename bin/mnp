@@ -1,21 +1,37 @@
 #!/usr/bin/env node
 const { resolve } = require('path')
-const spawnCommand = require('spawncommand')
-const { assertDoesNotExist } = require('wrote')
+const { assertDoesNotExist, assertExists } = require('wrote')
 const africa = require('africa')
 const { askQuestions } = require('reloquent')
 const cloneSource = require('../src/clone-source')
 const git = require('../src/git')
+const { assertNotInGitPath } = require('../src/git-lib')
 const { createRepository } = require('../src/github')
 const questions = require('./questions')
 
-const DEFAULT_STRUCTURE_PATH = resolve(__dirname, '../structures/my-new-package/')
 const ANSWER_TIMEOUT = null
 
-const { argv: [, , argvPackageName] } = process;
+const { argv } = process
+const [, , argvPackageName] = argv
 
-(async () => {
+const si = argv.indexOf('-s')
+const s = (si != -1 && argv[si + 1]) ? argv[si + 1] : 'my-new-package'
+
+const STRUCTURE_PATH = resolve(__dirname, `../structures/${s}/`)
+
+const error = (text) => {
+  const err = new Error(text)
+  err.controlled = true
+  throw err
+}
+
+;(async () => {
   try {
+    try {
+      await assertExists(STRUCTURE_PATH)
+    } catch (err) {
+      error(`Unknown structure "${s}".`)
+    }
     const {
       org, token, name, email, website, legalName,
     } = await africa('mnp', questions)
@@ -23,7 +39,7 @@ const { argv: [, , argvPackageName] } = process;
     const packageName = argvPackageName ? argvPackageName : await askQuestions({
       packageName: {
         text: 'Please give package name: ',
-        validation: (a) => {
+        validation(a) {
           if (!a) throw new Error('You must specify package name')
         },
       },
@@ -32,11 +48,7 @@ const { argv: [, , argvPackageName] } = process;
     const packagePath = resolve(packageName)
     await assertDoesNotExist(packagePath)
 
-    const proc = spawnCommand('git', ['rev-parse', '--git-dir'])
-    const gitRes = await proc.promise
-    if (/\.git/.test(gitRes.stdout)) {
-      throw new Error('Current dir is in git path!')
-    }
+    await assertNotInGitPath()
 
     console.log(`# ${packageName}`)
 
@@ -53,6 +65,9 @@ const { argv: [, , argvPackageName] } = process;
       git_url: gitUrl,
       html_url: htmlUrl,
     } = await createRepository(token, packageName, org, description)
+
+    if (!sshUrl) throw new Error('GitHub repository was not created via API.')
+
     const readmeUrl = `${htmlUrl}#readme`
     const issuesUrl = `${htmlUrl}/issues`
 
@@ -83,7 +98,11 @@ const { argv: [, , argvPackageName] } = process;
     await git(['commit', '-m', 'initialise package'], packagePath)
     await git(['push', 'origin', 'master'], packagePath)
   } catch (err) {
-    console.error(err)
+    if (err.controlled) {
+      console.error(err.message)
+    } else {
+      console.error(err)
+    }
     process.exit(1)
   }
 })()
