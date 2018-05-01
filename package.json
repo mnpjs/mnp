@@ -9,13 +9,13 @@
     "test-watch": "zoroaster test/spec --watch"
   },
   "files": [
-    "bin/mnp",
-    "src/**/*",
-    "structures/my-new-package/**/*"
+    "bin",
+    "src",
+    "structures/my-new-package"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sobesednik/mnp.git"
+    "url": "git+https://github.com/artdecocode/mnp.git"
   },
   "keywords": [
     "npm",
@@ -26,12 +26,12 @@
     "repo",
     "repository"
   ],
-  "author": "Anton <anton@sobes.io>",
+  "author": "Anton <anton@adc.sh>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Sobesednik/mnp/issues"
+    "url": "https://github.com/artdecocode/mnp/issues"
   },
-  "homepage": "https://github.com/Sobesednik/mnp#readme",
+  "homepage": "https://github.com/artdecocode/mnp#readme",
   "devDependencies": {
     "assert-diff": "1.2.4",
     "zoroaster": "0.5.3"

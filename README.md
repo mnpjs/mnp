@@ -155,6 +155,6 @@ myExamplePackage() // well done now!
 
 ---
 
-(c) [Sobesednik-Media](https://sobesednik.media) 2017
+(c) [Art Deco Code](https://artdeco.bz) 2018
 
 [1]: https://github.com/settings/tokens
