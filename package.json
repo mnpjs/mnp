@@ -6,7 +6,8 @@
   "bin": "./bin/mnp",
   "scripts": {
     "test": "zoroaster test/spec",
-    "test-watch": "zoroaster test/spec --watch"
+    "test-watch": "zoroaster test/spec --watch",
+    "postpublish": "git push --follow-tags"
   },
   "files": [
     "bin",
