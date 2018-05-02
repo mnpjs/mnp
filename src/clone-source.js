@@ -1,4 +1,5 @@
-const { clone } = require('wrote')
+const { resolve } = require('path')
+const { clone, readJSON, writeJSON } = require('wrote')
 const camelCase = require('camel-case')
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -23,6 +24,7 @@ async function cloneSource(from, to, {
   keywords = [packageName],
   description,
   createDate = getDefaultCreateDate(),
+  legalName,
 } = {}) {
   const keywordsReplacement = keywords.map(k => `"${k}"`).join(', ').replace(/^"/, '').replace(/"$/, '')
   const regexes = [
@@ -30,7 +32,7 @@ async function cloneSource(from, to, {
       re: /myNewPackage/g,
       replacement: camelCase(packageName),
     }, {
-      re: /my-new-package/g,
+      re: /(my-new-package|{{ package-name }})/g,
       replacement: packageName,
     }, {
       re: /{{ year }}/g,
@@ -38,6 +40,9 @@ async function cloneSource(from, to, {
     }, {
       re: /{{ org }}/g,
       replacement: org,
+    }, {
+      re: /{{ legal_name }}/g,
+      replacement: legalName,
     }, {
       re: /{{ website }}/g,
       replacement: website,
@@ -62,8 +67,7 @@ async function cloneSource(from, to, {
     }, {
       re: /{{ description }}/g,
       replacement: description,
-    },
-    {
+    }, {
       re: /{{ create_date }}/g,
       replacement: createDate,
     },
@@ -73,6 +77,27 @@ async function cloneSource(from, to, {
     from,
     regexes,
   })
+  try {
+    const packageJson = resolve(to, 'package.json')
+    const p = await readJSON(packageJson)
+    Object.assign(p, {
+      name: packageName,
+      description,
+      repository: {
+        type: 'git',
+        url: gitUrl,
+      },
+      keywords,
+      author: `${authorName} <${authorEmail}>`,
+      bugs: {
+        url: issuesUrl,
+      },
+      homepage: readmeUrl,
+    })
+    await writeJSON(packageJson, p, {
+      space: 2,
+    })
+  } catch (err) {/* no package.json */}
   return res
 }
 

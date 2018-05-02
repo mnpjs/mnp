@@ -100,6 +100,10 @@ makepromise@1.1.1:
   dependencies:
     erotic "0.2.0"
 
+mnp-idio@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/mnp-idio/-/mnp-idio-1.2.2.tgz#9abfff01cfcfacdf0b8d3f0bf53a3dd582d2b9d2"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"

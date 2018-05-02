@@ -1,44 +1,31 @@
 #!/usr/bin/env node
 const { resolve } = require('path')
-const { assertDoesNotExist, assertExists } = require('wrote')
+const { assertDoesNotExist } = require('wrote')
 const africa = require('africa')
 const { askQuestions } = require('reloquent')
 const cloneSource = require('../src/clone-source')
 const git = require('../src/git')
 const { assertNotInGitPath } = require('../src/git-lib')
 const { createRepository } = require('../src/github')
+const { findStructure } = require('../src/lib')
 const questions = require('./questions')
 
 const ANSWER_TIMEOUT = null
 
 const { argv } = process
-const [, , argvPackageName] = argv
-
-const si = argv.indexOf('-s')
-const s = (si != -1 && argv[si + 1]) ? argv[si + 1] : 'my-new-package'
-
-const STRUCTURE_PATH = resolve(__dirname, `../structures/${s}/`)
-
-const error = (text) => {
-  const err = new Error(text)
-  err.controlled = true
-  throw err
-}
+const [, , argvPackage] = argv
+const argvPackageName = argvPackage == '-s' ? null : argvPackage
 
 ;(async () => {
   try {
-    try {
-      await assertExists(STRUCTURE_PATH)
-    } catch (err) {
-      error(`Unknown structure "${s}".`)
-    }
+    const structure = findStructure(argv)
     const {
       org, token, name, email, website, legalName,
     } = await africa('mnp', questions)
 
     const packageName = argvPackageName ? argvPackageName : await askQuestions({
       packageName: {
-        text: 'Please give package name: ',
+        text: 'Package name: ',
         validation(a) {
           if (!a) throw new Error('You must specify package name')
         },
@@ -79,8 +66,8 @@ const error = (text) => {
       git(['config', 'user.email', email], packagePath),
     ])
 
-    await cloneSource(DEFAULT_STRUCTURE_PATH, packagePath, {
-      org: org || legalName,
+    await cloneSource(structure, packagePath, {
+      org,
       packageName,
       website,
       authorName: name,
@@ -90,6 +77,7 @@ const error = (text) => {
       readmeUrl,
       gitUrl,
       description,
+      legalName,
     })
     console.log('Cloned the structure to %s', packagePath)
     console.log('Created new repository: %s', readmeUrl)
