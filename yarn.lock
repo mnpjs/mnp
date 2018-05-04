@@ -104,6 +104,14 @@ mnp-idio@1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/mnp-idio/-/mnp-idio-1.2.5.tgz#35e3a191cd7b9b77bd77ab2cb8491c696b2194b2"
 
+mnp-package@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mnp-package/-/mnp-package-1.0.0.tgz#337d19336d9de45abb97020c35353e70c6f8fe00"
+
+mnp-structure@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mnp-structure/-/mnp-structure-1.0.0.tgz#b811dee84a7029b9bf61b51cfe2078b478ade0c3"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
