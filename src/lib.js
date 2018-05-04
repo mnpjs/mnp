@@ -1,5 +1,3 @@
-const { resolve } = require('path')
-
 const error = (text) => {
   const err = new Error(text)
   err.controlled = true
@@ -8,10 +6,14 @@ const error = (text) => {
 
 const findStructure = (argv = []) => {
   const i = argv.indexOf('-s')
-  const argFound = i != -1 && i != argv.length - 1
+  const argFound = i > -1
+  if (argFound && i == argv.length -1) {
+    throw new Error('Please pass the structure name')
+  }
+  const argValueFound = argFound && i != argv.length - 1
   let structurePath
-  if (!argFound) {
-    structurePath = resolve(__dirname, '../structures/my-new-package')
+  if (!argValueFound) {
+    structurePath = require('mnp-package')
   } else {
     const arg = argv[i + 1]
     const moduleName = `mnp-${arg}`

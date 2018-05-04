@@ -1,3 +1,10 @@
+## 4 May 2018
+
+### [0.6.0](https://github.com/artdecocode/mnp/compare/v0.5.1...v0.6.0)
+
+- [structure] add `mnp-package` as a default `npm` package structure
+- [structure] add `mnp-structure` structure to create templates
+
 ## 2 May 2018
 
 ### [0.5.1](https://github.com/artdecocode/mnp/compare/v0.5.0...v0.5.1)
