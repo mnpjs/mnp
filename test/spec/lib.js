@@ -1,9 +1,9 @@
-const { equal, throws, assert } = require('zoroaster/assert')
-const mnpIdio = require('mnp-idio')
-const mnpPackage = require('mnp-package')
-const { findStructure } = require('../../src/lib')
+import { equal, throws, assert } from 'zoroaster/assert'
+import mnpIdio from 'mnp-idio'
+import mnpPackage from 'mnp-package'
+import { findStructure } from '../../src/lib'
 
-const libTestSuite = {
+export default {
   'finds a default structure'() {
     const res = findStructure(['node', 'mnp', 'test'])
     const expected = `${mnpPackage}/`
@@ -28,5 +28,3 @@ const libTestSuite = {
     })
   },
 }
-
-module.exports = libTestSuite

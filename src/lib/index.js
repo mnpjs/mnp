@@ -4,7 +4,7 @@ const error = (text) => {
   throw err
 }
 
-const findStructure = (argv = []) => {
+export const findStructure = (argv = []) => {
   const i = argv.indexOf('-s')
   const argFound = i > -1
   if (argFound && i == argv.length -1) {
@@ -24,8 +24,4 @@ const findStructure = (argv = []) => {
     }
   }
   return `${structurePath}/`
-}
-
-module.exports = {
-  findStructure,
 }

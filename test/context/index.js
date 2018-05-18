@@ -1,47 +1,49 @@
-const makePromise = require('makepromise')
-const fs = require('fs')
-const { resolve, basename } = require('path')
-const { tmpdir } = require('os')
-const { readDir } = require('wrote')
+import makepromise from 'makepromise'
+import { stat, rmdir, mkdir } from 'fs'
+import { resolve, basename } from 'path'
+import { readDir } from 'wrote'
+import { tmpdir } from 'os'
 
-const temp = tmpdir()
-const TEMP = resolve(temp, 'mnp_test.context')
+const TEMP = resolve(tmpdir(), 'mnp_test.context')
+const FIXTURES = resolve(__dirname, '../fixtures')
 
 async function findName(parent, initialName, n = 0) {
   const currentName = `${initialName}${n ? `-${n}` : ''}`
   const path = resolve(parent, currentName)
   try {
-    await makePromise(fs.stat, path)
+    await makepromise(stat, path)
     throw new Error('dir exists')
   } catch (err) {
-    if (err.message === 'dir exists') {
+    if (err.message == 'dir exists') {
       return findName(parent, initialName, n + 1)
     }
     return path
   }
 }
 
-async function mnpContext() {
+export default async function context() {
   this.cwd = TEMP
 
   this.packagePath = await findName(TEMP, 'test-package')
   this.packageName = basename(this.packagePath)
 
-  const expectedStructurePath = resolve(__dirname, '../fixtures/expected-cloned/')
+  const expectedStructurePath = resolve(FIXTURES, 'expected-cloned')
   this.readExpectedStructure = () => readDir(expectedStructurePath, true)
   this.readDir = dir => readDir(dir, true)
 
   try {
-    await makePromise(fs.mkdir, TEMP)
+    await makepromise(mkdir, TEMP)
   } catch (err) { /* */ }
 
   console.log('%s expected', this.packageName)
 
   this._destroy = async () => {
     try {
-      await makePromise(fs.rmdir, this.packagePath)
+      await makepromise(rmdir, this.packagePath)
     } catch (err) { /* can't remove recursively */ }
   }
 }
 
-module.exports = mnpContext
+const Context = {}
+
+export { Context }

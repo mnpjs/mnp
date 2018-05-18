@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-const { resolve } = require('path')
-const { assertDoesNotExist } = require('wrote')
-const africa = require('africa')
-const { askQuestions } = require('reloquent')
-const cloneSource = require('../src/clone-source')
-const git = require('../src/git')
-const { assertNotInGitPath } = require('../src/git-lib')
-const { createRepository } = require('../src/github')
-const { findStructure } = require('../src/lib')
-const questions = require('./questions')
+import { resolve } from 'path'
+import { assertDoesNotExist } from 'wrote'
+import africa from 'africa'
+import { askQuestions } from 'reloquent'
+import cloneSource from '../lib/clone-source'
+import git from '../lib/git'
+import { assertNotInGitPath } from '../lib/git-lib'
+import { createRepository } from '../lib/github'
+import { findStructure } from '../lib'
+import questions from './questions'
 
 const ANSWER_TIMEOUT = null
 
@@ -82,14 +82,14 @@ const argvPackageName = argvPackage == '-s' ? null : argvPackage
     console.log('Cloned the structure to %s', packagePath)
     console.log('Created new repository: %s', readmeUrl)
 
-    await git(['add', '.'], packagePath)
+    await git('add .', packagePath)
     await git(['commit', '-m', 'initialise package'], packagePath)
-    await git(['push', 'origin', 'master'], packagePath)
-  } catch (err) {
-    if (err.controlled) {
-      console.error(err.message)
+    await git('push origin master', packagePath)
+  } catch ({ controlled, message, stack }) {
+    if (controlled) {
+      console.error(message)
     } else {
-      console.error(err)
+      console.error(stack)
     }
     process.exit(1)
   }

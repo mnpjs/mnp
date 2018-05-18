@@ -1,7 +1,7 @@
-const { resolve } = require('path')
-const { deepEqual } = require('assert-diff')
-const context = require('../context/')
-const cloneSource = require('../../src/clone-source')
+import { deepEqual } from 'zoroaster/assert'
+import { resolve } from 'path'
+import context from '../context'
+import cloneSource from '../../src/clone-source'
 
 const structure = resolve(__dirname, '../../structures/my-new-package/')
 
@@ -28,5 +28,3 @@ const cloneSourceTestSuite = {
     deepEqual(expected, actual)
   },
 }
-
-module.exports = cloneSourceTestSuite

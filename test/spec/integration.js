@@ -1,19 +1,20 @@
-const context = require('../context/')
-const fs = require('fs')
-const makePromise = require('makepromise')
-const spawnCommand = require('spawncommand')
-const path = require('path')
-const { Readable } = require('stream')
+import { stat } from 'fs'
+import makepromise from 'makepromise'
+import { fork } from 'spawncommand'
+import { resolve } from 'path'
+import { Readable } from 'stream'
+import context from '../context'
 
-const BIN_PATH = path.join(__dirname, '../../bin/mnp')
+const MNP = process.env.BABEL_ENV == 'test-build' ? '../../build/bin/mnp' : '../../src/bin'
+const BIN = resolve(__dirname, MNP)
 
-const myPackageNameTestSuite = {
+const T = {
   context,
-  async 'should create a new package'({ cwd, packageName, packagePath }){
-    const proc = spawnCommand(BIN_PATH, [packageName], {
+  async 'creates a new package'({ cwd, packageName, packagePath }){
+    const { promise, stdout, stderr, stdin } = fork(BIN, [packageName], {
       cwd,
+      stdio: 'pipe',
     })
-    const { promise, stdout, stderr, stdin } = proc
     stdout.pipe(process.stdout)
     stderr.pipe(process.stderr)
     const answer = 'test-description\n'
@@ -23,10 +24,13 @@ const myPackageNameTestSuite = {
         this.push(null)
       },
     })
+    stdin.on('error', () => {
+      console.log('socket error')
+    })
     r.pipe(stdin)
     await promise
-    await makePromise(fs.stat, packagePath)
+    await makepromise(stat, packagePath)
   },
 }
 
-module.exports = myPackageNameTestSuite
+export default T

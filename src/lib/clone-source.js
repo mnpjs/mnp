@@ -1,6 +1,6 @@
-const { resolve } = require('path')
-const { clone, readJSON, writeJSON } = require('wrote')
-const camelCase = require('camel-case')
+import { resolve } from 'path'
+import { clone, readJSON, writeJSON } from 'wrote'
+import camelCase from 'camel-case'
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -11,7 +11,7 @@ function getDefaultCreateDate() {
   return `${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`
 }
 
-async function cloneSource(from, to, {
+export default async function cloneSource(from, to, {
   org,
   packageName,
   year,
@@ -97,8 +97,6 @@ async function cloneSource(from, to, {
     await writeJSON(packageJson, p, {
       space: 2,
     })
-  } catch (err) {/* no package.json */}
+  } catch (err) {/* no package.json */ }
   return res
 }
-
-module.exports = cloneSource

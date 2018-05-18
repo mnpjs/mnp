@@ -2,17 +2,19 @@
   "name": "mnp",
   "version": "0.6.1",
   "description": "Quickly create a Node.js package with a Github repository",
-  "main": "src/index.js",
-  "bin": "./bin/mnp",
+  "main": "build",
+  "bin": "build/bin/mnp.js",
   "scripts": {
-    "test": "zoroaster test/spec",
-    "test-watch": "zoroaster test/spec --watch",
-    "postpublish": "git push --follow-tags"
+    "t": "zoroaster --babel",
+    "test": "yarn t test/spec",
+    "test-build": "BABEL_ENV=test-build yarn test",
+    "test-watch": "yarn test --watch",
+    "lint": "eslint .",
+    "dev": "node src/bin",
+    "build": "babel src --out-dir build --ignore src/bin/index.js"
   },
   "files": [
-    "bin",
-    "src",
-    "structures/my-new-package"
+    "build"
   ],
   "repository": {
     "type": "git",
@@ -34,7 +36,14 @@
   },
   "homepage": "https://github.com/artdecocode/mnp#readme",
   "devDependencies": {
+    "@babel/cli": "7.0.0-beta.47",
+    "@babel/core": "7.0.0-beta.47",
+    "@babel/plugin-syntax-object-rest-spread": "7.0.0-beta.47",
+    "@babel/plugin-transform-modules-commonjs": "7.0.0-beta.47",
+    "@babel/register": "7.0.0-beta.47",
     "assert-diff": "1.2.6",
+    "eslint": "4.19.1",
+    "eslint-config-artdeco": "1.0.0",
     "zoroaster": "2.0.0"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
-const git = require('../src/git')
+import git from '../lib/git'
 
-const questions = {
+export default {
   token: {
     text: 'GitHub access token: ',
     validation: (a) => {
@@ -15,14 +15,14 @@ const questions = {
   },
   name: {
     async getDefault() {
-      const { stdout } = await git(['config', 'user.name'], null, true)
+      const { stdout } = await git('config user.name', null, true)
       return stdout.trim()
     },
     text: 'user',
   },
   email: {
     async getDefault() {
-      const { stdout } = await git(['config', 'user.email'], null, true)
+      const { stdout } = await git('config user.email', null, true)
       return stdout.trim()
     },
     text: 'email',
@@ -36,5 +36,3 @@ const questions = {
     defaultValue: null,
   },
 }
-
-module.exports = questions

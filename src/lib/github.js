@@ -1,6 +1,6 @@
-const rqt = require('rqt')
+import rqt from 'rqt'
 
-async function request({
+export default async function request({
   data = {},
   token,
   org,
@@ -37,7 +37,7 @@ async function request({
  * @param {string} [org] Organisation
  * @param {string} [description] Description for github
  */
-async function createRepository(token, name, org, description) {
+export async function createRepository(token, name, org, description) {
   const res = await request({
     data: {
       description,
@@ -50,8 +50,4 @@ async function createRepository(token, name, org, description) {
     token,
   })
   return res
-}
-
-module.exports = {
-  createRepository,
 }
