@@ -35,19 +35,19 @@
   "homepage": "https://github.com/artdecocode/mnp#readme",
   "devDependencies": {
     "assert-diff": "1.2.6",
-    "zoroaster": "1.0.1"
+    "zoroaster": "2.0.0"
   },
   "dependencies": {
     "africa": "1.0.1",
     "camel-case": "3.0.0",
-    "makepromise": "1.1.1",
+    "makepromise": "2.0.0",
     "mnp-idio": "1.2.5",
-    "mnp-package": "1.0.0",
+    "mnp-package": "1.1.1",
     "mnp-structure": "1.0.0",
     "reloquent": "0.2.0",
-    "restream": "1.2.0",
-    "rqt": "1.0.1",
-    "spawncommand": "1.1.0",
+    "restream": "2.0.1",
+    "rqt": "1.1.0",
+    "spawncommand": "2.0.1",
     "wrote": "1.4.0"
   }
 }

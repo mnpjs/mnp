@@ -9,13 +9,6 @@ africa@1.0.1:
     reloquent "0.2.0"
     wrote "1.3.0"
 
-assert-diff@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/assert-diff/-/assert-diff-1.2.5.tgz#2f578de16a2509fee1601eca0afb77ad3fb2c02b"
-  dependencies:
-    assert-plus "1.0.0"
-    json-diff "0.5.2"
-
 assert-diff@1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/assert-diff/-/assert-diff-1.2.6.tgz#1b44d6f24a7e3018f557768ee350ae9a732c2fc6"
@@ -27,9 +20,12 @@ assert-plus@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assert-plus/-/assert-plus-1.0.0.tgz#f12e0f3c5d77b0b1cdd9146942e4e96c1e4dd525"
 
-assert-throws@1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/assert-throws/-/assert-throws-1.3.1.tgz#335e64b8820217a9c37e7477153817b2956bc1c7"
+assert-throws@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/assert-throws/-/assert-throws-2.1.0.tgz#bae47b8b04eed7a5953964a567f697c367a51da5"
+  dependencies:
+    erotic "1.1.0"
+    erte "1.1.1"
 
 camel-case@3.0.0:
   version "3.0.0"
@@ -56,6 +52,10 @@ cli-color@~0.1.6:
   dependencies:
     es5-ext "0.8.x"
 
+diff@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
+
 difflib@~0.2.1:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/difflib/-/difflib-0.2.4.tgz#b5e30361a6db023176d562892db85940a718f47e"
@@ -73,6 +73,24 @@ erotic@0.2.0:
   resolved "https://registry.yarnpkg.com/erotic/-/erotic-0.2.0.tgz#4162384016281b1dd313bf1ecc87576f92d8e509"
   dependencies:
     clean-stack "1.3.0"
+
+erotic@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/erotic/-/erotic-1.0.1.tgz#222fedd8215937b9e5d0ec37abb27889af63776f"
+  dependencies:
+    clean-stack "1.3.0"
+
+erotic@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/erotic/-/erotic-1.1.0.tgz#ccfa6c05e836bae8610ac407dbe191efa9cdbeda"
+  dependencies:
+    clean-stack "1.3.0"
+
+erte@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/erte/-/erte-1.1.1.tgz#b9bd6252168c256232a06e37e472d172a895c5ee"
+  dependencies:
+    diff "3.5.0"
 
 es5-ext@0.8.x:
   version "0.8.2"
@@ -100,13 +118,19 @@ makepromise@1.1.1:
   dependencies:
     erotic "0.2.0"
 
+makepromise@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/makepromise/-/makepromise-2.0.0.tgz#3b91b9de3e36cd6979c94c38392f04ba4d8e1f18"
+  dependencies:
+    erotic "1.0.1"
+
 mnp-idio@1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/mnp-idio/-/mnp-idio-1.2.5.tgz#35e3a191cd7b9b77bd77ab2cb8491c696b2194b2"
 
-mnp-package@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mnp-package/-/mnp-package-1.0.0.tgz#337d19336d9de45abb97020c35353e70c6f8fe00"
+mnp-package@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/mnp-package/-/mnp-package-1.1.1.tgz#52a8f952929f83eacd625b722ba6b4eab514c2d4"
 
 mnp-structure@1.0.0:
   version "1.0.0"
@@ -132,11 +156,15 @@ restream@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/restream/-/restream-1.2.0.tgz#fd13b031a54e80cc65d1878c43149f1b3a40efbb"
 
-rqt@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/rqt/-/rqt-1.0.1.tgz#bccf77068d12ca300df7b895adb314db9c08f643"
+restream@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/restream/-/restream-2.0.1.tgz#6e8ceb8d3444ca4be74b6a4a446a8798fca82aa0"
+
+rqt@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/rqt/-/rqt-1.1.0.tgz#7562512b37eac0916f9feb7090c38aff9c7278f3"
   dependencies:
-    catchment "1.0.0"
+    catchment "2.0.1"
     erotic "0.2.0"
 
 spawncommand@1.1.0:
@@ -144,6 +172,12 @@ spawncommand@1.1.0:
   resolved "https://registry.yarnpkg.com/spawncommand/-/spawncommand-1.1.0.tgz#80a56ed3c06ab3b91643cf3f6cef38bf582fdb15"
   dependencies:
     catchment "^1.0.0"
+
+spawncommand@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/spawncommand/-/spawncommand-2.0.1.tgz#088476fd8aa3c63932309ce0e76a8924d51a34ab"
+  dependencies:
+    catchment "2.0.1"
 
 upper-case@^1.1.1:
   version "1.1.3"
@@ -169,13 +203,20 @@ wrote@1.4.0:
     makepromise "1.1.1"
     restream "1.2.0"
 
-zoroaster@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/zoroaster/-/zoroaster-1.0.1.tgz#4efe879a6472cfecb94e914e601da12de485cf8a"
+yarn-s@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/yarn-s/-/yarn-s-1.1.0.tgz#8c65555d7c7ccb5a61e18440b8b0e4cb48b76b9d"
   dependencies:
-    assert-diff "1.2.5"
-    assert-throws "1.3.1"
+    spawncommand "1.1.0"
+
+zoroaster@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/zoroaster/-/zoroaster-2.0.0.tgz#6454a3db111313840cba297ac24ae783297e9039"
+  dependencies:
+    assert-diff "1.2.6"
+    assert-throws "2.1.0"
     catchment "2.0.1"
     clean-stack "1.3.0"
     promto "1.0.1"
-    spawncommand "1.1.0"
+    spawncommand "2.0.1"
+    yarn-s "1.1.0"
