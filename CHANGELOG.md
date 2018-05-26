@@ -1,3 +1,11 @@
+## 26 May 2018
+
+### [0.6.3](https://github.com/artdecocode/mnp/compare/v0.6.2...v0.6.3)
+
+- [structure] update `mnp-package`.
+- [dependencies] upgrade dep.
+- [test] class context.
+
 ## 18 May 2018
 
 ### [0.6.2](https://github.com/artdecocode/mnp/compare/v0.6.1...v0.6.2)
