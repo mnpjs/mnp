@@ -1,30 +1,30 @@
 import { deepEqual } from 'zoroaster/assert'
-import { resolve } from 'path'
 import context from '../context'
-import cloneSource from '../../src/clone-source'
+import cloneSource from '../../src/lib/clone-source'
+import mnpPackage from 'mnp-package'
 
-const structure = resolve(__dirname, '../../structures/my-new-package/')
-
-const cloneSourceTestSuite = {
+const T = {
   context,
   async 'should update references in files'({ packagePath, readExpectedStructure, readDir }) {
     const org = 'test-org'
     const packageName = 'test-package-10'
     const website = 'https://test.io'
 
-    await cloneSource(structure, packagePath, {
+    await cloneSource(mnpPackage, packagePath, {
       org,
       packageName,
       website,
       authorName: 'test-author',
       authorEmail: 'author@test.io',
-      year: '2017',
+      year: '2018',
       description: 'Description of the test package',
       keywords: ['test', 'test2'],
-      createDate: '22 May 2017',
+      createDate: '25 May 2018',
     })
     const expected = await readExpectedStructure()
     const actual = await readDir(packagePath)
     deepEqual(expected, actual)
   },
 }
+
+export default T

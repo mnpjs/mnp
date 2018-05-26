@@ -21,29 +21,31 @@ async function findName(parent, initialName, n = 0) {
   }
 }
 
-export default async function context() {
-  this.cwd = TEMP
+export default class Context {
+  constructor() {
+    this.cwd = TEMP
+  }
+  async _init() {
+    this.packagePath = await findName(TEMP, 'test-package')
+    this.packageName = basename(this.packagePath)
 
-  this.packagePath = await findName(TEMP, 'test-package')
-  this.packageName = basename(this.packagePath)
+    try {
+      await makepromise(mkdir, TEMP)
+    } catch (err) { /* */ }
 
-  const expectedStructurePath = resolve(FIXTURES, 'expected-cloned')
-  this.readExpectedStructure = () => readDir(expectedStructurePath, true)
-  this.readDir = dir => readDir(dir, true)
+    console.log('%s expected', this.packageName)
+  }
+  readDir(dir) {
+    return readDir(dir, true)
+  }
+  readExpectedStructure() {
+    this.expectedStructurePath = resolve(FIXTURES, 'expected-cloned')
+    return readDir(this.expectedStructurePath, true)
+  }
 
-  try {
-    await makepromise(mkdir, TEMP)
-  } catch (err) { /* */ }
-
-  console.log('%s expected', this.packageName)
-
-  this._destroy = async () => {
+  async _destroy() {
     try {
       await makepromise(rmdir, this.packagePath)
     } catch (err) { /* can't remove recursively */ }
   }
 }
-
-const Context = {}
-
-export { Context }
