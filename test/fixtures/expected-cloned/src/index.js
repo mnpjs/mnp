@@ -1,8 +1,6 @@
 /**
- * Invoke package's main function
+ * This is the main package file.
  */
-function testPackage_10() {
-    console.log('test-package-10 called')
+export default async function testPackage_10() {
+  console.log('test-package-10 called')
 }
-
-module.exports = testPackage_10

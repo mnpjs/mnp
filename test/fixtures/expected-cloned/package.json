@@ -2,16 +2,26 @@
   "name": "test-package-10",
   "version": "1.0.0",
   "description": "Description of the test package",
-  "main": "src/index.js",
+  "main": "build",
   "scripts": {
-    "test": "zoroaster test/spec",
-    "test-watch": "zoroaster test/spec --watch"
+    "t": "zoroaster --babel",
+    "test": "yarn t test/spec",
+    "test-build": "BABEL_ENV=test-build yarn t test/spec",
+    "test-all": "yarn-s test test-build",
+    "test-watch": "yarn test --watch",
+    "lint": "eslint .",
+    "e": "node example",
+    "example/": "yarn e example/example.js",
+    "build": "babel src --out-dir build --source-maps"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/test-org/test-package-10.git"
   },
-  "keywords": ["test", "test2"],
+  "keywords": [
+    "test",
+    "test2"
+  ],
   "author": "test-author <author@test.io>",
   "license": "MIT",
   "bugs": {
@@ -19,6 +29,15 @@
   },
   "homepage": "https://github.com/test-org/test-package-10#readme",
   "devDependencies": {
-    "zoroaster": "0.5.3"
+    "@babel/cli": "7.0.0-beta.49",
+    "@babel/core": "7.0.0-beta.49",
+    "@babel/plugin-syntax-object-rest-spread": "7.0.0-beta.49",
+    "@babel/plugin-transform-modules-commonjs": "7.0.0-beta.49",
+    "@babel/register": "7.0.0-beta.49",
+    "babel-plugin-transform-rename-import": "2.2.0",
+    "eslint": "4.19.1",
+    "eslint-config-artdeco": "1.0.0",
+    "yarn-s": "1.1.0",
+    "zoroaster": "2.1.0"
   }
 }
