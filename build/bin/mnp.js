@@ -105,3 +105,4 @@ const argvPackageName = argvPackage == '-s' ? null : argvPackage;
     process.exit(1);
   }
 })();
+//# sourceMappingURL=mnp.js.map

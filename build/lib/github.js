@@ -64,3 +64,4 @@ async function createRepository(token, name, org, description) {
   });
   return res;
 }
+//# sourceMappingURL=github.js.map

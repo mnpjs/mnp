@@ -39,3 +39,4 @@ const findStructure = (argv = []) => {
 };
 
 exports.findStructure = findStructure;
+//# sourceMappingURL=index.js.map

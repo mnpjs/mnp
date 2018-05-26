@@ -11,7 +11,7 @@
     "test-watch": "yarn test --watch",
     "lint": "eslint .",
     "dev": "node src/bin",
-    "build": "babel src --out-dir build --ignore src/bin/index.js"
+    "build": "babel src --out-dir build --ignore src/bin/index.js --source-maps"
   },
   "files": [
     "build"

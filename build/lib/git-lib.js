@@ -21,3 +21,4 @@ const assertNotInGitPath = async () => {
 };
 
 exports.assertNotInGitPath = assertNotInGitPath;
+//# sourceMappingURL=git-lib.js.map
