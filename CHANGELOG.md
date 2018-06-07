@@ -1,3 +1,11 @@
+## 7 June 2018
+
+### [0.7.0](https://github.com/artdecocode/mnp/compare/v0.6.3...v0.7.0)
+
+- [feature] check if package is taken by pinging the registry.
+- [cli] add usage information.
+- [code] use `argufy` to parse command line arguments.
+
 ## 26 May 2018
 
 ### [0.6.3](https://github.com/artdecocode/mnp/compare/v0.6.2...v0.6.3)
