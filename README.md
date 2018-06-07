@@ -9,7 +9,7 @@ create a new _Node.js_ package with a default structure (`src`, `test`,
 ## usage
 
 ```sh
-> mpn
+> mpn [package-name] [-s structure] [-c]
 ```
 
 ```fs
@@ -21,6 +21,26 @@ Setting user Author<author@testy.cc>...
 Cloned the structure to /mynewpackage
 Created new repository: https://github.com/org/mynewpackage#readme
 ```
+
+## `--help`, `-h`
+
+Print help and exit.
+
+## `-c`: Check If Package Exists
+
+Check if package name is already taken or not.
+
+```sh
+mnp -c taken
+```
+
+![taken output](doc/taken.png)
+
+```sh
+mnp -c isfree
+```
+
+![free output](doc/free.png)
 
 ## config
 
