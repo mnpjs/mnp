@@ -10,8 +10,9 @@
     "test-build": "BABEL_ENV=test-build yarn test",
     "test-watch": "yarn test --watch",
     "lint": "eslint .",
-    "dev": "node src/bin",
-    "build": "babel src --out-dir build --ignore src/bin/index.js --source-maps"
+    "dev": "node src/bin/register",
+    "start": "node build/bin",
+    "build": "babel src --out-dir build --ignore src/bin/register.js --source-maps"
   },
   "files": [
     "build"
