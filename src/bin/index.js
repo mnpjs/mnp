@@ -7,17 +7,20 @@ import cloneSource from '../lib/clone-source'
 import git from '../lib/git'
 import { assertNotInGitPath } from '../lib/git-lib'
 import { createRepository } from '../lib/github'
-import { findStructure } from '../lib'
+import { getStructure } from '../lib'
 import questions from './questions'
 import getUsage from './usage'
+import argufy from 'argufy'
+
+const c = {
+  struct: 's',
+  help: { short: 'h', boolean: true },
+  name: { command: true },
+}
+const { struct, help, name } = argufy(c, process.argv)
 
 const ANSWER_TIMEOUT = null
 
-const { argv } = process
-const [, , argvPackage] = argv
-const argvPackageName = argvPackage == '-s' ? null : argvPackage
-
-const help = argv.some(a => /(-h|--help)/.test(a))
 if (help) {
   const u = getUsage()
   console.log(u)
@@ -26,12 +29,12 @@ if (help) {
 
 (async () => {
   try {
-    const structure = findStructure(argv)
+    const structure = getStructure(struct)
     const {
-      org, token, name, email, website, legalName,
+      org, token, name: userName, email, website, legalName,
     } = await africa('mnp', questions)
 
-    const packageName = argvPackageName ? argvPackageName : await askQuestions({
+    const packageName = name ? name : await askQuestions({
       packageName: {
         text: 'Package name: ',
         validation(a) {
@@ -40,8 +43,8 @@ if (help) {
       },
     }, ANSWER_TIMEOUT, 'packageName')
 
-    const packagePath = resolve(packageName)
-    await assertDoesNotExist(packagePath)
+    const path = resolve(packageName)
+    await assertDoesNotExist(path)
 
     await assertNotInGitPath()
 
@@ -66,19 +69,19 @@ if (help) {
     const readmeUrl = `${htmlUrl}#readme`
     const issuesUrl = `${htmlUrl}/issues`
 
-    await git(['clone', sshUrl, packagePath])
+    await git(['clone', sshUrl, path])
 
-    console.log('Setting user %s<%s>...', name, email)
+    console.log('Setting user %s<%s>...', userName, email)
     await Promise.all([
-      git(['config', 'user.name', name], packagePath),
-      git(['config', 'user.email', email], packagePath),
+      git(['config', 'user.name', userName], path),
+      git(['config', 'user.email', email], path),
     ])
 
-    await cloneSource(structure, packagePath, {
+    await cloneSource(structure, path, {
       org,
       packageName,
       website,
-      authorName: name,
+      authorName: userName,
       authorEmail: email,
       year: `${new Date().getFullYear()}`,
       issuesUrl,
@@ -87,12 +90,12 @@ if (help) {
       description,
       legalName,
     })
-    console.log('Cloned the structure to %s', packagePath)
+    console.log('Cloned the structure to %s', path)
     console.log('Created new repository: %s', readmeUrl)
 
-    await git('add .', packagePath)
-    await git(['commit', '-m', 'initialise package'], packagePath)
-    await git('push origin master', packagePath)
+    await git('add .', path)
+    await git(['commit', '-m', 'initialise package'], path)
+    await git('push origin master', path)
   } catch ({ controlled, message, stack }) {
     if (controlled) {
       console.error(message)

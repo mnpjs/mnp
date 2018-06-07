@@ -4,6 +4,15 @@ const error = (text) => {
   throw err
 }
 
+export const getStructure = (structure = 'package') => {
+  try {
+    const structurePath = require(`mnp-${structure}`)
+    return structurePath
+  } catch (err) {
+    error(`Could not require structure "${structure}".`)
+  }
+}
+
 export const findStructure = (argv = []) => {
   const i = argv.indexOf('-s')
   const argFound = i > -1
