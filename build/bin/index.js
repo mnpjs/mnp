@@ -21,6 +21,8 @@ var _lib = require("../lib");
 
 var _questions = _interopRequireDefault(require("./questions"));
 
+var _usage = _interopRequireDefault(require("./usage"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const ANSWER_TIMEOUT = null;
@@ -29,6 +31,13 @@ const {
 } = process;
 const [,, argvPackage] = argv;
 const argvPackageName = argvPackage == '-s' ? null : argvPackage;
+const help = argv.some(a => /(-h|--help)/.test(a));
+
+if (help) {
+  const u = (0, _usage.default)();
+  console.log(u);
+  process.exit();
+}
 
 (async () => {
   try {
@@ -105,4 +114,4 @@ const argvPackageName = argvPackage == '-s' ? null : argvPackage;
     process.exit(1);
   }
 })();
-//# sourceMappingURL=mnp.js.map
+//# sourceMappingURL=index.js.map
