@@ -23,15 +23,31 @@ var _questions = _interopRequireDefault(require("./questions"));
 
 var _usage = _interopRequireDefault(require("./usage"));
 
+var _argufy = _interopRequireDefault(require("argufy"));
+
+var _info = _interopRequireDefault(require("../lib/info"));
+
+var _erte = require("erte");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const ANSWER_TIMEOUT = null;
 const {
-  argv
-} = process;
-const [,, argvPackage] = argv;
-const argvPackageName = argvPackage == '-s' ? null : argvPackage;
-const help = argv.some(a => /(-h|--help)/.test(a));
+  struct,
+  help,
+  name,
+  check
+} = (0, _argufy.default)({
+  struct: 's',
+  help: {
+    short: 'h',
+    boolean: true
+  },
+  name: {
+    command: true
+  },
+  check: 'c'
+}, process.argv);
+const ANSWER_TIMEOUT = null;
 
 if (help) {
   const u = (0, _usage.default)();
@@ -41,16 +57,23 @@ if (help) {
 
 (async () => {
   try {
-    const structure = (0, _lib.findStructure)(argv);
+    if (check) {
+      console.log('Checking package %s...', check);
+      const available = await (0, _info.default)(check);
+      console.log('Package named %s is %s.', available ? (0, _erte.c)(check, 'green') : (0, _erte.c)(check, 'red'), available ? 'available' : 'taken');
+      return;
+    }
+
+    const structure = (0, _lib.getStructure)(struct);
     const {
       org,
       token,
-      name,
+      name: userName,
       email,
       website,
       legalName
     } = await (0, _africa.default)('mnp', _questions.default);
-    const packageName = argvPackageName ? argvPackageName : await (0, _reloquent.askQuestions)({
+    const packageName = name ? name : await (0, _reloquent.askQuestions)({
       packageName: {
         text: 'Package name: ',
 
@@ -60,8 +83,8 @@ if (help) {
 
       }
     }, ANSWER_TIMEOUT, 'packageName');
-    const packagePath = (0, _path.resolve)(packageName);
-    await (0, _wrote.assertDoesNotExist)(packagePath);
+    const path = (0, _path.resolve)(packageName);
+    await (0, _wrote.assertDoesNotExist)(path);
     await (0, _gitLib.assertNotInGitPath)();
     console.log(`# ${packageName}`);
     const description = await (0, _reloquent.askQuestions)({
@@ -79,14 +102,14 @@ if (help) {
     if (!sshUrl) throw new Error('GitHub repository was not created via API.');
     const readmeUrl = `${htmlUrl}#readme`;
     const issuesUrl = `${htmlUrl}/issues`;
-    await (0, _git.default)(['clone', sshUrl, packagePath]);
-    console.log('Setting user %s<%s>...', name, email);
-    await Promise.all([(0, _git.default)(['config', 'user.name', name], packagePath), (0, _git.default)(['config', 'user.email', email], packagePath)]);
-    await (0, _cloneSource.default)(structure, packagePath, {
+    await (0, _git.default)(['clone', sshUrl, path]);
+    console.log('Setting user %s<%s>...', userName, email);
+    await Promise.all([(0, _git.default)(['config', 'user.name', userName], path), (0, _git.default)(['config', 'user.email', email], path)]);
+    await (0, _cloneSource.default)(structure, path, {
       org,
       packageName,
       website,
-      authorName: name,
+      authorName: userName,
       authorEmail: email,
       year: `${new Date().getFullYear()}`,
       issuesUrl,
@@ -95,11 +118,11 @@ if (help) {
       description,
       legalName
     });
-    console.log('Cloned the structure to %s', packagePath);
+    console.log('Cloned the structure to %s', path);
     console.log('Created new repository: %s', readmeUrl);
-    await (0, _git.default)('add .', packagePath);
-    await (0, _git.default)(['commit', '-m', 'initialise package'], packagePath);
-    await (0, _git.default)('push origin master', packagePath);
+    await (0, _git.default)('add .', path);
+    await (0, _git.default)(['commit', '-m', 'initialise package'], path);
+    await (0, _git.default)('push origin master', path);
   } catch ({
     controlled,
     message,

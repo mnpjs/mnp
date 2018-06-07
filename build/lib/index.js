@@ -3,13 +3,25 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.findStructure = void 0;
+exports.findStructure = exports.getStructure = void 0;
 
 const error = text => {
   const err = new Error(text);
   err.controlled = true;
   throw err;
 };
+
+const getStructure = (structure = 'package') => {
+  try {
+    const structurePath = require(`mnp-${structure}`);
+
+    return structurePath;
+  } catch (err) {
+    error(`Could not require structure "${structure}".`);
+  }
+};
+
+exports.getStructure = getStructure;
 
 const findStructure = (argv = []) => {
   const i = argv.indexOf('-s');
