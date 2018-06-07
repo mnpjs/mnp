@@ -11,13 +11,15 @@ import { getStructure } from '../lib'
 import questions from './questions'
 import getUsage from './usage'
 import argufy from 'argufy'
+import info from '../lib/info'
+import { c } from 'erte'
 
-const c = {
+const { struct, help, name, check } = argufy({
   struct: 's',
   help: { short: 'h', boolean: true },
   name: { command: true },
-}
-const { struct, help, name } = argufy(c, process.argv)
+  check: 'c',
+}, process.argv)
 
 const ANSWER_TIMEOUT = null
 
@@ -29,6 +31,12 @@ if (help) {
 
 (async () => {
   try {
+    if (check) {
+      console.log('Checking package %s...', check)
+      const available = await info(check)
+      console.log('Package named %s is %s.', available ? c(check, 'green') : c(check, 'red'), available ? 'available' : 'taken')
+      return
+    }
     const structure = getStructure(struct)
     const {
       org, token, name: userName, email, website, legalName,

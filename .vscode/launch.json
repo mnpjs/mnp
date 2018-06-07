@@ -9,9 +9,12 @@
       "request": "launch",
       "name": "Launch mnp",
       "program": "${workspaceFolder}/src/bin/register.js",
+      "env": {
+        "BABEL_ENV": "debug"
+      },
       "args": [
-        "-s",
-        "idio"
+        "-c",
+        "test"
       ],
       "console": "integratedTerminal",
       "skipFiles": [
