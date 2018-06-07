@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "africa": "1.0.1",
+    "argufy": "1.0.0",
     "camel-case": "3.0.0",
     "makepromise": "2.0.0",
     "mnp-idio": "1.2.5",
