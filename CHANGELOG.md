@@ -1,3 +1,9 @@
+## 8 June 2018
+
+### [0.7.1](https://github.com/artdecocode/mnp/compare/v0.7.0...v0.7.1)
+
+- [fix] bin path
+
 ## 7 June 2018
 
 ### [0.7.0](https://github.com/artdecocode/mnp/compare/v0.6.3...v0.7.0)
