@@ -1561,9 +1561,9 @@ mnp-idio@1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/mnp-idio/-/mnp-idio-1.2.5.tgz#35e3a191cd7b9b77bd77ab2cb8491c696b2194b2"
 
-mnp-package@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/mnp-package/-/mnp-package-1.2.0.tgz#7b3f982b43612f79ad24864b374ae969c2c7e878"
+mnp-package@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/mnp-package/-/mnp-package-1.3.0.tgz#a9c2d3c1911776d2f89652962fa6307397dc372f"
 
 mnp-structure@1.0.0:
   version "1.0.0"
