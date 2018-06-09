@@ -1,3 +1,10 @@
+## 9 June 2018
+
+### [0.7.2](https://github.com/artdecocode/mnp/compare/v0.7.1...v0.7.2)
+
+- [structure] update `mnp-package` to `1.3.0` (badge, etc).
+- [deps] use `usually` for usage information.
+
 ## 8 June 2018
 
 ### [0.7.1](https://github.com/artdecocode/mnp/compare/v0.7.0...v0.7.1)
