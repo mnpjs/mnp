@@ -9,6 +9,14 @@ var _africa = _interopRequireDefault(require("africa"));
 
 var _reloquent = require("reloquent");
 
+var _argufy = _interopRequireDefault(require("argufy"));
+
+var _erte = require("erte");
+
+var _usage = _interopRequireDefault(require("./usage"));
+
+var _questions = _interopRequireDefault(require("./questions"));
+
 var _cloneSource = _interopRequireDefault(require("../lib/clone-source"));
 
 var _git = _interopRequireDefault(require("../lib/git"));
@@ -19,15 +27,7 @@ var _github = require("../lib/github");
 
 var _lib = require("../lib");
 
-var _questions = _interopRequireDefault(require("./questions"));
-
-var _usage = _interopRequireDefault(require("./usage"));
-
-var _argufy = _interopRequireDefault(require("argufy"));
-
 var _info = _interopRequireDefault(require("../lib/info"));
-
-var _erte = require("erte");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
