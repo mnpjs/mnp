@@ -3,6 +3,7 @@ import { stat, rmdir, mkdir } from 'fs'
 import { resolve, basename } from 'path'
 import { readDir } from 'wrote'
 import { tmpdir } from 'os'
+import MNP_PACKAGE from 'mnp-package'
 
 const TEMP = resolve(tmpdir(), 'mnp_test.context')
 const FIXTURES = resolve(__dirname, '../fixtures')
@@ -41,6 +42,13 @@ export default class Context {
   readExpectedStructure() {
     this.expectedStructurePath = resolve(FIXTURES, 'expected-cloned')
     return readDir(this.expectedStructurePath, true)
+  }
+  get MNP_PACKAGE() {
+    return MNP_PACKAGE
+  }
+
+  get SNAPSHOT_DIR() {
+    return resolve(__dirname, '../snapshot')
   }
 
   async _destroy() {

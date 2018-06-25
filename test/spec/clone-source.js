@@ -1,16 +1,18 @@
 import { deepEqual } from 'zoroaster/assert'
-import context from '../context'
+import SnapshotContext from 'snapshot-context'
+import Context from '../context'
 import cloneSource from '../../src/lib/clone-source'
-import mnpPackage from 'mnp-package'
 
+/** @type {Object.<string, (c: Context, s: SnapshotContext)>} */
 const T = {
-  context,
-  async 'should update references in files'({ packagePath, readExpectedStructure, readDir }) {
+  context: [Context, SnapshotContext],
+  async 'should update references in files'({ packagePath, readDir, SNAPSHOT_DIR, MNP_PACKAGE }, { setDir, test }) {
+    setDir(SNAPSHOT_DIR)
     const org = 'test-org'
     const packageName = 'test-package-10'
     const website = 'https://test.io'
 
-    await cloneSource(mnpPackage, packagePath, {
+    await cloneSource(MNP_PACKAGE, packagePath, {
       org,
       packageName,
       website,
@@ -21,9 +23,10 @@ const T = {
       keywords: ['test', 'test2'],
       createDate: '25 May 2018',
     })
-    const expected = await readExpectedStructure()
+    // const expected = await readExpectedStructure()
     const actual = await readDir(packagePath)
-    deepEqual(expected, actual)
+    await test('expected.json', actual)
+    // deepEqual(expected, actual)
   },
 }
 

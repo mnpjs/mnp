@@ -28,11 +28,13 @@
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "args": [
         "test/spec/clone-source.js",
-        "-b"
+        "-b",
+        "-w",
       ],
       "env": {
         "BABEL_ENV": "debug",
-        "ZOROASTER_TIMEOUT": "9999999"
+        "ZOROASTER_TIMEOUT": "9999999",
+        "NODE_DEBUG": "mnp",
       },
       "console": "integratedTerminal",
       "skipFiles": [
