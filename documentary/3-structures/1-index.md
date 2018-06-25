@@ -1,7 +1,7 @@
 
 ## Structures
 
-There are a number of structures used available. The default one is the `package` structure.
+There are a number of structures available. The default one is the `package` structure.
 
 ```table
 [

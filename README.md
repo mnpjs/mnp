@@ -22,7 +22,11 @@
   * [Testing Context](#testing-context)
   * [Documentation with `doc`](#documentation-with-doc)
   * [Scripts in `Package.json`](#scripts-in-packagejson)
-    * [`bestie`](#bestie)
+    * [build with `bestie`](#build-with-bestie)
+    * [document with `documentary`](#document-with-documentary)
+    * [test with `zoroaster`](#test-with-zoroaster)
+  * [`.babelrc` Transforms](#babelrc-transforms)
+  * [`launch.json` Debugging](#launchjson-debugging)
 - [todo](#todo)
 
 
@@ -114,7 +118,7 @@ npm publish
 
 ## Structures
 
-There are a number of structures used available. The default one is the `package` structure.
+There are a number of structures available. The default one is the `package` structure.
 
 | Name | Description | Link |
 | ---- | ----------- | ---- |
@@ -296,7 +300,81 @@ The scripts are useful for testing, running in debugger, building and building d
 }
 ```
 
-The package uses <a name="bestie">`bestie`</a> to not have to install all `babel` dependencies in each project directory. Instead, after the package has been created, it will be linked to the local version `bestie`, which needs to be cloned beforehand. Instead of running `babel src --out-dir build --copy-files`, it is possible to run just `b --copy-files`.
+| script | meaning | description |
+| ------ | ------- | ----------- |
+| `t` | test a single file or directory | To run: `yarn t test/spec/lib.js` |
+| `b` | <a name="bestie">build with `bestie`</a> | The package uses [`bestie`](https://github.com/artdecocode/bestie) to not have to install all `@babel` dependencies in each project directory individually. Instead, after the package has been created, it will be linked to the local version of `bestie`, which needs to be cloned beforehand. E.g., `babel src --out-dir build --copy-files` becomes just `b --copy-files`. |
+| `doc` | <a name="documentary">document with `documentary`</a> | Is run with `yarn doc`, but is also a part of `build` script. |
+| `test` | <a name="zoroaster">test with `zoroaster`</a> | Run all tests, `yarn test |
+| `test-build` | test build files | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
+| lint | run eslint | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
+###  `.babelrc` Transforms
+
+The main reason behind using `.babelrc` is to be able to use `import` and `export` syntax which is made possible with the `modules` babel transform. Moreover, the `babel-plugin-transform-rename-import` allows to run tests against the built code by substituting the path on the fly via a regex.
+
+```json
+{
+  "plugins": [
+    "@babel/plugin-syntax-object-rest-spread",
+    "@babel/plugin-transform-modules-commonjs"
+  ],
+  "env": {
+    "test-build": {
+      "plugins": [
+        [
+          "transform-rename-import",
+          {
+            "original": "^((../)+)src",
+            "replacement": "$1build"
+          }
+        ]
+      ],
+      "ignore": [
+        "build/**/*.js"
+      ]
+    },
+    "debug": {
+      "retainLines": true
+    }
+  }
+}
+```
+###  `launch.json` Debugging
+
+Debugging is extremely useful and almost always required way to progress with a development of a software program. A new functionality can be introduced by writing the tests first, and then running them against the source code. That is, the `TDD` approach to testing can be summarised as having to somehow run the code being tested first, and the best place to put it is a test file. By providing a quick sketch of tests, the program can then be debug to see whether the execution flows as expected, and adjust it on-the-fly.
+
+This explains the structure of the `launch.json` file, which will have a configuration to start `Zoroaster` testing in `watch` mode, so that it is not necessary to restart the node process every time. Also, if changes are made during a pause in code, the execution need to be let run completely first before a changed version can be run. A known issue is that `source-maps-support` will not update positions of errors including their line and this leads to incorrect presentation of errors.
+
+```json
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Zoroaster",
+      "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
+      "env": {
+        "BABEL_ENV": "debug",
+        "ZOROASTER_TIMEOUT": "9999999",
+        "NODE_DEBUG": "my-new-package",
+      },
+      "console": "integratedTerminal",
+      "args": [
+        "test/spec",
+        "-b",
+        "-w",
+      ],
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ]
+    }
+  ]
+}
+```
 
 ## todo
 
