@@ -15,8 +15,8 @@
       },
       "cwd": "${workspaceFolder}/..",
       "args": [
-        // "-c",
-        "test10"
+        "-d",
+        "testt"
       ],
       "console": "integratedTerminal",
       "skipFiles": [

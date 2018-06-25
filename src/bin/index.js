@@ -14,11 +14,12 @@ import { createRepository, starRepository, deleteRepository } from '../lib/githu
 import { getStructure } from '../lib'
 import info from '../lib/info'
 
-const { struct, help, name, check } = argufy({
+const { struct, help, name, check, delete: del } = argufy({
   struct: 's',
   help: { short: 'h', boolean: true },
   name: { command: true },
   check: 'c',
+  delete: 'd',
 })
 
 const ANSWER_TIMEOUT = null
@@ -42,7 +43,11 @@ if (help) {
       org, token, name: userName, email, website, legalName,
     } = await africa('mnp', questions)
 
-    // await deleteRepository(token, 'test10', org)
+    if (del) {
+      await deleteRepository(token, del, org)
+      console.log('Deleted %s/%s.', org, del)
+      return
+    }
 
     const packageName = name || await askSingle({
       text: 'Package name',

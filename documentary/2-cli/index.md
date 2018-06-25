@@ -69,6 +69,15 @@ mnp -c isfree
 
 ![free output](doc/free.png)
 
+
+### `-d`: `Delete` Repository
+
+Delete specified repository from `GitHub`. Useful when a package was created for testing.
+
+```sh
+mnp -d test
+```
+
 ### Config
 
 When launched for the first time, you will be asked to complete the set-up process. You will need a [GitHub token][1]. Organisation name is optional, if supplied repositories will be created for it. `name` and `email` will be used in `package.json` and in local git config. `website` is the link in the readme. `legal name` is what goes in _LICENCE_ and also in readme as the website name if organisation name is not given.

@@ -74,6 +74,6 @@ export async function deleteRepository(token, name, org) {
     data: {},
   })
   if (headers.status != '204 No Content') {
-    console.log('Could not delete the %s/%s repository: %s.', org, name, body.message)
+    throw new Error(`Could not delete ${org}/${name}: ${body.message}.`)
   }
 }
