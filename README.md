@@ -451,8 +451,6 @@ This explains the structure of the `launch.json` file, which will have a configu
 ## todo
 
 - [ ] Binary structure
-- [ ] Fix tests
-- [ ] Star
 * create own structures
 * keywords
 * fetch repo info

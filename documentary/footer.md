@@ -2,8 +2,8 @@
 ## todo
 
 - [ ] Binary structure
-- [ ] Fix tests
-- [ ] Star
+<!-- - [ ] Fix tests -->
+<!-- - [ ] Star -->
 * create own structures
 * keywords
 * fetch repo info
