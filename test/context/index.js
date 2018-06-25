@@ -40,17 +40,17 @@ export default class Context {
     return readDir(dir, true)
   }
   readExpectedStructure() {
-    this.expectedStructurePath = resolve(FIXTURES, 'expected-cloned')
     return readDir(this.expectedStructurePath, true)
+  }
+  get expectedStructurePath() {
+    return resolve(FIXTURES, 'expected-cloned')
   }
   get MNP_PACKAGE() {
     return MNP_PACKAGE
   }
-
   get SNAPSHOT_DIR() {
     return resolve(__dirname, '../snapshot')
   }
-
   async _destroy() {
     try {
       await makepromise(rmdir, this.packagePath)

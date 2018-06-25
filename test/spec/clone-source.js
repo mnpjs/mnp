@@ -1,4 +1,3 @@
-import { deepEqual } from 'zoroaster/assert'
 import SnapshotContext from 'snapshot-context'
 import Context from '../context'
 import cloneSource from '../../src/lib/clone-source'
@@ -23,10 +22,8 @@ const T = {
       keywords: ['test', 'test2'],
       createDate: '25 May 2018',
     })
-    // const expected = await readExpectedStructure()
     const actual = await readDir(packagePath)
     await test('expected.json', actual)
-    // deepEqual(expected, actual)
   },
 }
 
