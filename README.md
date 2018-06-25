@@ -7,22 +7,26 @@
 ## Table Of Contents
 
 - [Table Of Contents](#table-of-contents)
-  * [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
-    * [`-h, --help`: Show Help](#-h---help-show-help)
-    * [`-c`: Check Exists](#-c-check-exists)
+- [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
+  * [`-h, --help`: Show Help](#-h---help-show-help)
+  * [`-c`: Check Exists](#-c-check-exists)
   * [Config](#config)
   * [Create a Package](#create-a-package)
   * [Structures](#structures)
     * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
     * [Universal Koa Website](#universal-koa-website)
-  * [Main Function](#main-function)
-  * [Test Suites](#test-suites)
-  * [Testing Context](#testing-context)
-  * [Documentation with `doc`](#documentation-with-doc)
-  * [Scripts in `Package.json`](#scripts-in-packagejson)
+    * [Main Function](#main-function)
+    * [Test Suites](#test-suites)
+      * [_snapshot-testing_](#_snapshot-testing_)
+    * [Testing Context](#testing-context)
+    * [Documentation with `doc`](#documentation-with-doc)
+    * [Scripts in `Package.json`](#scripts-in-packagejson)
+      * [`bestie`](#bestie)
 - [todo](#todo)
 
-### CLI: `mnp my-new-package`
+
+
+## CLI: `mnp my-new-package`
 
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
@@ -40,13 +44,33 @@ Cloned the structure to /mynewpackage
 Created new repository: https://github.com/org/mynewpackage#readme
 ```
 
-#### `-h, --help`: Show Help
+### `-h, --help`: Show Help
 
 ```
+MNP: create My New Package.
+If no arguments are given, the program will ask for the package name in the CLI.
+A github repository for each new package will be created automatically,
+therefore a GitHub token can be generated at: https://github.com/settings/tokens
+for the use in this application. The token is saved in ~/.mnprc along with other
+configuration, including organisation name etc. Different types of packages,
+with a Node.js library shell by default are available, including:
 
++ package:	a Node.js package to publish on npm (default)
++ idio:		a Koa2+React universal website
++ structure:	an mnp template
+
+  mnp [package-name] [-s (idio|structure)]
+
+	package-name	Name of the new package.
+	-s structure	Which structure to use (package, idio, structure).
+	-h, --help  	Print this information and quit.
+
+  Example:
+
+    mnp my-new-package -s idio
 ```
 
-#### `-c`: Check Exists
+### `-c`: Check Exists
 
 Check if the package name is already taken or not.
 
@@ -87,7 +111,6 @@ git push --follow-tags
 npm publish
 ```
 
-
 ### Structures
 
 There are a number of structures used available. The default one is the `package` structure.
@@ -97,7 +120,7 @@ There are a number of structures used available. The default one is the `package
 | `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`mnp-package`](https://github.com/artdecocode/mnp-package) |
 | `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-package`](https://github.com/artdecocode/mnp-idio) |
 | structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-package) |
-### Main Function
+#### Main Function
 
 Every package will have a main file specified in the `main` field in the package.json file, unless they have a `bin` field otherwise (in other words, if package does not provide a Node.js API, and only CLI usage). This structure has a minimum example of working function which is exported with `export default` keyword, and documented with JSDoc. It's important to document the config argument in a `typedef` so that other developers are able to see the autocompletion hints when trying to use the function.
 
@@ -126,7 +149,21 @@ export default async function myNewPackage(config = {}) {
 ```
 
 ![Config Api Type](doc/config.gif)
-### Test Suites
+#### Test Suites
+
+The tests are found in the `test/spec` directory, and all necessary infrastructure in the `test` dir, including a `fixture` directory and optionally a `snapshot` directory if the package is using snapshot testing.
+
+```m
+node_modules/mnp-package/structure/test
+├── context
+│   └── index.js
+├── fixture
+│   └── test.txt
+└── spec
+    └── default.js
+```
+
+The tests are written with `zoroaster` framework, which expects a file to export a test suite as an object, containing tests as its properties. Tests can be both asynchronous and synchronous, and `zoroaster/assert` includes a `throws` method to assert that the function throws, as well as `deepEqual` with color difference.
 
 ```js
 import { equal, ok } from 'zoroaster/assert'
@@ -152,7 +189,11 @@ const T = {
 
 export default T
 ```
-### Testing Context
+
+If <a name="_snapshot-testing_">_snapshot-testing_</a> is required, it can be additionally installed with `yarn add -DE snapshot-context`. This will allow to write snapshot tests.
+#### Testing Context
+
+The structure uses a test context -- a feature of `Zoroaster` that lets separate the set-up and tear-down methods from the test implementations. All common methods, e.g., reading a fixture file, should be implemented in the context and accessed via the destructuring capabilities of the JavaScript language. All clean-up code such as destroying a server, can be done in the `_destroy` method of the class.
 
 ```js
 import { resolve } from 'path'
@@ -186,7 +227,12 @@ export default class Context {
   }
 }
 ```
-### Documentation with `doc`
+
+Context testing also allows to split files into mulitple sub-directories much easier.
+
+#### Documentation with `doc`
+
+The documentation is pre-processed with [`documentary`](https://github.com/artdecocode/documentary) which simplifies working on the `README.md` file by allowing to split files, and inserting examples and output text in the docs.
 
 ```m
 node_modules/mnp-package/structure/documentation
@@ -195,7 +241,11 @@ node_modules/mnp-package/structure/documentation
 ├── footer.md
 └── index.md
 ```
-### Scripts in `Package.json`
+
+To process documentation, `yarn doc` can be used.
+#### Scripts in `Package.json`
+
+The scripts are useful for testing, running in debugger, building and building documentation.
 
 ```json
 {
@@ -241,6 +291,8 @@ node_modules/mnp-package/structure/documentation
   }
 }
 ```
+
+The package uses <a name="bestie">`bestie`</a> to not have to install all `babel` dependencies in each project directory. Instead, after the package has been created, it will be linked to the local version `bestie`, which needs to be cloned beforehand. Instead of running `babel src --out-dir build --copy-files`, it is possible to run just `b --copy-files`.
 
 ## todo
 
