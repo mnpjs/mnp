@@ -19,9 +19,9 @@ argufy@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/argufy/-/argufy-1.1.2.tgz#e99107e00e84b6272bedc0b9a93e42014edd5a72"
 
-argufy@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/argufy/-/argufy-1.2.0.tgz#1e1242781c54521713e71c62ef1f2d4c0c6d1d45"
+argufy@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/argufy/-/argufy-1.2.1.tgz#34985fe1087dee7fd96c92fad17c0dd137991d95"
 
 assert-diff@1.2.6:
   version "1.2.6"

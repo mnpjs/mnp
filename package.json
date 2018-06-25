@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "africa": "1.1.1",
-    "argufy": "1.2.0",
+    "argufy": "1.2.1",
     "camel-case": "3.0.0",
     "erte": "1.1.4",
     "makepromise": "2.0.0",
