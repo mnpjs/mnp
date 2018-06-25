@@ -120,11 +120,9 @@ node_modules/mnp-package/structure
 ├── build
 ├── documentation
 ├── example
-├── node_modules
 ├── package.json
 ├── src
 ├── test
-├── yarn-error.log
 └── yarn.lock
 ```
 
