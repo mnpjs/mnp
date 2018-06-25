@@ -3,7 +3,6 @@ import rqt from 'rqt'
 export default async function request({
   data,
   token,
-  org,
   method,
   u,
 }) {
@@ -11,7 +10,7 @@ export default async function request({
     Authorization: `token ${token}`,
     'User-Agent': 'Mozilla/5.0 mnp Node.js',
   }
-  const url = `https://api.github.com/${org ? `orgs/${org}` : 'user'}/${u}`
+  const url = `https://api.github.com/${u}`
   const { body, headers } = await rqt(url, {
     headers: h,
     data,
@@ -38,6 +37,7 @@ export default async function request({
  * @param {string} [description] Description for github
  */
 export async function createRepository(token, name, org, description) {
+  const u = `${org ? `orgs/${org}` : 'user'}/repos`
   const { body } = await request({
     data: {
       description,
@@ -46,21 +46,34 @@ export async function createRepository(token, name, org, description) {
       gitignore_template: 'Node',
       license_template: 'mit',
     },
-    org,
     token,
-    u: 'repos',
+    u,
   })
   return body
 }
 
 export async function starRepository(token, name, org) {
+  const u = `user/starred/${org}/${name}`
   const { headers } = await request({
     token,
-    u: `starred/${org}/${name}`,
+    u,
     method: 'PUT',
     data: {},
   })
   if (headers.status != '204 No Content') {
     console.log('Could not star the %s/%s repository', org, name)
+  }
+}
+
+export async function deleteRepository(token, name, org) {
+  const u = `repos/${org}/${name}`
+  const { headers, body } = await request({
+    token,
+    u,
+    method: 'DELETE',
+    data: {},
+  })
+  if (headers.status != '204 No Content') {
+    console.log('Could not delete the %s/%s repository: %s.', org, name, body.message)
   }
 }

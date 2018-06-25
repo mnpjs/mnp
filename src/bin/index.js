@@ -4,13 +4,13 @@ import { assertDoesNotExist } from 'wrote'
 import africa from 'africa'
 import { askSingle } from 'reloquent'
 import argufy from 'argufy'
-import { c } from 'erte'
+import { c, b } from 'erte'
 import getUsage from './usage'
 import questions from './questions'
 import cloneSource from '../lib/clone-source'
 import git from '../lib/git'
 import { assertNotInGitPath } from '../lib/git-lib'
-import { createRepository, starRepository } from '../lib/github'
+import { createRepository, starRepository, deleteRepository } from '../lib/github'
 import { getStructure } from '../lib'
 import info from '../lib/info'
 
@@ -42,6 +42,8 @@ if (help) {
       org, token, name: userName, email, website, legalName,
     } = await africa('mnp', questions)
 
+    // await deleteRepository(token, 'test10', org)
+
     const packageName = name || await askSingle({
       text: 'Package name',
       validation(a) {
@@ -71,6 +73,7 @@ if (help) {
     if (!sshUrl) throw new Error('GitHub repository was not created via API.')
 
     await starRepository(token, packageName, org)
+    console.log('%s\n%s', c('Created and starred a new repository', 'grey'), b(htmlUrl, 'green'))
 
     const readmeUrl = `${htmlUrl}#readme`
     const issuesUrl = `${htmlUrl}/issues`
@@ -94,12 +97,13 @@ if (help) {
       description,
       legalName,
     })
-    console.log('Cloned the structure to %s', path)
-    console.log('Created new repository: %s', readmeUrl)
 
-    await git('add .', path)
-    await git(['commit', '-m', 'initialise package'], path)
-    await git('push origin master', path)
+    await git('add .', path, true)
+    await git(['commit', '-m', 'initialise package'], path, true)
+    console.log('Initialised package structure, pushing.')
+    await git('push origin master', path, true)
+
+    console.log('Created a new package: %s.', c(packageName, 'green'))
   } catch ({ controlled, message, stack }) {
     if (controlled) {
       console.error(message)
