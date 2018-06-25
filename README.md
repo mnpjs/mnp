@@ -23,9 +23,9 @@
   * [Documentation with `doc`](#documentation-with-doc)
     * [`Examples` Embedding](#examples-embedding)
   * [Scripts in `Package.json`](#scripts-in-packagejson)
-    * [build with _bestie_](#build-with-_bestie_)
-    * [document with _documentary_](#document-with-_documentary_)
-    * [test with _zoroaster_](#test-with-_zoroaster_)
+    * [Build With _Bestie_](#build-with-_bestie_)
+    * [Document With _Documentary_](#document-with-_documentary_)
+    * [Test With _Zoroaster_](#test-with-_zoroaster_)
   * [`.babelrc` Transforms](#babelrc-transforms)
   * [`launch.json` Debugging](#launchjson-debugging)
 - [todo](#todo)
@@ -360,16 +360,17 @@ The scripts are useful for testing, running in debugger, building and building d
 }
 ```
 
-| script | meaning | description |
+| Script | Meaning | Description |
 | ------ | ------- | ----------- |
-| `t` | test a single file or directory | To run: `yarn t test/spec/lib.js` |
-| `b` | <a name="build-with-_bestie_">build with _bestie_</a> | The package uses [`bestie`](https://github.com/artdecocode/bestie) to not have to install all `@babel` dependencies in each project directory individually. Instead, after the package has been created, it will be linked to the local version of `bestie`, which needs to be cloned beforehand. E.g., `babel src --out-dir build --copy-files` becomes just `b --copy-files`. |
-| `doc` | <a name="document-with-_documentary_">document with _documentary_</a> | Is run with `yarn doc`, but is also a part of `build` script. |
-| `test` | <a name="test-with-_zoroaster_">test with _zoroaster_</a> | Run all tests, `yarn test`. |
-| `test-build` | test build files | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
-| `e` | Run an example file. | Run specified example, e.g., `yarn e example/test.js` |
+| `t` | Test a single file or directory. | To run: `yarn t test/spec/lib.js`. |
+| `b` | <a name="build-with-_bestie_">Build With _Bestie_</a>. | The package uses [`bestie`](https://github.com/artdecocode/bestie) to not have to install all `@babel` dependencies in each project directory individually. Instead, after the package has been created, it will be linked to the local version of `bestie`, which needs to be cloned beforehand. E.g., `babel src --out-dir build --copy-files` becomes just `b --copy-files`. |
+| `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>. | Is run with `yarn doc`, but is also a part of `build` script. |
+| `build` | Run `b` and `doc` in series. | Builds source code into the `build` directory, and compiles documentation to `README.md` file. |
+| `test` | <a name="test-with-_zoroaster_">Test With _Zoroaster_</a>. | Run all tests, `yarn test`. |
+| `test-build` | Test build files. | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
+| `e` | Run an example file. | Run specified example, e.g., `yarn e example/test.js`. |
 | `example/` | Run a <a name="particular-example">particular example</a>. | A job specifically created as a short-hand for a particular example. |
-| `lint` | run eslint | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
+| `lint` | Check code style. | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
 ###  `.babelrc` Transforms
 
 The main reason behind using `.babelrc` is to be able to use `import` and `export` syntax which is made possible with the `modules` babel transform. Moreover, the `babel-plugin-transform-rename-import` allows to run tests against the built code by substituting the path on the fly via a regex.
