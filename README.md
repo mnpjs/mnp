@@ -8,7 +8,7 @@
 
 - [Table Of Contents](#table-of-contents)
 - [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
-  * [`Creating Packages`](#creating-packages)
+  * [Creating Packages](#creating-packages)
   * [`-h, --help`: Show Help](#-h---help-show-help)
   * [`-c`: Check Exists](#-c-check-exists)
   * [Config](#config)
@@ -44,10 +44,10 @@ To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 
 <table>
 <tr><td>
-![Creating a new package.](doc/create.gif)
+<img alt="Creating a new package." src="doc/create.gif" />
 </td></tr>
 <tr><td>
-<a name="creating-packages">`Creating Packages`</a> with `mnp` is super-easy!
+<a name="creating-packages">Creating Packages</a> with <code>mnp</code> is super-easy and fast!
 </td></tr>
 </table>
 

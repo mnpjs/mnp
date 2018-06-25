@@ -11,10 +11,10 @@ To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 
 <table>
 <tr><td>
-![Creating a new package.](doc/create.gif)
+<img alt="Creating a new package." src="doc/create.gif" />
 </td></tr>
 <tr><td>
-[`Creating Packages`](t) with `mnp` is super-easy!
+[Creating Packages](t) with <code>mnp</code> is super-easy and fast!
 </td></tr>
 </table>
 
