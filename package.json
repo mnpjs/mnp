@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "dev": "node src/bin/register",
     "start": "node build/bin",
+    "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
     "build": "yarn-s b doc",
     "b": "b --ignore src/bin/register.js --source-maps"

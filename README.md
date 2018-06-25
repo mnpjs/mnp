@@ -8,10 +8,10 @@
 
 - [Table Of Contents](#table-of-contents)
 - [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
+  * [`Creating Packages`](#creating-packages)
   * [`-h, --help`: Show Help](#-h---help-show-help)
   * [`-c`: Check Exists](#-c-check-exists)
   * [Config](#config)
-  * [Create a Package](#create-a-package)
 - [Structures](#structures)
   * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
   * [Universal Koa Website](#universal-koa-website)
@@ -37,18 +37,19 @@
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
 ```sh
-mnp
+mnp [package-name]
 ```
 
-```fs
-Please give package name: mynewpackage
-# mynewpackage
-Description: example-package
-Cloning into './mynewpackage'...
-Setting user Author<author@testt.cc>...
-Cloned the structure to /mynewpackage
-Created new repository: https://github.com/org/mynewpackage#readme
-```
+To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if directory does not exist and not in a git path, create a `Github` repository, clone it to local filesystem, and fill in the default _Node.js_ package structure.
+
+<table>
+<tr><td>
+![Creating a new package.](doc/create.gif)
+</td></tr>
+<tr><td>
+<a name="creating-packages">`Creating Packages`</a> with `mnp` is super-easy!
+</td></tr>
+</table>
 
 ### `-h, --help`: Show Help
 
@@ -97,25 +98,6 @@ mnp -c isfree
 When launched for the first time, you will be asked to complete the set-up process. You will need a [GitHub token][1]. Organisation name is optional, if supplied repositories will be created for it. `name` and `email` will be used in `package.json` and in local git config. `website` is the link in the readme. `legal name` is what goes in _LICENCE_ and also in readme as the website name if organisation name is not given.
 
 ![configuration process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-config2.gif)
-
-### Create a Package
-
-To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if directory does not exist and not in a git path, create a `Github` repository, clone it to local filesystem, and fill in the default _Node.js_ package structure.
-
-![creation process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-make.gif)
-
-```bash
-cd ~/Packages
-mnp my-example-package # scaffold your new app
-cd my-example-package
-code . # do your thing, express yourself
-npm t
-git add .
-git commit -m 'a feature'
-npm version
-git push --follow-tags
-npm publish
-```
 
 ## Structures
 
