@@ -14,12 +14,13 @@ import { createRepository, starRepository, deleteRepository } from '../lib/githu
 import { getStructure } from '../lib'
 import info from '../lib/info'
 
-const { struct, help, name, check, delete: del } = argufy({
+const { struct, help, name, check, delete: del, init } = argufy({
   struct: 's',
   help: { short: 'h', boolean: true },
   name: { command: true },
   check: 'c',
   delete: 'd',
+  init: { short: 'I', boolean: true },
 })
 
 const ANSWER_TIMEOUT = null
@@ -32,6 +33,12 @@ if (help) {
 
 (async () => {
   try {
+    if (init) {
+      await africa('mnp', questions, {
+        force: true,
+      })
+      return
+    }
     if (check) {
       console.log('Checking package %s...', check)
       const available = await info(check)

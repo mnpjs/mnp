@@ -11,11 +11,29 @@ on type(the_string)
   end tell
 end type
 
-activate application "Terminal"
-type("mnp ${process.argv[2] || 'test-package'}")
-delay 1
-set the_string to "A test package to show the capabilities."
-type(the_string)
-`
+on typeInstant(the_string)
+  tell application "System Events"
+    keystroke the_string
+    key code 36
+  end tell
+end type
 
+activate application "Terminal"
+type("mnp -I")
+delay 0.5
+typeInstant("1c3fa196701b45d66eea507082b1787f52d3d108")
+delay 0.5
+type("artdecocode")
+delay 0.5
+typeInstant("")
+delay 0.5
+typeInstant("")
+delay 0.5
+type("https://artdeco.bz")
+delay 0.5
+type("Art Deco Code Limited")
+`
+// type("mnp")
+// set the_string to "A test package to show the capabilities."
+// type(the_string)
 spawn('osascript', ['-e', s])

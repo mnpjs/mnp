@@ -49,6 +49,26 @@ npm publish
 
 <!-- Documentary: to run a program and answer the questions with stdin  -->
 
+### Config: `-i`, `--init`
+
+When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
+
+```table
+[
+  ["Field", "Description"],
+  ["`token`", "A `GitHub` [developer token][1]."],
+  ["`organisation`", "An optional `GitHub` organisation name and if supplied repositories will be created for it."],
+  ["`name`, `email`", "Used in `package.json` and the local project directory git config. Default values for which are read from the global git config."],
+  ["`website`", "Link in the `README` file."],
+  ["`legal name`", "Is placed in the _LICENCE_ and also in the README file as the website name if organisation name is not given."]
+]
+```
+
+%GIF doc/init.gif
+Initialising the configuration.
+Initialising configuration: <code>mnp -I</code>.
+%
+
 ### `-h, --help`: Show Help
 
 %FORK src/bin/register.js -h%
@@ -78,8 +98,5 @@ Delete specified repository from `GitHub`. Useful when a package was created for
 mnp -d test
 ```
 
-### Config
 
-When launched for the first time, you will be asked to complete the set-up process. You will need a [GitHub token][1]. Organisation name is optional, if supplied repositories will be created for it. `name` and `email` will be used in `package.json` and in local git config. `website` is the link in the readme. `legal name` is what goes in _LICENCE_ and also in readme as the website name if organisation name is not given.
-
-![configuration process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-config2.gif)
+<!-- ![configuration process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-config2.gif) -->

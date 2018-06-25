@@ -9,9 +9,10 @@
 - [Table Of Contents](#table-of-contents)
 - [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
   * [Creating Packages](#creating-packages)
+  * [Config: `-i`, `--init`](#config--i---init)
   * [`-h, --help`: Show Help](#-h---help-show-help)
   * [`-c`: Check Exists](#-c-check-exists)
-  * [Config](#config)
+  * [`-d`: `Delete` Repository](#-d-delete-repository)
 - [Structures](#structures)
   * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
   * [Universal Koa Website](#universal-koa-website)
@@ -51,6 +52,27 @@ To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 </td></tr>
 </table>
 
+### Config: `-i`, `--init`
+
+When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
+
+| Field | Description |
+| ----- | ----------- |
+| `token` | A `GitHub` [developer token][1]. |
+| `organisation` | An optional `GitHub` organisation name and if supplied repositories will be created for it. |
+| `name`, `email` | Used in `package.json` and the local project directory git config. Default values for which are read from the global git config. |
+| `website` | Link in the `README` file. |
+| `legal name` | Is placed in the _LICENCE_ and also in the README file as the website name if organisation name is not given. |
+
+<details>
+  <summary>Initialising configuration: <code>mnp -I</code>.</summary>
+  <table>
+  <tr><td>
+    <img alt="Initialising the configuration." src="doc/init.gif" />
+  </td></tr>
+  </table>
+</details>
+
 ### `-h, --help`: Show Help
 
 ```
@@ -66,11 +88,13 @@ with a Node.js library shell by default are available, including:
 + idio:		a Koa2+React universal website
 + structure:	an mnp template
 
-  mnp [package-name] [-s (idio|structure)]
+  mnp [package-name] [-s (idio|structure)] [-d repo_name] -hI
 
 	package-name	Name of the new package.
 	-s structure	Which structure to use (package, idio, structure).
 	-h, --help  	Print this information and quit.
+	-d, --delete	Delete a repository.
+	-I, --init  	Initialise configuration in HOMEDIR/.mnprc.
 
   Example:
 
@@ -93,11 +117,16 @@ mnp -c isfree
 
 ![free output](doc/free.png)
 
-### Config
 
-When launched for the first time, you will be asked to complete the set-up process. You will need a [GitHub token][1]. Organisation name is optional, if supplied repositories will be created for it. `name` and `email` will be used in `package.json` and in local git config. `website` is the link in the readme. `legal name` is what goes in _LICENCE_ and also in readme as the website name if organisation name is not given.
+### `-d`: `Delete` Repository
 
-![configuration process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-config2.gif)
+Delete specified repository from `GitHub`. Useful when a package was created for testing.
+
+```sh
+mnp -d test
+```
+
+
 
 ## Structures
 

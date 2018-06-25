@@ -9,12 +9,14 @@ const usage = {
   'package-name': 'Name of the new package.',
   '-s structure': 'Which structure to use (package, idio, structure).',
   '-h, --help': 'Print this information and quit.',
+  '-d, --delete': 'Delete a repository.',
+  '-I, --init': 'Initialise configuration in HOMEDIR/.mnprc.',
 }
 
 export default () => {
   const u = usually({
     usage,
-    line: 'mnp [package-name] [-s (idio|structure)]',
+    line: 'mnp [package-name] [-s (idio|structure)] [-d repo_name] -hI',
     description: `MNP: create My New Package.
 If no arguments are given, the program will ask for the package name in the CLI.
 A github repository for each new package will be created automatically,
