@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = request;
 exports.createRepository = createRepository;
 exports.starRepository = starRepository;
+exports.deleteRepository = deleteRepository;
 
 var _rqt = _interopRequireDefault(require("rqt"));
 
@@ -14,7 +15,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 async function request({
   data,
   token,
-  org,
   method,
   u
 }) {
@@ -22,7 +22,7 @@ async function request({
     Authorization: `token ${token}`,
     'User-Agent': 'Mozilla/5.0 mnp Node.js'
   };
-  const url = `https://api.github.com/${org ? `orgs/${org}` : 'user'}/${u}`;
+  const url = `https://api.github.com/${u}`;
   const {
     body,
     headers
@@ -58,6 +58,7 @@ async function request({
 
 
 async function createRepository(token, name, org, description) {
+  const u = `${org ? `orgs/${org}` : 'user'}/repos`;
   const {
     body
   } = await request({
@@ -68,25 +69,42 @@ async function createRepository(token, name, org, description) {
       gitignore_template: 'Node',
       license_template: 'mit'
     },
-    org,
     token,
-    u: 'repos'
+    u
   });
   return body;
 }
 
 async function starRepository(token, name, org) {
+  const u = `user/starred/${org}/${name}`;
   const {
     headers
   } = await request({
     token,
-    u: `starred/${org}/${name}`,
+    u,
     method: 'PUT',
     data: {}
   });
 
   if (headers.status != '204 No Content') {
     console.log('Could not star the %s/%s repository', org, name);
+  }
+}
+
+async function deleteRepository(token, name, org) {
+  const u = `repos/${org}/${name}`;
+  const {
+    headers,
+    body
+  } = await request({
+    token,
+    u,
+    method: 'DELETE',
+    data: {}
+  });
+
+  if (headers.status != '204 No Content') {
+    throw new Error(`Could not delete ${org}/${name}: ${body.message}.`);
   }
 }
 //# sourceMappingURL=github.js.map

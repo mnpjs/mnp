@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _spawncommand = _interopRequireDefault(require("spawncommand"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -30,11 +35,20 @@ async function git(args, cwd, noPipe = false) {
   if (!noPipe) {
     stdout.pipe(process.stdout);
     stderr.pipe(process.stderr);
+  } else if (noPipe == 'dots') {
+    stdout.on('data', () => {
+      process.stdout.write('.');
+    });
+    stderr.on('data', () => {
+      process.stdout.write('.');
+    });
   }
 
   const res = await promise;
+  if (noPipe == 'dots') process.stdout.write('\n');
   return res;
 }
 
-module.exports = git;
+var _default = git;
+exports.default = _default;
 //# sourceMappingURL=git.js.map

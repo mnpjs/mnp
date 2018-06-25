@@ -35,7 +35,9 @@ const {
   struct,
   help,
   name,
-  check
+  check,
+  delete: del,
+  init
 } = (0, _argufy.default)({
   struct: 's',
   help: {
@@ -45,7 +47,12 @@ const {
   name: {
     command: true
   },
-  check: 'c'
+  check: 'c',
+  delete: 'd',
+  init: {
+    short: 'I',
+    boolean: true
+  }
 });
 const ANSWER_TIMEOUT = null;
 
@@ -57,6 +64,13 @@ if (help) {
 
 (async () => {
   try {
+    if (init) {
+      await (0, _africa.default)('mnp', _questions.default, {
+        force: true
+      });
+      return;
+    }
+
     if (check) {
       console.log('Checking package %s...', check);
       const available = await (0, _info.default)(check);
@@ -73,6 +87,13 @@ if (help) {
       website,
       legalName
     } = await (0, _africa.default)('mnp', _questions.default);
+
+    if (del) {
+      await (0, _github.deleteRepository)(token, del, org);
+      console.log('Deleted %s/%s.', org, del);
+      return;
+    }
+
     const packageName = name || (await (0, _reloquent.askSingle)({
       text: 'Package name',
 
@@ -97,6 +118,7 @@ if (help) {
     } = await (0, _github.createRepository)(token, packageName, org, description);
     if (!sshUrl) throw new Error('GitHub repository was not created via API.');
     await (0, _github.starRepository)(token, packageName, org);
+    console.log('%s\n%s', (0, _erte.c)('Created and starred a new repository', 'grey'), (0, _erte.b)(htmlUrl, 'green'));
     const readmeUrl = `${htmlUrl}#readme`;
     const issuesUrl = `${htmlUrl}/issues`;
     await (0, _git.default)(['clone', sshUrl, path]);
@@ -116,11 +138,11 @@ if (help) {
       description,
       legalName
     });
-    console.log('Cloned the structure to %s', path);
-    console.log('Created new repository: %s', readmeUrl);
-    await (0, _git.default)('add .', path);
-    await (0, _git.default)(['commit', '-m', 'initialise package'], path);
-    await (0, _git.default)('push origin master', path);
+    await (0, _git.default)('add .', path, true);
+    await (0, _git.default)(['commit', '-m', 'initialise package'], path, true);
+    console.log('Initialised package structure, pushing.');
+    await (0, _git.default)('push origin master', path, true);
+    console.log('Created a new package: %s.', (0, _erte.c)(packageName, 'green'));
   } catch ({
     controlled,
     message,
