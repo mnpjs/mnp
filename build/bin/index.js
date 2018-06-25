@@ -46,7 +46,7 @@ const {
     command: true
   },
   check: 'c'
-}, process.argv);
+});
 const ANSWER_TIMEOUT = null;
 
 if (help) {
@@ -73,38 +73,36 @@ if (help) {
       website,
       legalName
     } = await (0, _africa.default)('mnp', _questions.default);
-    const packageName = name ? name : await (0, _reloquent.askQuestions)({
-      packageName: {
-        text: 'Package name: ',
+    const packageName = name || (await (0, _reloquent.askSingle)({
+      text: 'Package name',
 
-        validation(a) {
-          if (!a) throw new Error('You must specify package name');
-        }
-
+      validation(a) {
+        if (!a) throw new Error('You must specify package name.');
       }
-    }, ANSWER_TIMEOUT, 'packageName');
+
+    }, ANSWER_TIMEOUT));
     const path = (0, _path.resolve)(packageName);
     await (0, _wrote.assertDoesNotExist)(path);
     await (0, _gitLib.assertNotInGitPath)();
     console.log(`# ${packageName}`);
-    const description = await (0, _reloquent.askQuestions)({
-      description: {
-        text: 'Description: ',
-        postProcess: s => s.trim(),
-        defaultValue: ''
-      }
-    }, ANSWER_TIMEOUT, 'description');
+    const description = await (0, _reloquent.askSingle)({
+      text: 'Description',
+      postProcess: s => s.trim(),
+      defaultValue: ''
+    }, ANSWER_TIMEOUT);
     const {
       ssh_url: sshUrl,
       git_url: gitUrl,
       html_url: htmlUrl
     } = await (0, _github.createRepository)(token, packageName, org, description);
     if (!sshUrl) throw new Error('GitHub repository was not created via API.');
+    await (0, _github.starRepository)(token, packageName, org);
     const readmeUrl = `${htmlUrl}#readme`;
     const issuesUrl = `${htmlUrl}/issues`;
     await (0, _git.default)(['clone', sshUrl, path]);
     console.log('Setting user %s<%s>...', userName, email);
-    await Promise.all([(0, _git.default)(['config', 'user.name', userName], path), (0, _git.default)(['config', 'user.email', email], path)]);
+    await (0, _git.default)(['config', 'user.name', userName], path);
+    await (0, _git.default)(['config', 'user.email', email], path);
     await (0, _cloneSource.default)(structure, path, {
       org,
       packageName,

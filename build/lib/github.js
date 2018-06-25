@@ -5,41 +5,48 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = request;
 exports.createRepository = createRepository;
+exports.starRepository = starRepository;
 
 var _rqt = _interopRequireDefault(require("rqt"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 async function request({
-  data = {},
+  data,
   token,
-  org
+  org,
+  method,
+  u
 }) {
-  const jsonData = JSON.stringify(data);
-  const headers = {
+  const h = {
     Authorization: `token ${token}`,
-    'Content-Type': 'application/json',
-    'Content-Length': jsonData.length,
     'User-Agent': 'Mozilla/5.0 mnp Node.js'
   };
-  const url = `https://api.github.com/${org ? `orgs/${org}` : 'user'}/repos`;
-  const res = await (0, _rqt.default)(url, {
-    headers,
-    data: jsonData
+  const url = `https://api.github.com/${org ? `orgs/${org}` : 'user'}/${u}`;
+  const {
+    body,
+    headers
+  } = await (0, _rqt.default)(url, {
+    headers: h,
+    data,
+    method,
+    returnHeaders: true
   });
-  const parsed = JSON.parse(res);
 
-  if (Array.isArray(parsed.errors)) {
-    const reduced = parsed.errors.reduce((acc, error) => {
+  if (Array.isArray(body.errors)) {
+    const reduced = body.errors.reduce((acc, error) => {
       const errMsg = `${error.resource}: ${error.message}`;
       return `${errMsg}\n${acc}`;
     }, '').trim();
     throw new Error(reduced);
-  } else if (parsed.message === 'Bad credentials') {
-    throw new Error(parsed.message);
+  } else if (body.message == 'Bad credentials') {
+    throw new Error(body.message);
   }
 
-  return parsed;
+  return {
+    body,
+    headers
+  };
 }
 /**
  * Create a new github repository.
@@ -51,7 +58,9 @@ async function request({
 
 
 async function createRepository(token, name, org, description) {
-  const res = await request({
+  const {
+    body
+  } = await request({
     data: {
       description,
       name,
@@ -60,8 +69,24 @@ async function createRepository(token, name, org, description) {
       license_template: 'mit'
     },
     org,
-    token
+    token,
+    u: 'repos'
   });
-  return res;
+  return body;
+}
+
+async function starRepository(token, name, org) {
+  const {
+    headers
+  } = await request({
+    token,
+    u: `starred/${org}/${name}`,
+    method: 'PUT',
+    data: {}
+  });
+
+  if (headers.status != '204 No Content') {
+    console.log('Could not star the %s/%s repository', org, name);
+  }
 }
 //# sourceMappingURL=github.js.map
