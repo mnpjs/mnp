@@ -2,7 +2,7 @@
 import { resolve } from 'path'
 import { assertDoesNotExist } from 'wrote'
 import africa from 'africa'
-import { askQuestions } from 'reloquent'
+import { askSingle } from 'reloquent'
 import argufy from 'argufy'
 import { c } from 'erte'
 import getUsage from './usage'
@@ -19,7 +19,7 @@ const { struct, help, name, check } = argufy({
   help: { short: 'h', boolean: true },
   name: { command: true },
   check: 'c',
-}, process.argv)
+})
 
 const ANSWER_TIMEOUT = null
 
@@ -42,14 +42,12 @@ if (help) {
       org, token, name: userName, email, website, legalName,
     } = await africa('mnp', questions)
 
-    const packageName = name ? name : await askQuestions({
-      packageName: {
-        text: 'Package name: ',
-        validation(a) {
-          if (!a) throw new Error('You must specify package name')
-        },
+    const packageName = name || await askSingle({
+      text: 'Package name',
+      validation(a) {
+        if (!a) throw new Error('You must specify package name.')
       },
-    }, ANSWER_TIMEOUT, 'packageName')
+    }, ANSWER_TIMEOUT)
 
     const path = resolve(packageName)
     await assertDoesNotExist(path)
@@ -58,13 +56,11 @@ if (help) {
 
     console.log(`# ${packageName}`)
 
-    const description = await askQuestions({
-      description: {
-        text: 'Description: ',
-        postProcess: s => s.trim(),
-        defaultValue: '',
-      },
-    }, ANSWER_TIMEOUT, 'description')
+    const description = await askSingle({
+      text: 'Description',
+      postProcess: s => s.trim(),
+      defaultValue: '',
+    }, ANSWER_TIMEOUT)
 
     const {
       ssh_url: sshUrl,
@@ -80,10 +76,8 @@ if (help) {
     await git(['clone', sshUrl, path])
 
     console.log('Setting user %s<%s>...', userName, email)
-    await Promise.all([
-      git(['config', 'user.name', userName], path),
-      git(['config', 'user.email', email], path),
-    ])
+    await git(['config', 'user.name', userName], path)
+    await git(['config', 'user.email', email], path)
 
     await cloneSource(structure, path, {
       org,

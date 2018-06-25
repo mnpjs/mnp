@@ -5,7 +5,7 @@ import { resolve } from 'path'
 import { Readable } from 'stream'
 import context from '../context'
 
-const MNP = process.env.BABEL_ENV == 'test-build' ? '../../build/bin/mnp' : '../../src/bin'
+const MNP = process.env.BABEL_ENV == 'test-build' ? '../../build/bin' : '../../src/bin'
 const BIN = resolve(__dirname, MNP)
 
 const T = {

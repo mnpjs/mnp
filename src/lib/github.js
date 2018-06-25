@@ -5,29 +5,25 @@ export default async function request({
   token,
   org,
 }) {
-  const jsonData = JSON.stringify(data)
   const headers = {
     Authorization: `token ${token}`,
-    'Content-Type': 'application/json',
-    'Content-Length': jsonData.length,
     'User-Agent': 'Mozilla/5.0 mnp Node.js',
   }
   const url = `https://api.github.com/${org ? `orgs/${org}` : 'user'}/repos`
   const res = await rqt(url, {
     headers,
-    data: jsonData,
+    data,
   })
-  const parsed = JSON.parse(res)
-  if (Array.isArray(parsed.errors)){
-    const reduced = parsed.errors.reduce((acc, error) => {
+  if (Array.isArray(res.errors)){
+    const reduced = res.errors.reduce((acc, error) => {
       const errMsg = `${error.resource}: ${error.message}`
       return `${errMsg}\n${acc}`
     }, '').trim()
     throw new Error(reduced)
-  } else if (parsed.message === 'Bad credentials') {
-    throw new Error(parsed.message)
+  } else if (res.message == 'Bad credentials') {
+    throw new Error(res.message)
   }
-  return parsed
+  return res
 }
 
 /**

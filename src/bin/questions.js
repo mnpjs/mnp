@@ -2,15 +2,15 @@ import git from '../lib/git'
 
 export default {
   token: {
-    text: 'GitHub access token: ',
+    text: 'GitHub access token',
     validation: (a) => {
       if (!a) {
-        throw new Error('Please specify token')
+        throw new Error('Please specify token.')
       }
     },
   },
   org: {
-    text: 'GitHub organisation: ',
+    text: 'GitHub organisation',
     defaultValue: null,
   },
   name: {
@@ -28,11 +28,11 @@ export default {
     text: 'email',
   },
   website: {
-    text: 'Website (for readme): ',
+    text: 'Website (for readme)',
     defaultValue: null,
   },
   legalName: {
-    text: 'Legal name (for readme & license): ',
+    text: 'Legal name (for readme & license)',
     defaultValue: null,
   },
 }
