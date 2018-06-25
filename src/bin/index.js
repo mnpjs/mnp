@@ -10,7 +10,7 @@ import questions from './questions'
 import cloneSource from '../lib/clone-source'
 import git from '../lib/git'
 import { assertNotInGitPath } from '../lib/git-lib'
-import { createRepository } from '../lib/github'
+import { createRepository, starRepository } from '../lib/github'
 import { getStructure } from '../lib'
 import info from '../lib/info'
 
@@ -69,6 +69,8 @@ if (help) {
     } = await createRepository(token, packageName, org, description)
 
     if (!sshUrl) throw new Error('GitHub repository was not created via API.')
+
+    await starRepository(token, packageName, org)
 
     const readmeUrl = `${htmlUrl}#readme`
     const issuesUrl = `${htmlUrl}/issues`

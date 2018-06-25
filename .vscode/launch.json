@@ -8,13 +8,15 @@
       "type": "node",
       "request": "launch",
       "name": "Launch mnp",
-      "program": "${workspaceFolder}/src/bin/register.js",
+      "program": "${workspaceFolder}/build/bin/index.js",
       "env": {
-        "BABEL_ENV": "debug"
+        "BABEL_ENV": "debug",
+        "NODE_DEBUG": "mnp",
       },
+      "cwd": "${workspaceFolder}/..",
       "args": [
-        "-c",
-        "test"
+        // "-c",
+        "test1"
       ],
       "console": "integratedTerminal",
       "skipFiles": [
@@ -27,7 +29,7 @@
       "name": "Launch Zoroaster",
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "args": [
-        "test/spec/clone-source.js",
+        "test/spec/integration.js",
         "-b",
         "-w",
       ],
