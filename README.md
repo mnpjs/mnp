@@ -21,6 +21,7 @@
     * [_snapshot-testing_](#_snapshot-testing_)
   * [Testing Context](#testing-context)
   * [Documentation with `doc`](#documentation-with-doc)
+    * [`Examples` Embedding](#examples-embedding)
   * [Scripts in `Package.json`](#scripts-in-packagejson)
     * [build with _bestie_](#build-with-_bestie_)
     * [document with _documentary_](#document-with-_documentary_)
@@ -127,7 +128,25 @@ There are a number of structures available. The default one is the `package` str
 | structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-package) |
 ## `Package` Structure
 
-The default package structure is an up-to-date template of how a standard Node.js package should look like.
+The default package structure is an up-to-date template of a modern Node.js application.
+
+```m
+node_modules/mnp-package/structure
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── build
+├── documentation
+├── example
+├── node_modules
+├── package.json
+├── src
+├── test
+├── yarn-error.log
+└── yarn.lock
+```
+
+It also includes `yarn.lock` file to speed up installation.
 ### Main Function
 
 Every package will have a main file specified in the `main` field in the package.json file, unless they have a `bin` field otherwise (in other words, if package does not provide a Node.js API, and only CLI usage). This structure has a minimum example of working function which is exported with `export default` keyword, and documented with JSDoc. It's important to document the config argument in a `typedef` so that other developers are able to see the autocompletion hints when trying to use the function.
@@ -258,6 +277,40 @@ node_modules/mnp-package/structure/documentation
 ```
 
 To process documentation, `yarn doc` can be used.
+#### `Examples` Embedding
+
+The examples are extremely useful for people reading the documentation, and they also allow developers to manually check that everything works correctly in the package. `documentary` supports embedding of examples and their output, eliminating the need to copy those by hand. The examples are put in the `example` directory, and embedded in the README file with the following snippet:
+
+```
+%EXAMPLE: example example/example.js, ../src => mnp, javascript%
+```
+
+The output can be printed with the `FORK` command:
+
+```
+%FORK-json example example/example.js%
+```
+
+```js
+/* yarn example */
+import myNewPackage from '../src'
+
+(async () => {
+  await myNewPackage()
+})()
+```
+
+Because the examples are written using `import` and `export` syntax, a `index.js` file is required which will include `@babel/register`:
+
+```js
+require('@babel/register')
+const { resolve } = require('path')
+
+const p = resolve(__dirname, '..', process.argv[2])
+require(p)
+```
+
+To provide a quick way to run examples, each of them needs to be [created a script](#particular-example) for in the `package.json`.
 ### Scripts in `Package.json`
 
 The scripts are useful for testing, running in debugger, building and building documentation.
@@ -314,6 +367,8 @@ The scripts are useful for testing, running in debugger, building and building d
 | `doc` | <a name="document-with-_documentary_">document with _documentary_</a> | Is run with `yarn doc`, but is also a part of `build` script. |
 | `test` | <a name="test-with-_zoroaster_">test with _zoroaster_</a> | Run all tests, `yarn test`. |
 | `test-build` | test build files | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
+| `e` | Run an example file. | Run specified example, e.g., `yarn e example/test.js` |
+| `example/` | Run a <a name="particular-example">particular example</a>. | A job specifically created as a short-hand for a particular example. |
 | `lint` | run eslint | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
 ###  `.babelrc` Transforms
 

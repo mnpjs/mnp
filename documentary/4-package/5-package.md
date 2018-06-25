@@ -12,6 +12,8 @@ The scripts are useful for testing, running in debugger, building and building d
   ["`doc`", "[document with _documentary_](t)", "Is run with `yarn doc`, but is also a part of `build` script."],
   ["`test`", "[test with _zoroaster_](t)", "Run all tests, `yarn test`."],
   ["`test-build`", "test build files", "Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`)."],
+  ["`e`", "Run an example file.", "Run specified example, e.g., `yarn e example/test.js`"],
+  ["`example/`", "Run a <a name=\"particular-example\">particular example</a>.", "A job specifically created as a short-hand for a particular example."],
   ["`lint`", "run eslint", "`eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency."]
 ]
 ```
