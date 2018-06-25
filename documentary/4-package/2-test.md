@@ -1,4 +1,4 @@
-#### Test Suites
+### Test Suites
 
 The tests are found in the `test/spec` directory, and all necessary infrastructure in the `test` dir, including a `fixture` directory and optionally a `snapshot` directory if the package is using snapshot testing.
 

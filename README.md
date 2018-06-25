@@ -12,16 +12,17 @@
   * [`-c`: Check Exists](#-c-check-exists)
   * [Config](#config)
   * [Create a Package](#create-a-package)
-  * [Structures](#structures)
-    * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
-    * [Universal Koa Website](#universal-koa-website)
-    * [Main Function](#main-function)
-    * [Test Suites](#test-suites)
-      * [_snapshot-testing_](#_snapshot-testing_)
-    * [Testing Context](#testing-context)
-    * [Documentation with `doc`](#documentation-with-doc)
-    * [Scripts in `Package.json`](#scripts-in-packagejson)
-      * [`bestie`](#bestie)
+- [Structures](#structures)
+  * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
+  * [Universal Koa Website](#universal-koa-website)
+- [`Package` Structure](#package-structure)
+  * [Main Function](#main-function)
+  * [Test Suites](#test-suites)
+    * [_snapshot-testing_](#_snapshot-testing_)
+  * [Testing Context](#testing-context)
+  * [Documentation with `doc`](#documentation-with-doc)
+  * [Scripts in `Package.json`](#scripts-in-packagejson)
+    * [`bestie`](#bestie)
 - [todo](#todo)
 
 
@@ -111,7 +112,7 @@ git push --follow-tags
 npm publish
 ```
 
-### Structures
+## Structures
 
 There are a number of structures used available. The default one is the `package` structure.
 
@@ -120,7 +121,10 @@ There are a number of structures used available. The default one is the `package
 | `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`mnp-package`](https://github.com/artdecocode/mnp-package) |
 | `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-package`](https://github.com/artdecocode/mnp-idio) |
 | structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-package) |
-#### Main Function
+## `Package` Structure
+
+The default package structure is an up-to-date template of how a standard Node.js package should look like.
+### Main Function
 
 Every package will have a main file specified in the `main` field in the package.json file, unless they have a `bin` field otherwise (in other words, if package does not provide a Node.js API, and only CLI usage). This structure has a minimum example of working function which is exported with `export default` keyword, and documented with JSDoc. It's important to document the config argument in a `typedef` so that other developers are able to see the autocompletion hints when trying to use the function.
 
@@ -149,7 +153,7 @@ export default async function myNewPackage(config = {}) {
 ```
 
 ![Config Api Type](doc/config.gif)
-#### Test Suites
+### Test Suites
 
 The tests are found in the `test/spec` directory, and all necessary infrastructure in the `test` dir, including a `fixture` directory and optionally a `snapshot` directory if the package is using snapshot testing.
 
@@ -191,7 +195,7 @@ export default T
 ```
 
 If <a name="_snapshot-testing_">_snapshot-testing_</a> is required, it can be additionally installed with `yarn add -DE snapshot-context`. This will allow to write snapshot tests.
-#### Testing Context
+### Testing Context
 
 The structure uses a test context -- a feature of `Zoroaster` that lets separate the set-up and tear-down methods from the test implementations. All common methods, e.g., reading a fixture file, should be implemented in the context and accessed via the destructuring capabilities of the JavaScript language. All clean-up code such as destroying a server, can be done in the `_destroy` method of the class.
 
@@ -230,7 +234,7 @@ export default class Context {
 
 Context testing also allows to split files into mulitple sub-directories much easier.
 
-#### Documentation with `doc`
+### Documentation with `doc`
 
 The documentation is pre-processed with [`documentary`](https://github.com/artdecocode/documentary) which simplifies working on the `README.md` file by allowing to split files, and inserting examples and output text in the docs.
 
@@ -243,7 +247,7 @@ node_modules/mnp-package/structure/documentation
 ```
 
 To process documentation, `yarn doc` can be used.
-#### Scripts in `Package.json`
+### Scripts in `Package.json`
 
 The scripts are useful for testing, running in debugger, building and building documentation.
 

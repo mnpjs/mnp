@@ -1,4 +1,4 @@
-#### Scripts in `Package.json`
+### Scripts in `Package.json`
 
 The scripts are useful for testing, running in debugger, building and building documentation.
 

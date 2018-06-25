@@ -1,5 +1,5 @@
 
-### Structures
+## Structures
 
 There are a number of structures used available. The default one is the `package` structure.
 
