@@ -1,7 +1,9 @@
 
 ## todo
 
-* offline
+- [ ] Binary structure
+- [ ] Fix tests
+- [ ] Star
 * create own structures
 * keywords
 * fetch repo info
