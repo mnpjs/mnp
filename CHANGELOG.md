@@ -1,3 +1,11 @@
+## 25 June 2018
+
+### [0.8.0](https://github.com/artdecocode/mnp/compare/v0.7.2...v0.8.0)
+
+- [doc] Compile with `documentary`, describe structure, newer gifs.
+- [feature] Star created repositories, `-d` to delete repos.
+- [dep] update dependencies, use `bestie`.
+
 ## 9 June 2018
 
 ### [0.7.2](https://github.com/artdecocode/mnp/compare/v0.7.1...v0.7.2)
