@@ -224,6 +224,9 @@ export default class Context {
   example() {
     return 'OK'
   }
+  /**
+   * Path to the fixture file.
+   */
   get FIXTURE() {
     return resolve(FIXTURE, 'test.txt')
   }
@@ -235,6 +238,10 @@ export default class Context {
   }
 }
 ```
+
+When a context is used in tests, there's an access to the test context API:
+
+![JSDoc In Destructuing A FIXTURE Path Via Context](doc/type.gif)
 
 Context testing also allows to split files into mulitple sub-directories much easier.
 

@@ -4,5 +4,9 @@ The structure uses a test context -- a feature of `Zoroaster` that lets separate
 
 %EXAMPLE: node_modules/mnp-package/structure/test/context/index.js%
 
+When a context is used in tests, there's an access to the test context API:
+
+![JSDoc In Destructuing A FIXTURE Path Via Context](doc/type.gif)
+
 Context testing also allows to split files into mulitple sub-directories much easier.
 
