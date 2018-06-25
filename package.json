@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "dev": "node src/bin/register",
     "start": "node build/bin",
-    "build": "babel src --out-dir build --ignore src/bin/register.js --source-maps"
+    "doc": "NODE_DEBUG=doc doc documentary -o README.md",
+    "build": "yarn-s b doc",
+    "b": "b --ignore src/bin/register.js --source-maps"
   },
   "files": [
     "build"
@@ -38,7 +40,9 @@
   "homepage": "https://github.com/artdecocode/mnp#readme",
   "devDependencies": {
     "assert-diff": "1.2.6",
+    "documentary": "1.7.0",
     "eslint-config-artdeco": "1.0.0",
+    "yarn-s": "1.1.0",
     "zoroaster": "2.1.0"
   },
   "dependencies": {

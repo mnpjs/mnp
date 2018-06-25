@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@wrote/read-dir-structure@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@wrote/read-dir-structure/-/read-dir-structure-1.0.0.tgz#11b827934b493b2f730a32a91551eadacd41b936"
+  dependencies:
+    makepromise "2.0.0"
+
 africa@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/africa/-/africa-1.0.1.tgz#c1d1571ad22e53b0bbb6f8eecd6f2247be48bdc4"
@@ -12,6 +18,10 @@ africa@1.0.1:
 argufy@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/argufy/-/argufy-1.0.0.tgz#7e39cdc9ec1a15a2339ef8d211d5bf45f3341f97"
+
+argufy@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/argufy/-/argufy-1.1.2.tgz#e99107e00e84b6272bedc0b9a93e42014edd5a72"
 
 assert-diff@1.2.6:
   version "1.2.6"
@@ -65,6 +75,16 @@ difflib@~0.2.1:
   resolved "https://registry.yarnpkg.com/difflib/-/difflib-0.2.4.tgz#b5e30361a6db023176d562892db85940a718f47e"
   dependencies:
     heap ">= 0.2.0"
+
+documentary@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/documentary/-/documentary-1.7.0.tgz#4fa162e78bbb4d9da3723ce7d564ef95332b195b"
+  dependencies:
+    argufy "1.1.2"
+    catchment "2.0.1"
+    pedantry "1.0.1"
+    restream "2.1.0"
+    spawncommand "2.0.1"
 
 dreamopt@~0.6.0:
   version "0.6.0"
@@ -156,6 +176,12 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
+pedantry@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/pedantry/-/pedantry-1.0.1.tgz#d32d78a3dfcf130c402fa65dce819c199c29ddbe"
+  dependencies:
+    "@wrote/read-dir-structure" "1.0.0"
+
 promto@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/promto/-/promto-1.0.1.tgz#0a169fc7bd8f48cef1ee9faeace61a100305a536"
@@ -173,6 +199,10 @@ restream@1.2.0:
 restream@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/restream/-/restream-2.0.1.tgz#6e8ceb8d3444ca4be74b6a4a446a8798fca82aa0"
+
+restream@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/restream/-/restream-2.1.0.tgz#934e177343e81bd6a64fc555f91085544da56db1"
 
 rqt@1.1.0:
   version "1.1.0"
