@@ -4,19 +4,21 @@
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
 ```sh
-mnp [package-name]
+mnp [package-name] [-s structure] [-cIhd]
 ```
 
 To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if directory does not exist and not in a git path, create a `Github` repository, clone it to local filesystem, and fill in the default _Node.js_ package structure.
 
 <table>
-<tr><td>
-<img alt="Creating a new package." src="doc/create.gif" />
-</td></tr>
-<tr><td>
-[Creating Packages](t) with <code>mnp</code> is super-easy and fast!
-</td></tr>
-</table>
+<tbody>
+<tr>
+</tr>
+<tr>
+<td>[Creating Packages](t)</td>
+</tr>
+<tr>
+<td><img src="doc/create.gif" alt="Creating a new package."></td>
+</tr></tbody></table>
 
 <!-- ```fs
 Please give package name: mynewpackage
@@ -49,7 +51,7 @@ npm publish
 
 <!-- Documentary: to run a program and answer the questions with stdin  -->
 
-### Config: `-i`, `--init`
+### Config: `-I`, `--init`
 
 When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
 
@@ -71,24 +73,33 @@ Initialising configuration: <code>mnp -I</code>.
 
 ### `-h, --help`: Show Help
 
+<table>
+<tbody>
+<tr></tr>
+<tr>
+<td>
+
 %FORK src/bin/register.js -h%
+</td>
+</tr>
+</tbody>
+</table>
 
 ### `-c`: Check Exists
 
 Check if the package name is already taken or not.
 
 ```sh
-mnp -c taken
+mnp taken -c
 ```
 
 ![taken output](doc/taken.png)
 
 ```sh
-mnp -c isfree
+mnp isfree -c
 ```
 
 ![free output](doc/free.png)
-
 
 ### `-d`: `Delete` Repository
 

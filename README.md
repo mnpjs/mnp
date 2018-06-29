@@ -9,7 +9,7 @@
 - [Table Of Contents](#table-of-contents)
 - [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
   * [Creating Packages](#creating-packages)
-  * [Config: `-i`, `--init`](#config--i---init)
+  * [Config: `-I`, `--init`](#config--i---init)
   * [`-h, --help`: Show Help](#-h---help-show-help)
   * [`-c`: Check Exists](#-c-check-exists)
   * [`-d`: `Delete` Repository](#-d-delete-repository)
@@ -38,21 +38,23 @@
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
 ```sh
-mnp [package-name]
+mnp [package-name] [-s structure] [-cIhd]
 ```
 
 To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if directory does not exist and not in a git path, create a `Github` repository, clone it to local filesystem, and fill in the default _Node.js_ package structure.
 
 <table>
-<tr><td>
-<img alt="Creating a new package." src="doc/create.gif" />
-</td></tr>
-<tr><td>
-<a name="creating-packages">Creating Packages</a> with <code>mnp</code> is super-easy and fast!
-</td></tr>
-</table>
+<tbody>
+<tr>
+</tr>
+<tr>
+<td><a name="creating-packages">Creating Packages</a></td>
+</tr>
+<tr>
+<td><img src="doc/create.gif" alt="Creating a new package."></td>
+</tr></tbody></table>
 
-### Config: `-i`, `--init`
+### Config: `-I`, `--init`
 
 When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
 
@@ -75,48 +77,60 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
 
 ### `-h, --help`: Show Help
 
+<table>
+<tbody>
+<tr></tr>
+<tr>
+<td>
+
 ```
 MNP: create My New Package.
-If no arguments are given, the program will ask for the package name in the CLI.
-A github repository for each new package will be created automatically,
-therefore a GitHub token can be generated at: https://github.com/settings/tokens
-for the use in this application. The token is saved in ~/.mnprc along with other
-configuration, including organisation name etc. Different types of packages,
-with a Node.js library shell by default are available, including:
+ If no package name is given as the first argument, the program will ask
+ for it in the CLI. A GitHub repository for each new package will be
+ created automatically, and a GitHub token can be generated at:
+ https://github.com/settings/tokens for the use in this application.
+ The token is saved in HOMEDIR/.mnprc along with other configuration,
+ including organisation name etc. Different types of packages, with a
+ modern Node.js library by default are available, including:
 
-+ package:	a Node.js package to publish on npm (default)
-+ idio:		a Koa2+React universal website
-+ structure:	an mnp template
++ package:	a modern Node.js package to publish on npm (default);
++ idio:		a JSX-powered Koa2 + React-Redux universal website;
++ structure:	an mnp template to create new structures.
 
-  mnp [package-name] [-s (idio|structure)] [-d repo_name] -hI
+  mnp [package-name] [-c] [-s (idio|structure)] [-d repo_name] -hI
 
-	package-name	Name of the new package.
+	package-name	Name of the new or checked package.
 	-s structure	Which structure to use (package, idio, structure).
+	-c, --check 	Check if the package name has been taken or not.
+	-l, --local 	Read and write local .mnprc in the current working directory.
 	-h, --help  	Print this information and quit.
-	-d, --delete	Delete a repository.
-	-I, --init  	Initialise configuration in HOMEDIR/.mnprc.
+	-d repo     	Delete a repository. Useful in testing.
+	--init, -I  	Initialise configuration in HOMEDIR/.mnprc.
 
   Example:
 
     mnp my-new-package -s idio
 ```
+</td>
+</tr>
+</tbody>
+</table>
 
 ### `-c`: Check Exists
 
 Check if the package name is already taken or not.
 
 ```sh
-mnp -c taken
+mnp taken -c
 ```
 
 ![taken output](doc/taken.png)
 
 ```sh
-mnp -c isfree
+mnp isfree -c
 ```
 
 ![free output](doc/free.png)
-
 
 ### `-d`: `Delete` Repository
 
@@ -141,6 +155,12 @@ There are a number of structures available. The default one is the `package` str
 
 The default package structure is an up-to-date template of a modern Node.js application.
 
+<table>
+<tbody>
+<tr></tr>
+<tr>
+<td>
+
 ```m
 node_modules/mnp-package/structure
 ├── CHANGELOG.md
@@ -154,8 +174,12 @@ node_modules/mnp-package/structure
 ├── test
 └── yarn.lock
 ```
+</td>
+</tr>
+</tbody>
+</table>
 
-It also includes `yarn.lock` file to speed up installation.
+It also includes `yarn.lock` file to speed up the installation process.
 ### Main Function
 
 Every package will have a main file specified in the `main` field in the package.json file, unless they have a `bin` field otherwise (in other words, if package does not provide a Node.js API, and only CLI usage). This structure has a minimum example of working function which is exported with `export default` keyword, and documented with JSDoc. It's important to document the config argument in a `typedef` so that other developers are able to see the autocompletion hints when trying to use the function.
