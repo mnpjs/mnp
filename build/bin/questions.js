@@ -24,6 +24,11 @@ var _default = {
   },
   scope: {
     text: 'npm scope',
+
+    postProcess(v) {
+      return v.replace(/^@/, '');
+    },
+
     defaultValue: null
   },
   name: {
