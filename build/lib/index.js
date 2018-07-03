@@ -17,7 +17,13 @@ const getStructure = (structure = 'package') => {
 
     return structurePath;
   } catch (err) {
-    error(`Could not require structure "${structure}".`);
+    try {
+      const structurePath = require(`@mnpjs/${structure}`);
+
+      return structurePath;
+    } catch (e) {
+      error(`Could not require structure "${structure}".`);
+    }
   }
 };
 

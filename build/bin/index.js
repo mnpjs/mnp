@@ -83,19 +83,19 @@ const getPackageNameWithScope = (packageName, scope) => {
       return;
     }
 
-    const packageName = _name || (await (0, _reloquent.askSingle)({
+    const name = _name || (await (0, _reloquent.askSingle)({
       text: 'Package name',
 
       validation(a) {
-        if (!a) throw new Error('You must specify package name.');
+        if (!a) throw new Error('You must specify the package name.');
       }
 
     }, ANSWER_TIMEOUT));
 
     if (check) {
-      console.log('Checking package %s...', packageName);
-      const available = await (0, _info.default)(packageName);
-      console.log('Package named %s is %s.', available ? (0, _erte.c)(packageName, 'green') : (0, _erte.c)(packageName, 'red'), available ? 'available' : 'taken');
+      console.log('Checking package %s...', name);
+      const available = await (0, _info.default)(name);
+      console.log('Package named %s is %s.', available ? (0, _erte.c)(name, 'green') : (0, _erte.c)(name, 'red'), available ? 'available' : 'taken');
       return;
     }
 
@@ -110,18 +110,20 @@ const getPackageNameWithScope = (packageName, scope) => {
       trademark,
       scope
     } = await (0, _signIn.default)();
+    const packageName = getPackageNameWithScope(name, scope);
 
     if (_delete) {
-      await (0, _github.deleteRepository)(token, packageName, org);
-      console.log('Deleted %s/%s.', org, packageName);
+      const y = await (0, _reloquent.askSingle)(`Are you sure you want to delete ${packageName}?`);
+      if (y != 'y') return;
+      await (0, _github.deleteRepository)(token, name, org);
+      console.log('Deleted %s/%s.', org, name);
       return;
     }
 
-    const path = (0, _path.resolve)(packageName);
+    const path = (0, _path.resolve)(name);
     await (0, _wrote.assertDoesNotExist)(path);
     await (0, _gitLib.assertNotInGitPath)();
-    const pn = getPackageNameWithScope(packageName, scope);
-    console.log(`# ${pn}`);
+    console.log(`# ${packageName}`);
     const description = await (0, _reloquent.askSingle)({
       text: 'Description',
       postProcess: s => s.trim(),
@@ -131,9 +133,9 @@ const getPackageNameWithScope = (packageName, scope) => {
       ssh_url: sshUrl,
       git_url: gitUrl,
       html_url: htmlUrl
-    } = await (0, _github.createRepository)(token, packageName, org, description);
+    } = await (0, _github.createRepository)(token, name, org, description);
     if (!sshUrl) throw new Error('GitHub repository was not created via API.');
-    await (0, _github.starRepository)(token, packageName, org);
+    await (0, _github.starRepository)(token, name, org);
     console.log('%s\n%s', (0, _erte.c)('Created and starred a new repository', 'grey'), (0, _erte.b)(htmlUrl, 'green'));
     const readmeUrl = `${htmlUrl}#readme`;
     const issuesUrl = `${htmlUrl}/issues`;
@@ -143,11 +145,12 @@ const getPackageNameWithScope = (packageName, scope) => {
     await (0, _git.default)(['config', 'user.email', email], path);
     await (0, _cloneSource.default)(structure, path, {
       org,
-      packageName: pn,
+      name,
+      scope,
+      packageName,
       website,
       authorName: userName,
       authorEmail: email,
-      year: `${new Date().getFullYear()}`,
       issuesUrl,
       readmeUrl,
       gitUrl,

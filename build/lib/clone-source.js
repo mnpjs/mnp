@@ -7,6 +7,8 @@ exports.default = cloneSource;
 
 var _path = require("path");
 
+var _bosom = _interopRequireDefault(require("bosom"));
+
 var _wrote = require("wrote");
 
 var _camelCase = _interopRequireDefault(require("camel-case"));
@@ -22,15 +24,17 @@ function getDefaultCreateDate() {
 
 async function cloneSource(from, to, {
   org,
+  name,
+  scope,
   packageName,
-  year,
+  year = `${new Date().getFullYear()}`,
   website,
   issuesUrl = `https://github.com/${org}/${packageName}/issues`,
   readmeUrl = `https://github.com/${org}/${packageName}#readme`,
   authorName,
   authorEmail,
   gitUrl = `git+https://github.com/${org}/${packageName}.git`,
-  keywords = [packageName],
+  keywords = [name, scope].filter(a => a),
   description,
   createDate = getDefaultCreateDate(),
   legalName,
@@ -39,10 +43,10 @@ async function cloneSource(from, to, {
   const keywordsReplacement = keywords.map(k => `"${k}"`).join(', ').replace(/^"/, '').replace(/"$/, '');
   const regexes = [{
     re: /myNewPackage/g,
-    replacement: (0, _camelCase.default)(packageName)
+    replacement: (0, _camelCase.default)(name)
   }, {
     re: /(my-new-package|{{ package-name }})/g,
-    replacement: packageName
+    replacement: name
   }, {
     re: /{{ year }}/g,
     replacement: year
@@ -91,8 +95,8 @@ async function cloneSource(from, to, {
 
   try {
     const packageJson = (0, _path.resolve)(to, 'package.json');
-    const p = await (0, _wrote.readJSON)(packageJson);
-    Object.assign(p, {
+    const p = await (0, _bosom.default)(packageJson);
+    const pp = { ...p,
       name: packageName,
       description,
       repository: {
@@ -105,8 +109,8 @@ async function cloneSource(from, to, {
         url: issuesUrl
       },
       homepage: readmeUrl
-    });
-    await (0, _wrote.writeJSON)(packageJson, p, {
+    };
+    await (0, _bosom.default)(packageJson, pp, {
       space: 2
     });
   } catch (err) {
