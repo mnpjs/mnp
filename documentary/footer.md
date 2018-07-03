@@ -1,7 +1,8 @@
 
 ## todo
 
-- [ ] Binary structure
+- [ ] Binary Structure
+- [ ] Tags and Keywords
 <!-- - [ ] Fix tests -->
 <!-- - [ ] Star -->
 * create own structures
@@ -11,6 +12,6 @@
 
 ---
 
-(c) [Art Deco Code](https://artdeco.bz) 2018
+(c) [Art Deco](https://artdeco.bz) 2018
 
 [1]: https://github.com/settings/tokens

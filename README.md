@@ -149,7 +149,7 @@ There are a number of structures available. The default one is the `package` str
 
 | Name | Description | Link |
 | ---- | ----------- | ---- |
-| `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnp/package`](https://github.com/mnpjs/package) |
+| `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnpjs/package`](https://github.com/mnpjs/package) |
 | `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-idio`](https://github.com/artdecocode/mnp-idio) |
 | structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-structure) |
 ## `Package` Structure
@@ -475,7 +475,8 @@ This explains the structure of the `launch.json` file, which will have a configu
 
 ## todo
 
-- [ ] Binary structure
+- [ ] Binary Structure
+- [ ] Tags and Keywords
 * create own structures
 * keywords
 * fetch repo info
@@ -483,6 +484,6 @@ This explains the structure of the `launch.json` file, which will have a configu
 
 ---
 
-(c) [Art Deco Code](https://artdeco.bz) 2018
+(c) [Art Deco](https://artdeco.bz) 2018
 
 [1]: https://github.com/settings/tokens
