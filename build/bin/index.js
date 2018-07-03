@@ -5,8 +5,6 @@ var _path = require("path");
 
 var _wrote = require("wrote");
 
-var _africa = _interopRequireDefault(require("africa"));
-
 var _reloquent = require("reloquent");
 
 var _argufy = _interopRequireDefault(require("argufy"));
@@ -14,8 +12,6 @@ var _argufy = _interopRequireDefault(require("argufy"));
 var _erte = require("erte");
 
 var _usage = _interopRequireDefault(require("./usage"));
-
-var _questions = _interopRequireDefault(require("./questions"));
 
 var _cloneSource = _interopRequireDefault(require("../lib/clone-source"));
 
@@ -29,15 +25,18 @@ var _lib = require("../lib");
 
 var _info = _interopRequireDefault(require("../lib/info"));
 
+var _signIn = _interopRequireDefault(require("../lib/sign-in"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const {
   struct,
   help,
-  name,
+  name: _name,
   check,
   delete: del,
-  init
+  init,
+  local: _local
 } = (0, _argufy.default)({
   struct: 's',
   help: {
@@ -47,14 +46,27 @@ const {
   name: {
     command: true
   },
-  check: 'c',
+  check: {
+    short: 'c',
+    boolean: true
+  },
   delete: 'd',
   init: {
     short: 'I',
     boolean: true
+  },
+  local: {
+    short: 'l',
+    boolean: true
   }
 });
 const ANSWER_TIMEOUT = null;
+
+const makeGitLinks = (org, name) => ({
+  ssh_url: `git://github.com/${org}/${name}.git`,
+  git_url: 123,
+  html_url: `https://github.com/${org}/${name}#readme`
+});
 
 if (help) {
   const u = (0, _usage.default)();
@@ -65,16 +77,31 @@ if (help) {
 (async () => {
   try {
     if (init) {
-      await (0, _africa.default)('mnp', _questions.default, {
-        force: true
-      });
+      await (0, _signIn.default)(_local, true);
       return;
     }
 
+    debugger;
+
+    if (del) {
+      await (0, _github.deleteRepository)(token, del, org);
+      console.log('Deleted %s/%s.', org, del);
+      return;
+    }
+
+    const packageName = _name || (await (0, _reloquent.askSingle)({
+      text: 'Package name',
+
+      validation(a) {
+        if (!a) throw new Error('You must specify package name.');
+      }
+
+    }, ANSWER_TIMEOUT));
+
     if (check) {
-      console.log('Checking package %s...', check);
-      const available = await (0, _info.default)(check);
-      console.log('Package named %s is %s.', available ? (0, _erte.c)(check, 'green') : (0, _erte.c)(check, 'red'), available ? 'available' : 'taken');
+      console.log('Checking package %s...', packageName);
+      const available = await (0, _info.default)(packageName);
+      console.log('Package named %s is %s.', available ? (0, _erte.c)(packageName, 'green') : (0, _erte.c)(packageName, 'red'), available ? 'available' : 'taken');
       return;
     }
 
@@ -86,22 +113,7 @@ if (help) {
       email,
       website,
       legalName
-    } = await (0, _africa.default)('mnp', _questions.default);
-
-    if (del) {
-      await (0, _github.deleteRepository)(token, del, org);
-      console.log('Deleted %s/%s.', org, del);
-      return;
-    }
-
-    const packageName = name || (await (0, _reloquent.askSingle)({
-      text: 'Package name',
-
-      validation(a) {
-        if (!a) throw new Error('You must specify package name.');
-      }
-
-    }, ANSWER_TIMEOUT));
+    } = await (0, _signIn.default)(_local);
     const path = (0, _path.resolve)(packageName);
     await (0, _wrote.assertDoesNotExist)(path);
     await (0, _gitLib.assertNotInGitPath)();
