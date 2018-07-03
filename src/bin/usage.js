@@ -6,9 +6,10 @@ const u1 = `
 + structure:\tan mnp template to create new structures.`.trim()
 
 const usage = {
-  'package-name': 'Name of the new package.',
-  '-c': 'Check if the package name has been taken or not.',
+  'package-name': 'Name of the new or checked package.',
   '-s structure': 'Which structure to use (package, idio, structure).',
+  '-c, --check': 'Check if the package name has been taken or not.',
+  '-l, --local': 'Read and write local .mnprc in the current working directory.',
   '-h, --help': 'Print this information and quit.',
   '-d repo': 'Delete a repository. Useful in testing.',
   '--init, -I': 'Initialise configuration in HOMEDIR/.mnprc.',

@@ -15,8 +15,10 @@
       },
       "cwd": "${workspaceFolder}/..",
       "args": [
-        "-d",
-        "testt"
+        "testt", // package-name
+        // "-l", // local
+        "-c", // check
+        "-l", // local
       ],
       "console": "integratedTerminal",
       "skipFiles": [
