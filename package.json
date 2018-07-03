@@ -49,7 +49,7 @@
     "zoroaster": "2.1.0"
   },
   "dependencies": {
-    "africa": "1.1.1",
+    "africa": "1.1.2",
     "argufy": "1.2.1",
     "bosom": "1.0.0",
     "camel-case": "3.0.0",
