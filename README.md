@@ -9,10 +9,10 @@
 - [Table Of Contents](#table-of-contents)
 - [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
   * [Creating Packages](#creating-packages)
-  * [Config: `-I`, `--init`](#config--i---init)
+  * [`-I`, `--init`: Configure](#-i---init-configure)
   * [`-h, --help`: Show Help](#-h---help-show-help)
   * [`-c`: Check Exists](#-c-check-exists)
-  * [`-d`: `Delete` Repository](#-d-delete-repository)
+  * [`-d`: Delete Repository](#-d-delete-repository)
 - [Structures](#structures)
   * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
   * [Universal Koa Website](#universal-koa-website)
@@ -54,7 +54,7 @@ To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 <td><img src="doc/create.gif" alt="Creating a new package."></td>
 </tr></tbody></table>
 
-### Config: `-I`, `--init`
+### `-I`, `--init`: Configure
 
 When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
 
@@ -84,32 +84,7 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
 <td>
 
 ```
-MNP: create My New Package.
- If no package name is given as the first argument, the program will ask
- for it in the CLI. A GitHub repository for each new package will be
- created automatically, and a GitHub token can be generated at:
- https://github.com/settings/tokens for the use in this application.
- The token is saved in HOMEDIR/.mnprc along with other configuration,
- including organisation name etc. Different types of packages, with a
- modern Node.js library by default are available, including:
 
-+ package:	a modern Node.js package to publish on npm (default);
-+ idio:		a JSX-powered Koa2 + React-Redux universal website;
-+ structure:	an mnp template to create new structures.
-
-  mnp [package-name] [-c] [-s (idio|structure)] [-d repo_name] -hI
-
-	package-name	Name of the new or checked package.
-	-s structure	Which structure to use (package, idio, structure).
-	-c, --check 	Check if the package name has been taken or not.
-	-l, --local 	Read and write local .mnprc in the current working directory.
-	-h, --help  	Print this information and quit.
-	-d repo     	Delete a repository. Useful in testing.
-	--init, -I  	Initialise configuration in HOMEDIR/.mnprc.
-
-  Example:
-
-    mnp my-new-package -s idio
 ```
 </td>
 </tr>
@@ -132,7 +107,7 @@ mnp isfree -c
 
 ![free output](doc/free.png)
 
-### `-d`: `Delete` Repository
+### `-d`: Delete Repository
 
 Delete specified repository from `GitHub`. Useful when a package was created for testing.
 

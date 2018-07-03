@@ -51,7 +51,7 @@ npm publish
 
 <!-- Documentary: to run a program and answer the questions with stdin  -->
 
-### Config: `-I`, `--init`
+### `-I`, `--init`: Configure
 
 When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
 
@@ -101,7 +101,7 @@ mnp isfree -c
 
 ![free output](doc/free.png)
 
-### `-d`: `Delete` Repository
+### `-d`: Delete Repository
 
 Delete specified repository from `GitHub`. Useful when a package was created for testing.
 
