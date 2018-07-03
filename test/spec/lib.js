@@ -1,6 +1,6 @@
 import { equal, throws, assert } from 'zoroaster/assert'
 import mnpIdio from 'mnp-idio'
-import mnpPackage from 'mnp-package'
+import mnpPackage from '@mnpjs/package'
 import { getStructure } from '../../src/lib'
 
 export default {

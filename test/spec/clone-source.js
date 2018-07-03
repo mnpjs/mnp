@@ -8,11 +8,15 @@ const T = {
   async 'should update references in files'({ packagePath, readDir, SNAPSHOT_DIR, MNP_PACKAGE }, { setDir, test }) {
     setDir(SNAPSHOT_DIR)
     const org = 'test-org'
-    const packageName = 'test-package-10'
+    const name = 'test-package-10'
+    const scope = '@adc'
+    const packageName = `${scope}/${name}`
     const website = 'https://test.io'
 
     await cloneSource(MNP_PACKAGE, packagePath, {
       org,
+      name,
+      scope,
       packageName,
       website,
       authorName: 'test-author',
@@ -21,6 +25,8 @@ const T = {
       description: 'Description of the test package',
       keywords: ['test', 'test2'],
       createDate: '25 May 2018',
+      trademark: 'Art Deco',
+      legalName: 'Art Deco Code Limited',
     })
     const actual = await readDir(packagePath)
     await test('expected.json', actual)

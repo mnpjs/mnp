@@ -3,7 +3,7 @@ import { stat, rmdir, mkdir } from 'fs'
 import { resolve, basename } from 'path'
 import { readDir } from 'wrote'
 import { tmpdir } from 'os'
-import MNP_PACKAGE from 'mnp-package'
+import MNP_PACKAGE from '@mnpjs/package'
 
 const TEMP = resolve(tmpdir(), 'mnp_test.context')
 const FIXTURES = resolve(__dirname, '../fixtures')

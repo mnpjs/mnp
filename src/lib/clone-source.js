@@ -37,7 +37,7 @@ export default async function cloneSource(from, to, {
       replacement: camelCase(name),
     }, {
       re: /(my-new-package|{{ package-name }})/g,
-      replacement: name,
+      replacement: packageName,
     }, {
       re: /{{ year }}/g,
       replacement: year,
