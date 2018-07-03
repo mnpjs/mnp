@@ -8,7 +8,7 @@ The default package structure is an up-to-date template of a modern Node.js appl
 <tr>
 <td>
 
-%TREE node_modules/mnp-package/structure -L 1%
+%TREE node_modules/@mnpjs/package/structure -L 1%
 </td>
 </tr>
 </tbody>

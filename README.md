@@ -41,7 +41,7 @@ The default mode is to start creating a package. If `package-name` is not passed
 mnp [package-name] [-s structure] [-cIhd]
 ```
 
-To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if directory does not exist and not in a git path, create a `Github` repository, clone it to local filesystem, and fill in the default _Node.js_ package structure.
+To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.
 
 <table>
 <tbody>
@@ -56,15 +56,17 @@ To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 
 ### `-I`, `--init`: Configure
 
-When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
+When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token, and then initialise `mnp` in other directories, when it will reuse the token from the HOME config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes.
 
 | Field | Description |
 | ----- | ----------- |
 | `token` | A `GitHub` [developer token][1]. |
 | `organisation` | An optional `GitHub` organisation name and if supplied repositories will be created for it. |
 | `name`, `email` | Used in `package.json` and the local project directory git config. Default values for which are read from the global git config. |
+| `scope` | Scope with which to create packages. |
 | `website` | Link in the `README` file. |
-| `legal name` | Is placed in the _LICENCE_ and also in the README file as the website name if organisation name is not given. |
+| `trademark` | Display text for the website link in the `README`. |
+| `legal name` | Is placed in the _LICENCE_ file. |
 
 <details>
   <summary>Initialising configuration: <code>mnp -I</code>.</summary>
@@ -84,31 +86,7 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
 <td>
 
 ```
-MNP: create My New Package.
- If no package name is given as the first argument, the program will ask
- for it in the CLI. A GitHub repository for each new package will be
- created automatically, and a GitHub token can be generated at:
- https://github.com/settings/tokens for the use in this application.
- The token is saved in the CWD/.mnprc file along with other configuration,
- including organisation name etc. Different types of packages, with a
- modern Node.js library by default are available, including:
 
-+ package:	a modern Node.js package to publish on npm (default);
-+ idio:		a JSX-powered Koa2 + React-Redux universal website;
-+ structure:	an mnp template to create new structures.
-
-  mnp [package-name] [-c] [-s (idio|structure)] [-d repo_name] -hI
-
-	package-name	Name of the new or checked package.
-	-s structure	Which structure to use (package, idio, structure).
-	-c, --check 	Check if the package name has been taken or not.
-	-h, --help  	Print this information and quit.
-	-d repo     	Delete a repository. Useful in testing.
-	--init, -I  	Initialise configuration in HOMEDIR/.mnprc.
-
-  Example:
-
-    mnp my-new-package -s idio
 ```
 </td>
 </tr>
@@ -147,9 +125,9 @@ There are a number of structures available. The default one is the `package` str
 
 | Name | Description | Link |
 | ---- | ----------- | ---- |
-| `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`mnp-package`](https://github.com/artdecocode/mnp-package) |
-| `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-package`](https://github.com/artdecocode/mnp-idio) |
-| structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-package) |
+| `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnp/package`](https://github.com/mnpjs/package) |
+| `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-idio`](https://github.com/artdecocode/mnp-idio) |
+| structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-structure) |
 ## `Package` Structure
 
 The default package structure is an up-to-date template of a modern Node.js application.
@@ -161,12 +139,12 @@ The default package structure is an up-to-date template of a modern Node.js appl
 <td>
 
 ```m
-node_modules/mnp-package/structure
+node_modules/@mnpjs/package/structure
 ├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
 ├── build
-├── documentation
+├── documentary
 ├── example
 ├── package.json
 ├── src
@@ -213,7 +191,7 @@ export default async function myNewPackage(config = {}) {
 The tests are found in the `test/spec` directory, and all necessary infrastructure in the `test` dir, including a `fixture` directory and optionally a `snapshot` directory if the package is using snapshot testing.
 
 ```m
-node_modules/mnp-package/structure/test
+node_modules/@mnpjs/package/structure/test
 ├── context
 │   └── index.js
 ├── fixture
@@ -301,7 +279,7 @@ Context testing also allows to split files into mulitple sub-directories much ea
 The documentation is pre-processed with [`documentary`](https://github.com/artdecocode/documentary) which simplifies working on the `README.md` file by allowing to split files, and inserting examples and output text in the docs.
 
 ```m
-node_modules/mnp-package/structure/documentation
+node_modules/@mnpjs/package/structure/documentary
 ├── API
 │   └── index.md
 ├── footer.md
@@ -360,7 +338,7 @@ The scripts are useful for testing, running in debugger, building and building d
     "test-all": "yarn-s test test-build",
     "test-watch": "yarn test -w",
     "lint": "eslint .",
-    "doc": "NODE_DEBUG=doc doc documentation -o README.md",
+    "doc": "NODE_DEBUG=doc doc documentary -o README.md",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "e": "node example",
     "example/": "yarn e example/example.js",
@@ -384,7 +362,7 @@ The scripts are useful for testing, running in debugger, building and building d
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "documentary": "1.7.0",
+    "documentary": "1.8.2",
     "eslint-config-artdeco": "1.0.0",
     "yarn-s": "1.1.0",
     "zoroaster": "2.1.0"

@@ -7,7 +7,7 @@ The default mode is to start creating a package. If `package-name` is not passed
 mnp [package-name] [-s structure] [-cIhd]
 ```
 
-To use the module, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if directory does not exist and not in a git path, create a `Github` repository, clone it to local filesystem, and fill in the default _Node.js_ package structure.
+To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.
 
 <table>
 <tbody>
@@ -53,7 +53,7 @@ npm publish
 
 ### `-I`, `--init`: Configure
 
-When launched for the first time, `mnp` will ask to complete the set-up process and  create `HOMEDIR/.mnprc` file.
+When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token, and then initialise `mnp` in other directories, when it will reuse the token from the HOME config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes.
 
 ```table
 [
@@ -61,8 +61,10 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
   ["`token`", "A `GitHub` [developer token][1]."],
   ["`organisation`", "An optional `GitHub` organisation name and if supplied repositories will be created for it."],
   ["`name`, `email`", "Used in `package.json` and the local project directory git config. Default values for which are read from the global git config."],
+  ["`scope`", "Scope with which to create packages."],
   ["`website`", "Link in the `README` file."],
-  ["`legal name`", "Is placed in the _LICENCE_ and also in the README file as the website name if organisation name is not given."]
+  ["`trademark`", "Display text for the website link in the `README`."],
+  ["`legal name`", "Is placed in the _LICENCE_ file."]
 ]
 ```
 

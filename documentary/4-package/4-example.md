@@ -12,7 +12,7 @@ The output can be printed with the `FORK` command:
 %FORK-json example example/example.js%
 ```
 
-%EXAMPLE: node_modules/mnp-package/structure/example/example.js%
+%EXAMPLE: node_modules/@mnpjs/package/structure/example/example.js%
 
 Because the examples are written using `import` and `export` syntax, a `index.js` file is required which will include `@babel/register`:
 
