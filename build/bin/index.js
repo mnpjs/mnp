@@ -34,9 +34,8 @@ const {
   help,
   name: _name,
   check,
-  delete: del,
-  init,
-  local: _local
+  delete: _delete,
+  init
 } = (0, _argufy.default)({
   struct: 's',
   help: {
@@ -50,13 +49,12 @@ const {
     short: 'c',
     boolean: true
   },
-  delete: 'd',
-  init: {
-    short: 'I',
+  delete: {
+    short: 'd',
     boolean: true
   },
-  local: {
-    short: 'l',
+  init: {
+    short: 'I',
     boolean: true
   }
 });
@@ -74,18 +72,14 @@ if (help) {
   process.exit();
 }
 
+const getPackageNameWithScope = (packageName, scope) => {
+  return `${scope ? `@${scope}` : ''}/${packageName}`;
+};
+
 (async () => {
   try {
     if (init) {
-      await (0, _signIn.default)(_local, true);
-      return;
-    }
-
-    debugger;
-
-    if (del) {
-      await (0, _github.deleteRepository)(token, del, org);
-      console.log('Deleted %s/%s.', org, del);
+      await (0, _signIn.default)(true);
       return;
     }
 
@@ -112,12 +106,22 @@ if (help) {
       name: userName,
       email,
       website,
-      legalName
-    } = await (0, _signIn.default)(_local);
+      legalName,
+      trademark,
+      scope
+    } = await (0, _signIn.default)();
+
+    if (_delete) {
+      await (0, _github.deleteRepository)(token, packageName, org);
+      console.log('Deleted %s/%s.', org, packageName);
+      return;
+    }
+
     const path = (0, _path.resolve)(packageName);
     await (0, _wrote.assertDoesNotExist)(path);
     await (0, _gitLib.assertNotInGitPath)();
-    console.log(`# ${packageName}`);
+    const pn = getPackageNameWithScope(packageName, scope);
+    console.log(`# ${pn}`);
     const description = await (0, _reloquent.askSingle)({
       text: 'Description',
       postProcess: s => s.trim(),
@@ -139,7 +143,7 @@ if (help) {
     await (0, _git.default)(['config', 'user.email', email], path);
     await (0, _cloneSource.default)(structure, path, {
       org,
-      packageName,
+      packageName: pn,
       website,
       authorName: userName,
       authorEmail: email,
@@ -148,7 +152,8 @@ if (help) {
       readmeUrl,
       gitUrl,
       description,
-      legalName
+      legalName,
+      trademark
     });
     await (0, _git.default)('add .', path, true);
     await (0, _git.default)(['commit', '-m', 'initialise package'], path, true);

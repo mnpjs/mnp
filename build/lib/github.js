@@ -89,19 +89,7 @@ async function starRepository(token, name, org) {
   if (headers.status != '204 No Content') {
     console.log('Could not star the %s/%s repository', org, name);
   }
-} // export async function getRepository(token, name, org) {
-//   const u = `repos/${name || org}/${name}`
-//   const { headers } = await request({
-//     token,
-//     u,
-//     method: 'PUT',
-//     data: {},
-//   })
-//   if (headers.status != '204 No Content') {
-//     console.log('Could not star the %s/%s repository', org, name)
-//   }
-// }
-
+}
 
 async function deleteRepository(token, name, org) {
   const u = `repos/${org}/${name}`;
