@@ -13,12 +13,12 @@
         "BABEL_ENV": "debug",
         "NODE_DEBUG": "mnp",
       },
-      "cwd": "${workspaceFolder}/..",
+      "cwd": "${workspaceFolder}/../../mnpjs",
       "args": [
-        "testt", // package-name
+        "package", // package-name
         // "-l", // local
-        "-c", // check
-        "-l", // local
+        // "-c", // check
+        // "-l", // local
       ],
       "console": "integratedTerminal",
       "skipFiles": [

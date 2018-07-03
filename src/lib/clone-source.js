@@ -25,6 +25,7 @@ export default async function cloneSource(from, to, {
   description,
   createDate = getDefaultCreateDate(),
   legalName,
+  trademark,
 } = {}) {
   const keywordsReplacement = keywords.map(k => `"${k}"`).join(', ').replace(/^"/, '').replace(/"$/, '')
   const regexes = [
@@ -43,6 +44,9 @@ export default async function cloneSource(from, to, {
     }, {
       re: /{{ legal_name }}/g,
       replacement: legalName,
+    }, {
+      re: /{{ trademark }}/g,
+      replacement: trademark,
     }, {
       re: /{{ website }}/g,
       replacement: website,

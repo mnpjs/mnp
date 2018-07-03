@@ -13,14 +13,13 @@ import { getStructure } from '../lib'
 import info from '../lib/info'
 import signIn from '../lib/sign-in'
 
-const { struct, help, name: _name, check, delete: del, init, local: _local } = argufy({
+const { struct, help, name: _name, check, delete: _delete, init } = argufy({
   struct: 's',
   help: { short: 'h', boolean: true },
   name: { command: true },
   check: { short: 'c', boolean: true },
-  delete: 'd',
+  delete: { short: 'd', boolean: true },
   init: { short: 'I', boolean: true },
-  local: { short: 'l', boolean: true },
 })
 
 const ANSWER_TIMEOUT = null
@@ -37,15 +36,14 @@ if (help) {
   process.exit()
 }
 
+const getPackageNameWithScope = (packageName, scope) => {
+  return `${scope ? `@${scope}` : ''}/${packageName}`
+}
+
 (async () => {
   try {
     if (init) {
-      await signIn(_local, true)
-      return
-    }
-    if (del) {
-      await deleteRepository(token, del, org)
-      console.log('Deleted %s/%s.', org, del)
+      await signIn(true)
       return
     }
 
@@ -65,15 +63,23 @@ if (help) {
 
     const structure = getStructure(struct)
     const {
-      org, token, name: userName, email, website, legalName,
-    } = await signIn(_local)
+      org, token, name: userName, email, website, legalName, trademark, scope,
+    } = await signIn()
+
+    if (_delete) {
+      await deleteRepository(token, packageName, org)
+      console.log('Deleted %s/%s.', org, packageName)
+      return
+    }
 
     const path = resolve(packageName)
     await assertDoesNotExist(path)
 
     await assertNotInGitPath()
 
-    console.log(`# ${packageName}`)
+    const pn = getPackageNameWithScope(packageName, scope)
+
+    console.log(`# ${pn}`)
 
     const description = await askSingle({
       text: 'Description',
@@ -103,7 +109,7 @@ if (help) {
 
     await cloneSource(structure, path, {
       org,
-      packageName,
+      packageName: pn,
       website,
       authorName: userName,
       authorEmail: email,
@@ -113,6 +119,7 @@ if (help) {
       gitUrl,
       description,
       legalName,
+      trademark,
     })
 
     await git('add .', path, true)

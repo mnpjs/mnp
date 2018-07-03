@@ -13,6 +13,10 @@ export default {
     text: 'GitHub organisation',
     defaultValue: null,
   },
+  scope: {
+    text: 'npm scope',
+    defaultValue: null,
+  },
   name: {
     async getDefault() {
       const { stdout } = await git('config user.name', null, true)
@@ -31,8 +35,12 @@ export default {
     text: 'Website (for readme)',
     defaultValue: null,
   },
+  trademark: {
+    text: 'Trademark (for readme)',
+    defaultValue: null,
+  },
   legalName: {
-    text: 'Legal name (for readme & license)',
+    text: 'Legal name (for license)',
     defaultValue: null,
   },
 }
