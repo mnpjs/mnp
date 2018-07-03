@@ -49,6 +49,7 @@
     "zoroaster": "2.1.0"
   },
   "dependencies": {
+    "@mnpjs/package": "1.4.3",
     "africa": "1.1.2",
     "argufy": "1.2.1",
     "bosom": "1.0.0",
@@ -56,7 +57,6 @@
     "erte": "1.1.4",
     "makepromise": "2.0.0",
     "mnp-idio": "1.2.5",
-    "mnp-package": "1.4.0",
     "mnp-structure": "1.0.0",
     "promto": "1.0.1",
     "reloquent": "1.0.6",
