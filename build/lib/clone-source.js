@@ -46,7 +46,7 @@ async function cloneSource(from, to, {
     replacement: (0, _camelCase.default)(name)
   }, {
     re: /(my-new-package|{{ package-name }})/g,
-    replacement: name
+    replacement: packageName
   }, {
     re: /{{ year }}/g,
     replacement: year
