@@ -73,7 +73,7 @@ Initialising the configuration.
 Initialising configuration: <code>mnp -I</code>.
 %
 
-### `-h, --help`: Show Help
+### `-h`, `--help`: Show Help
 
 <table>
 <tbody>
@@ -87,7 +87,7 @@ Initialising configuration: <code>mnp -I</code>.
 </tbody>
 </table>
 
-### `-c`: Check Exists
+### `-c`, `--check`: Check Exists
 
 Check if the package name is already taken or not.
 
@@ -103,7 +103,7 @@ mnp isfree -c
 
 ![free output](doc/free.png)
 
-### `-d`: Delete Repository
+### `-d`, `--delete`: Delete Repository
 
 Delete specified repository from `GitHub`. Useful when a package was created for testing. The organisation name will be read from the configuration.
 

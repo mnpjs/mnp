@@ -10,9 +10,9 @@
 - [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
   * [Creating Packages](#creating-packages)
   * [`-I`, `--init`: Configure](#-i---init-configure)
-  * [`-h, --help`: Show Help](#-h---help-show-help)
-  * [`-c`: Check Exists](#-c-check-exists)
-  * [`-d`: Delete Repository](#-d-delete-repository)
+  * [`-h`, `--help`: Show Help](#-h---help-show-help)
+  * [`-c`, `--check`: Check Exists](#-c---check-check-exists)
+  * [`-d`, `--delete`: Delete Repository](#-d---delete-delete-repository)
 - [Structures](#structures)
   * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
   * [Universal Koa Website](#universal-koa-website)
@@ -77,7 +77,7 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
   </table>
 </details>
 
-### `-h, --help`: Show Help
+### `-h`, `--help`: Show Help
 
 <table>
 <tbody>
@@ -117,7 +117,7 @@ MNP: create My New Package.
 </tbody>
 </table>
 
-### `-c`: Check Exists
+### `-c`, `--check`: Check Exists
 
 Check if the package name is already taken or not.
 
@@ -133,7 +133,7 @@ mnp isfree -c
 
 ![free output](doc/free.png)
 
-### `-d`: Delete Repository
+### `-d`, `--delete`: Delete Repository
 
 Delete specified repository from `GitHub`. Useful when a package was created for testing. The organisation name will be read from the configuration.
 
