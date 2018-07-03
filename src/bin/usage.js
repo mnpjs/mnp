@@ -10,8 +10,8 @@ const usage = {
   '-s structure': 'Which structure to use (package, idio, structure).',
   '-c, --check': 'Check if the package name has been taken or not.',
   '-h, --help': 'Print this information and quit.',
-  '-d repo': 'Delete a repository. Useful in testing.',
-  '--init, -I': 'Initialise configuration in HOMEDIR/.mnprc.',
+  '-d, --delete': 'Delete a repository. Useful in testing.',
+  '--init, -I': 'Initialise configuration in the local .mnprc file.',
 }
 
 export default () => {

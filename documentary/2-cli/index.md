@@ -105,10 +105,10 @@ mnp isfree -c
 
 ### `-d`: Delete Repository
 
-Delete specified repository from `GitHub`. Useful when a package was created for testing.
+Delete specified repository from `GitHub`. Useful when a package was created for testing. The organisation name will be read from the configuration.
 
 ```sh
-mnp -d test
+mnp package -d
 ```
 
 
