@@ -12,9 +12,9 @@
   dependencies:
     makepromise "2.0.0"
 
-africa@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/africa/-/africa-1.1.2.tgz#3a545e4e78e76bbc87189b7f84b0b191a2bcf318"
+africa@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/africa/-/africa-1.2.0.tgz#9daf558993a4024118ee421df0e006dc20888e08"
   dependencies:
     bosom "1.0.0"
     reloquent "1.0.6"

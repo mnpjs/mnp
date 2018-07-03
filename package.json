@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@mnpjs/package": "1.4.3",
-    "africa": "1.1.2",
+    "africa": "1.2.0",
     "argufy": "1.2.1",
     "bosom": "1.0.0",
     "camel-case": "3.0.0",
