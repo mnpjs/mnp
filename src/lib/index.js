@@ -9,6 +9,11 @@ export const getStructure = (structure = 'package') => {
     const structurePath = require(`mnp-${structure}`)
     return structurePath
   } catch (err) {
-    error(`Could not require structure "${structure}".`)
+    try {
+      const structurePath = require(`@mnpjs/${structure}`)
+      return structurePath
+    } catch (e) {
+      error(`Could not require structure "${structure}".`)
+    }
   }
 }

@@ -27,6 +27,7 @@ async function git(args, cwd, noPipe = false) {
   }
   const res = await promise
   if (noPipe == 'dots') process.stdout.write('\n')
+  if (/ERROR/.test(res.stderr)) throw new Error(res.stderr)
   return res
 }
 

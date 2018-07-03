@@ -1,5 +1,6 @@
 import { resolve } from 'path'
-import { clone, readJSON, writeJSON } from 'wrote'
+import bosom from 'bosom'
+import { clone } from 'wrote'
 import camelCase from 'camel-case'
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -13,15 +14,17 @@ function getDefaultCreateDate() {
 
 export default async function cloneSource(from, to, {
   org,
+  name,
+  scope,
   packageName,
-  year,
+  year = `${new Date().getFullYear()}`,
   website,
   issuesUrl = `https://github.com/${org}/${packageName}/issues`,
   readmeUrl = `https://github.com/${org}/${packageName}#readme`,
   authorName,
   authorEmail,
   gitUrl = `git+https://github.com/${org}/${packageName}.git`,
-  keywords = [packageName],
+  keywords = [name, scope].filter(a => a),
   description,
   createDate = getDefaultCreateDate(),
   legalName,
@@ -31,10 +34,10 @@ export default async function cloneSource(from, to, {
   const regexes = [
     {
       re: /myNewPackage/g,
-      replacement: camelCase(packageName),
+      replacement: camelCase(name),
     }, {
       re: /(my-new-package|{{ package-name }})/g,
-      replacement: packageName,
+      replacement: name,
     }, {
       re: /{{ year }}/g,
       replacement: year,
@@ -83,8 +86,9 @@ export default async function cloneSource(from, to, {
   })
   try {
     const packageJson = resolve(to, 'package.json')
-    const p = await readJSON(packageJson)
-    Object.assign(p, {
+    const p = await bosom(packageJson)
+    const pp = {
+      ...p,
       name: packageName,
       description,
       repository: {
@@ -97,10 +101,8 @@ export default async function cloneSource(from, to, {
         url: issuesUrl,
       },
       homepage: readmeUrl,
-    })
-    await writeJSON(packageJson, p, {
-      space: 2,
-    })
+    }
+    await bosom(packageJson, pp, { space: 2 })
   } catch (err) {/* no package.json */ }
   return res
 }

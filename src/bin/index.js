@@ -47,17 +47,17 @@ const getPackageNameWithScope = (packageName, scope) => {
       return
     }
 
-    const packageName = _name || await askSingle({
+    const name = _name || await askSingle({
       text: 'Package name',
       validation(a) {
-        if (!a) throw new Error('You must specify package name.')
+        if (!a) throw new Error('You must specify the package name.')
       },
     }, ANSWER_TIMEOUT)
 
     if (check) {
-      console.log('Checking package %s...', packageName)
-      const available = await info(packageName)
-      console.log('Package named %s is %s.', available ? c(packageName, 'green') : c(packageName, 'red'), available ? 'available' : 'taken')
+      console.log('Checking package %s...', name)
+      const available = await info(name)
+      console.log('Package named %s is %s.', available ? c(name, 'green') : c(name, 'red'), available ? 'available' : 'taken')
       return
     }
 
@@ -66,20 +66,22 @@ const getPackageNameWithScope = (packageName, scope) => {
       org, token, name: userName, email, website, legalName, trademark, scope,
     } = await signIn()
 
+    const packageName = getPackageNameWithScope(name, scope)
+
     if (_delete) {
-      await deleteRepository(token, packageName, org)
-      console.log('Deleted %s/%s.', org, packageName)
+      const y = await askSingle(`Are you sure you want to delete ${packageName}?`)
+      if (y != 'y') return
+      await deleteRepository(token, name, org)
+      console.log('Deleted %s/%s.', org, name)
       return
     }
 
-    const path = resolve(packageName)
+    const path = resolve(name)
     await assertDoesNotExist(path)
 
     await assertNotInGitPath()
 
-    const pn = getPackageNameWithScope(packageName, scope)
-
-    console.log(`# ${pn}`)
+    console.log(`# ${packageName}`)
 
     const description = await askSingle({
       text: 'Description',
@@ -91,11 +93,11 @@ const getPackageNameWithScope = (packageName, scope) => {
       ssh_url: sshUrl,
       git_url: gitUrl,
       html_url: htmlUrl,
-    } = await createRepository(token, packageName, org, description)
+    } = await createRepository(token, name, org, description)
 
     if (!sshUrl) throw new Error('GitHub repository was not created via API.')
 
-    await starRepository(token, packageName, org)
+    await starRepository(token, name, org)
     console.log('%s\n%s', c('Created and starred a new repository', 'grey'), b(htmlUrl, 'green'))
 
     const readmeUrl = `${htmlUrl}#readme`
@@ -109,11 +111,12 @@ const getPackageNameWithScope = (packageName, scope) => {
 
     await cloneSource(structure, path, {
       org,
-      packageName: pn,
+      name,
+      scope,
+      packageName,
       website,
       authorName: userName,
       authorEmail: email,
-      year: `${new Date().getFullYear()}`,
       issuesUrl,
       readmeUrl,
       gitUrl,
