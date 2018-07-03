@@ -10,6 +10,7 @@
     "test-build": "BABEL_ENV=test-build yarn test",
     "test-watch": "yarn test -w",
     "lint": "eslint .",
+    "d": "git add documentary README.md; git commit -m doc; git push;",
     "dev": "node src/bin/register",
     "start": "node build/bin",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
@@ -41,7 +42,7 @@
   "homepage": "https://github.com/artdecocode/mnp#readme",
   "devDependencies": {
     "assert-diff": "1.2.6",
-    "documentary": "1.7.0",
+    "documentary": "1.8.2",
     "eslint-config-artdeco": "1.0.0",
     "snapshot-context": "2.0.1",
     "yarn-s": "1.1.0",
@@ -50,6 +51,7 @@
   "dependencies": {
     "africa": "1.1.1",
     "argufy": "1.2.1",
+    "bosom": "1.0.0",
     "camel-case": "3.0.0",
     "erte": "1.1.4",
     "makepromise": "2.0.0",
@@ -57,7 +59,7 @@
     "mnp-package": "1.4.0",
     "mnp-structure": "1.0.0",
     "promto": "1.0.1",
-    "reloquent": "1.0.1",
+    "reloquent": "1.0.6",
     "restream": "2.1.0",
     "rqt": "2.0.0",
     "spawncommand": "2.0.1",
