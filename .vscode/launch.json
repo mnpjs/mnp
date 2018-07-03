@@ -6,6 +6,12 @@
   "configurations": [
     {
       "type": "node",
+      "request": "attach",
+      "name": "Attach",
+      "port": 9230
+    },
+    {
+      "type": "node",
       "request": "launch",
       "name": "Launch mnp",
       "program": "${workspaceFolder}/build/bin/index.js",

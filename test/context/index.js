@@ -1,9 +1,12 @@
 import makepromise from 'makepromise'
-import { stat, rmdir, mkdir } from 'fs'
+import { stat, rmdir, mkdir, createReadStream, createWriteStream } from 'fs'
 import { resolve, basename } from 'path'
 import { readDir } from 'wrote'
 import { tmpdir } from 'os'
 import MNP_PACKAGE from '@mnpjs/package'
+import { debuglog } from 'util'
+
+const LOG = debuglog('mnp')
 
 const TEMP = resolve(tmpdir(), 'mnp_test.context')
 const FIXTURES = resolve(__dirname, '../fixtures')
@@ -22,9 +25,23 @@ async function findName(parent, initialName, n = 0) {
   }
 }
 
+const copy = async (from, to) => {
+  await new Promise((r, j) => {
+    const rs = createReadStream(from)
+    const ws = createWriteStream(to)
+    rs.on('error', j)
+    ws.on('error', j)
+    rs.pipe(ws)
+    ws.on('close', r)
+  })
+}
+
+const b = resolve(TEMP, '.babelrc')
+const m = resolve(TEMP, '.mnprc')
+
 export default class Context {
-  constructor() {
-    this.cwd = TEMP
+  get cwd() {
+    return TEMP
   }
   async _init() {
     this.packagePath = await findName(TEMP, 'test-package')
@@ -34,7 +51,10 @@ export default class Context {
       await makepromise(mkdir, TEMP)
     } catch (err) { /* */ }
 
-    console.log('%s expected', this.packageName)
+    await copy(resolve(__dirname, '../../.mnprc'), m)
+
+    LOG('Copied .mnprc')
+    LOG('%s expected', this.packageName)
   }
   readDir(dir) {
     return readDir(dir, true)

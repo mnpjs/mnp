@@ -5,7 +5,7 @@ import { resolve } from 'path'
 import { Readable } from 'stream'
 import context from '../context'
 
-const MNP = process.env.BABEL_ENV == 'test-build' ? '../../build/bin' : '../../src/bin'
+const MNP = process.env.BABEL_ENV == 'test-build' ? '../../build/bin' : '../../src/bin/register'
 const BIN = resolve(__dirname, MNP)
 
 const T = {
@@ -14,6 +14,7 @@ const T = {
     const { promise, stdout, stderr, stdin } = fork(BIN, [packageName], {
       cwd,
       stdio: 'pipe',
+      execArgv: [],
     })
     stdout.pipe(process.stdout)
     stderr.pipe(process.stderr)
