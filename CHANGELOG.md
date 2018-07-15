@@ -1,3 +1,11 @@
+## 14 July 2018
+
+### [0.9.0](https://github.com/artdecocode/mnp/compare/v0.9.0...v0.9.1)
+
+- [fix] Allow to enter empty scopes for `.mnprc`.
+- [package] Move to `mnpjs` GitHub organization.
+- [test] Increase test timeout to allow for integration test.
+
 ## 3 July 2018
 
 ### [0.9.0](https://github.com/artdecocode/mnp/compare/v0.8.0...v0.9.0)
