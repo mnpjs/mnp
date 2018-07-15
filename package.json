@@ -23,7 +23,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/artdecocode/mnp.git"
+    "url": "git+https://github.com/mnpjs/mnp.git"
   },
   "keywords": [
     "npm",
@@ -37,9 +37,9 @@
   "author": "Anton <anton@adc.sh>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/artdecocode/mnp/issues"
+    "url": "https://github.com/mnpjs/mnp/issues"
   },
-  "homepage": "https://github.com/artdecocode/mnp#readme",
+  "homepage": "https://github.com/mnpjs/mnp#readme",
   "devDependencies": {
     "assert-diff": "1.2.6",
     "documentary": "1.8.2",
