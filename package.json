@@ -6,7 +6,7 @@
   "bin": "build/bin/index.js",
   "scripts": {
     "t": "zoroaster -b",
-    "test": "yarn t test/spec",
+    "test": "ZOROASTER_TIMEOUT=120000 yarn t test/spec",
     "test-build": "BABEL_ENV=test-build yarn test",
     "test-watch": "yarn test -w",
     "lint": "eslint .",
