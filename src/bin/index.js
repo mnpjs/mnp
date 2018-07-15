@@ -37,7 +37,7 @@ if (help) {
 }
 
 const getPackageNameWithScope = (packageName, scope) => {
-  return `${scope ? `@${scope}` : ''}/${packageName}`
+  return `${scope ? `@${scope}/` : ''}${packageName}`
 }
 
 (async () => {

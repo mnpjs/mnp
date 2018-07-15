@@ -16,6 +16,7 @@ export default {
   scope: {
     text: 'npm scope',
     postProcess(v) {
+      if (!v) return v
       return v.replace(/^@/, '')
     },
     defaultValue: null,
