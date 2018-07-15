@@ -26,6 +26,7 @@ var _default = {
     text: 'npm scope',
 
     postProcess(v) {
+      if (!v) return v;
       return v.replace(/^@/, '');
     },
 
