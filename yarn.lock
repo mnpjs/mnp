@@ -6,6 +6,10 @@
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.4.3.tgz#59d8119971ad7b54701a29509bde1f41a92bef07"
 
+"@mnpjs/structure@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@mnpjs/structure/-/structure-1.0.2.tgz#868c781d1739861f5fa8e1d88d4ac8767ce0630b"
+
 "@wrote/read-dir-structure@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@wrote/read-dir-structure/-/read-dir-structure-1.0.0.tgz#11b827934b493b2f730a32a91551eadacd41b936"
@@ -181,10 +185,6 @@ makepromise@2.0.0:
 mnp-idio@1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/mnp-idio/-/mnp-idio-1.2.5.tgz#35e3a191cd7b9b77bd77ab2cb8491c696b2194b2"
-
-mnp-structure@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mnp-structure/-/mnp-structure-1.0.0.tgz#b811dee84a7029b9bf61b51cfe2078b478ade0c3"
 
 no-case@^2.2.0:
   version "2.3.2"
