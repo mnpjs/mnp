@@ -9,13 +9,14 @@ import cloneSource from '../lib/clone-source'
 import git from '../lib/git'
 import { assertNotInGitPath } from '../lib/git-lib'
 import { createRepository, starRepository, deleteRepository } from '../lib/github'
-import { getStructure } from '../lib'
+import { getStructure, create } from '../lib'
 import info from '../lib/info'
 import signIn from '../lib/sign-in'
 
-const { struct, help, name: _name, check, delete: _delete, init } = argufy({
+const { struct, help, name: _name, check, delete: _delete, init, desc: _description } = argufy({
   struct: 's',
   help: { short: 'h', boolean: true },
+  desc: { short: 'd' },
   name: { command: true },
   check: { short: 'c', boolean: true },
   delete: { short: 'd', boolean: true },
@@ -61,7 +62,9 @@ const getPackageNameWithScope = (packageName, scope) => {
       return
     }
 
-    const structure = getStructure(struct)
+    const { structure, scripts, structurePath } = getStructure(struct)
+    const { onCreate } = scripts
+
     const {
       org, token, name: userName, email, website, legalName, trademark, scope,
     } = await signIn()
@@ -83,7 +86,7 @@ const getPackageNameWithScope = (packageName, scope) => {
 
     console.log(`# ${packageName}`)
 
-    const description = await askSingle({
+    const description = _description || await askSingle({
       text: 'Description',
       postProcess: s => s.trim(),
       defaultValue: '',
@@ -129,6 +132,10 @@ const getPackageNameWithScope = (packageName, scope) => {
     await git(['commit', '-m', 'initialise package'], path, true)
     console.log('Initialised package structure, pushing.')
     await git('push origin master', path, true)
+
+    if (onCreate) {
+      await create(path, structurePath, onCreate)
+    }
 
     console.log('Created a new package: %s.', c(packageName, 'green'))
   } catch ({ controlled, message, stack }) {
