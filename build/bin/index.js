@@ -35,12 +35,16 @@ const {
   name: _name,
   check,
   delete: _delete,
-  init
+  init,
+  desc: _description
 } = (0, _argufy.default)({
   struct: 's',
   help: {
     short: 'h',
     boolean: true
+  },
+  desc: {
+    short: 'd'
   },
   name: {
     command: true
@@ -99,7 +103,14 @@ const getPackageNameWithScope = (packageName, scope) => {
       return;
     }
 
-    const structure = (0, _lib.getStructure)(struct);
+    const {
+      structure,
+      scripts,
+      structurePath
+    } = (0, _lib.getStructure)(struct);
+    const {
+      onCreate
+    } = scripts;
     const {
       org,
       token,
@@ -124,11 +135,11 @@ const getPackageNameWithScope = (packageName, scope) => {
     await (0, _wrote.assertDoesNotExist)(path);
     await (0, _gitLib.assertNotInGitPath)();
     console.log(`# ${packageName}`);
-    const description = await (0, _reloquent.askSingle)({
+    const description = _description || (await (0, _reloquent.askSingle)({
       text: 'Description',
       postProcess: s => s.trim(),
       defaultValue: ''
-    }, ANSWER_TIMEOUT);
+    }, ANSWER_TIMEOUT));
     const {
       ssh_url: sshUrl,
       git_url: gitUrl,
@@ -162,6 +173,11 @@ const getPackageNameWithScope = (packageName, scope) => {
     await (0, _git.default)(['commit', '-m', 'initialise package'], path, true);
     console.log('Initialised package structure, pushing.');
     await (0, _git.default)('push origin master', path, true);
+
+    if (onCreate) {
+      await (0, _lib.create)(path, structurePath, onCreate);
+    }
+
     console.log('Created a new package: %s.', (0, _erte.c)(packageName, 'green'));
   } catch ({
     controlled,
