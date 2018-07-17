@@ -21,7 +21,9 @@
       },
       "cwd": "${workspaceFolder}/../../mnpjs",
       "args": [
-        "package2", // package-name
+        "package8", // package-name
+        "-s", "structure", // structure
+        "-d", "debug", // structure
         // "-l", // local
         // "-c", // check
         // "-l", // local
