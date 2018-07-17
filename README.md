@@ -14,9 +14,9 @@
   * [`-c`, `--check`: Check Exists](#-c---check-check-exists)
   * [`-d`, `--delete`: Delete Repository](#-d---delete-delete-repository)
 - [Structures](#structures)
-  * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
+  * [`Art Deco Node.js Package`](#art-deco-nodejs-package)
   * [Universal Koa Website](#universal-koa-website)
-- [Scripts](#scripts)
+  * [Scripts](#scripts)
 - [`Package` Structure](#package-structure)
   * [Main Function](#main-function)
   * [Test Suites](#test-suites)
@@ -152,11 +152,11 @@ There are a number of structures available. The default one is the `package` str
 
 | Name | Description | Link |
 | ---- | ----------- | ---- |
-| `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnpjs/package`](https://github.com/mnpjs/package) |
+| `package` | <a name="art-deco-nodejs-package">`Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnpjs/package`](https://github.com/mnpjs/package) |
 | `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-idio`](https://github.com/artdecocode/mnp-idio) |
-| structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-structure) |
+| structure | A structure for creating new structures with `mnp`. | [`@mnp/structure`](https://github.com/mnpjs/structure) |
 
-## Scripts
+### Scripts
 
 At certain stages during the creation of a new package, `mnp` will run scripts specified in the `package.json` of a structure. For example, the `package` structure will run `yarn` to install dependencies right after the package is created.
 
@@ -182,7 +182,8 @@ If a script is given as a `.js` file which exists in the structure directory, it
     "onCreate": "scripts/mkdir.js"
   }
 }
-```## `Package` Structure
+```
+## `Package` Structure
 
 The default package structure is an up-to-date template of a modern Node.js application.
 
