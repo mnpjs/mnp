@@ -16,6 +16,7 @@
 - [Structures](#structures)
   * [`An Art Deco Node.js Package`](#an-art-deco-nodejs-package)
   * [Universal Koa Website](#universal-koa-website)
+- [Scripts](#scripts)
 - [`Package` Structure](#package-structure)
   * [Main Function](#main-function)
   * [Test Suites](#test-suites)
@@ -99,15 +100,16 @@ MNP: create My New Package.
 + idio:		a JSX-powered Koa2 + React-Redux universal website;
 + structure:	an mnp template to create new structures.
 
-  mnp [package-name] [-D description] [-s structure] [-cIhd]
+  mnp [package-name] [-D description] [-s structure] [-cIhdv]
 
-	package-name	Name of the new or checked package.
-	-D, --desc  	Description of the software.
-	-s structure	Which structure to use (package, idio, structure).
-	-c, --check 	Check if the package name has been taken or not.
-	-h, --help  	Print this information and quit.
-	-d, --delete	Delete a repository. Useful in testing.
-	--init, -I  	Initialise configuration in the local .mnprc file.
+	package-name 	Name of the new or checked package.
+	-D, --desc   	Description of the software.
+	-s structure 	Which structure to use (package, idio, structure).
+	-c, --check  	Check if the package name has been taken or not.
+	-h, --help   	Print this information and quit.
+	-d, --delete 	Delete a repository. Useful in testing.
+	-v, --version	Show mnp version.
+	--init, -I   	Initialise configuration in the local .mnprc file.
 
   Example:
 
@@ -153,7 +155,34 @@ There are a number of structures available. The default one is the `package` str
 | `package` | <a name="an-art-deco-nodejs-package">`An Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnpjs/package`](https://github.com/mnpjs/package) |
 | `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-idio`](https://github.com/artdecocode/mnp-idio) |
 | structure | A structure for creating new structures with `mnp`. | [`mnp-structure`](https://github.com/artdecocode/mnp-structure) |
-## `Package` Structure
+
+## Scripts
+
+At certain stages during the creation of a new package, `mnp` will run scripts specified in the `package.json` of a structure. For example, the `package` structure will run `yarn` to install dependencies right after the package is created.
+
+Scripts should be specified in the `mnp` field of the `package.json` file either as a string, or an array, for example:
+
+```json
+{
+  "name": "@mnpjs/package",
+  "mnp": {
+    "onCreate": [
+      "yarn"
+    ]
+  }
+}
+```
+
+If a script is given as a `.js` file which exists in the structure directory, it will be executed with Node.js:
+
+```json
+{
+  "name": "@mnpjs/structure",
+  "mnp": {
+    "onCreate": "scripts/mkdir.js"
+  }
+}
+```## `Package` Structure
 
 The default package structure is an up-to-date template of a modern Node.js application.
 
