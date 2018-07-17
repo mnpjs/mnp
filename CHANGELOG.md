@@ -1,5 +1,9 @@
 ## 17 July 2018
 
+### [0.10.1](https://github.com/artdecocode/mnp/compare/v0.10.0...v0.10.1)
+
+- [fix] Fix documentation.
+
 ### [0.10.0](https://github.com/artdecocode/mnp/compare/v0.9.1...v0.10.0)
 
 - [feature] Run structure scripts, including `onCreate`.
