@@ -66,7 +66,7 @@ export default class Context {
     return resolve(FIXTURES, 'expected-cloned')
   }
   get MNP_PACKAGE() {
-    return MNP_PACKAGE
+    return `${MNP_PACKAGE}/structure`
   }
   get SNAPSHOT_DIR() {
     return resolve(__dirname, '../snapshot')
