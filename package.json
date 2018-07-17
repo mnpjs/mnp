@@ -43,14 +43,14 @@
   "devDependencies": {
     "assert-diff": "1.2.6",
     "documentary": "1.8.2",
-    "eslint-config-artdeco": "1.0.0",
+    "eslint-config-artdeco": "1.0.1",
     "snapshot-context": "2.0.1",
     "yarn-s": "1.1.0",
     "zoroaster": "2.1.0"
   },
   "dependencies": {
-    "@mnpjs/package": "1.4.3",
-    "@mnpjs/structure": "1.0.2",
+    "@mnpjs/package": "1.5.0",
+    "@mnpjs/structure": "1.1.1",
     "africa": "1.2.0",
     "argufy": "1.2.1",
     "bosom": "1.0.0",
