@@ -27,6 +27,8 @@ var _info = _interopRequireDefault(require("../lib/info"));
 
 var _signIn = _interopRequireDefault(require("../lib/sign-in"));
 
+var _package = require("../../package.json");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const {
@@ -36,7 +38,8 @@ const {
   check,
   delete: _delete,
   init,
-  desc: _description
+  desc: _description,
+  version: _version
 } = (0, _argufy.default)({
   struct: 's',
   help: {
@@ -44,10 +47,14 @@ const {
     boolean: true
   },
   desc: {
-    short: 'd'
+    short: 'D'
   },
   name: {
     command: true
+  },
+  version: {
+    short: 'v',
+    boolean: true
   },
   check: {
     short: 'c',
@@ -62,6 +69,12 @@ const {
     boolean: true
   }
 });
+
+if (_version) {
+  console.log(_package.version);
+  process.exit();
+}
+
 const ANSWER_TIMEOUT = null;
 
 const makeGitLinks = (org, name) => ({

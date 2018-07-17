@@ -15,17 +15,19 @@ const u1 = `
 + structure:\tan mnp template to create new structures.`.trim();
 const usage = {
   'package-name': 'Name of the new or checked package.',
+  '-D, --desc': 'Description of the software.',
   '-s structure': 'Which structure to use (package, idio, structure).',
   '-c, --check': 'Check if the package name has been taken or not.',
   '-h, --help': 'Print this information and quit.',
   '-d, --delete': 'Delete a repository. Useful in testing.',
+  '-v, --version': 'Show mnp version.',
   '--init, -I': 'Initialise configuration in the local .mnprc file.'
 };
 
 var _default = () => {
   const u = (0, _usually.default)({
     usage,
-    line: 'mnp [package-name] [-c] [-s (idio|structure)] [-d repo_name] -hI',
+    line: 'mnp [package-name] [-D description] [-s structure] [-cIhdv]',
     description: `MNP: create My New Package.
  If no package name is given as the first argument, the program will ask
  for it in the CLI. A GitHub repository for each new package will be
