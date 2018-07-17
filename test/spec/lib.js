@@ -1,13 +1,17 @@
-import { equal, throws, assert } from 'zoroaster/assert'
+import { deepEqual, throws, assert } from 'zoroaster/assert'
 import mnpIdio from 'mnp-idio'
 import mnpPackage from '@mnpjs/package'
+import { resolve } from 'path'
 import { getStructure } from '../../src/lib'
 
 export default {
   'finds a default structure'() {
     const res = getStructure()
-    const expected = `${mnpPackage}`
-    equal(res, expected)
+    deepEqual(res, {
+      structure: `${mnpPackage}/structure`,
+      scripts: { onCreate: ['yarn'] },
+      structurePath: mnpPackage,
+    })
   },
   'throws an error when -s is the last argument'() {
     assert.throws(() => {
@@ -16,8 +20,11 @@ export default {
   },
   'finds an idio structure'() {
     const res = getStructure('idio')
-    const expected = `${mnpIdio}`
-    equal(res, expected)
+    deepEqual(res, {
+      structure: mnpIdio,
+      scripts: {},
+      structurePath: resolve(mnpIdio, '..'),
+    })
   },
   async 'throws an error when structure could not be required'() {
     const name = 'preact'
