@@ -38,7 +38,7 @@
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
 ```sh
-mnp [package-name] [-s structure] [-cIhd]
+mnp [package-name] [-D description] [-s structure] [-cIhd]
 ```
 
 To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.
@@ -99,9 +99,10 @@ MNP: create My New Package.
 + idio:		a JSX-powered Koa2 + React-Redux universal website;
 + structure:	an mnp template to create new structures.
 
-  mnp [package-name] [-c] [-s (idio|structure)] [-d repo_name] -hI
+  mnp [package-name] [-D description] [-s structure] [-cIhd]
 
 	package-name	Name of the new or checked package.
+	-D, --desc  	Description of the software.
 	-s structure	Which structure to use (package, idio, structure).
 	-c, --check 	Check if the package name has been taken or not.
 	-h, --help  	Print this information and quit.
@@ -387,7 +388,7 @@ The scripts are useful for testing, running in debugger, building and building d
   "homepage": "{{ readme_url }}",
   "devDependencies": {
     "documentary": "1.8.2",
-    "eslint-config-artdeco": "1.0.0",
+    "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
     "zoroaster": "2.1.0"
   }

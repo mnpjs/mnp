@@ -4,7 +4,7 @@
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
 ```sh
-mnp [package-name] [-s structure] [-cIhd]
+mnp [package-name] [-D description] [-s structure] [-cIhd]
 ```
 
 To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.

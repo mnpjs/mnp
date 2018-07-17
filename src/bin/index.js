@@ -12,16 +12,26 @@ import { createRepository, starRepository, deleteRepository } from '../lib/githu
 import { getStructure, create } from '../lib'
 import info from '../lib/info'
 import signIn from '../lib/sign-in'
+import { version } from '../../package.json'
 
-const { struct, help, name: _name, check, delete: _delete, init, desc: _description } = argufy({
+const {
+  struct, help, name: _name, check, delete: _delete, init, desc: _description,
+  version: _version,
+} = argufy({
   struct: 's',
   help: { short: 'h', boolean: true },
-  desc: { short: 'd' },
+  desc: { short: 'D' },
   name: { command: true },
+  version: { short: 'v', boolean: true },
   check: { short: 'c', boolean: true },
   delete: { short: 'd', boolean: true },
   init: { short: 'I', boolean: true },
 })
+
+if (_version) {
+  console.log(version)
+  process.exit()
+}
 
 const ANSWER_TIMEOUT = null
 
