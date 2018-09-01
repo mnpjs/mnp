@@ -1,22 +1,22 @@
 {
   "name": "mnp",
   "version": "0.10.1",
-  "description": "Quickly create a Node.js package with a Github repository",
+  "description": "Quickly create a Node.js package with a Github repository.",
   "main": "build",
   "bin": "build/bin/index.js",
   "scripts": {
-    "t": "zoroaster -b",
+    "t": "zoroaster -a",
     "test": "ZOROASTER_TIMEOUT=120000 yarn t test/spec",
-    "test-build": "BABEL_ENV=test-build yarn test",
+    "test-build": "ALAMODE_ENV=test-build yarn test",
     "test-watch": "yarn test -w",
     "lint": "eslint .",
     "d": "git add documentary README.md; git commit -m doc; git push;",
-    "dev": "node src/bin/register",
+    "dev": "node src/bin/alamode",
     "start": "node build/bin",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
-    "build": "yarn-s b doc",
-    "b": "b --ignore src/bin/register.js --source-maps"
+    "b": "alamode src -o build -i bin/alamode.js",
+    "build": "yarn-s b doc"
   },
   "files": [
     "build"
@@ -41,26 +41,27 @@
   },
   "homepage": "https://github.com/mnpjs/mnp#readme",
   "devDependencies": {
-    "assert-diff": "1.2.6",
-    "documentary": "1.8.2",
+    "alamode": "1.4.0",
+    "assert-diff": "2.0.3",
+    "documentary": "1.11.0",
     "eslint-config-artdeco": "1.0.1",
-    "snapshot-context": "2.0.1",
+    "snapshot-context": "2.0.4",
     "yarn-s": "1.1.0",
-    "zoroaster": "2.1.0"
+    "zoroaster": "3.0.0"
   },
   "dependencies": {
-    "@mnpjs/package": "1.5.0",
+    "@mnpjs/package": "1.6.0",
     "@mnpjs/structure": "1.1.1",
     "africa": "1.2.0",
     "argufy": "1.2.1",
     "bosom": "1.0.0",
     "camel-case": "3.0.0",
     "erte": "1.1.4",
-    "makepromise": "2.0.0",
+    "makepromise": "3.0.1",
     "mnp-idio": "1.2.5",
     "promto": "1.0.1",
     "reloquent": "1.0.6",
-    "restream": "2.1.0",
+    "restream": "3.1.1",
     "rqt": "2.0.0",
     "spawncommand": "2.0.1",
     "usually": "1.0.0",
