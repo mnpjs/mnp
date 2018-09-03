@@ -8,7 +8,9 @@ import getUsage from './usage'
 import cloneSource from '../lib/clone-source'
 import git from '../lib/git'
 import { assertNotInGitPath } from '../lib/git-lib'
-import { createRepository, starRepository, deleteRepository } from '../lib/github'
+import {
+  createRepository, starRepository, deleteRepository,
+} from '../lib/github'
 import { getStructure, create } from '../lib'
 import info from '../lib/info'
 import signIn from '../lib/sign-in'
@@ -72,9 +74,6 @@ const getPackageNameWithScope = (packageName, scope) => {
       return
     }
 
-    const { structure, scripts, structurePath } = getStructure(struct)
-    const { onCreate } = scripts
-
     const {
       org, token, name: userName, email, website, legalName, trademark, scope,
     } = await signIn()
@@ -88,6 +87,9 @@ const getPackageNameWithScope = (packageName, scope) => {
       console.log('Deleted %s/%s.', org, name)
       return
     }
+
+    const { structure, scripts, structurePath } = getStructure(struct)
+    const { onCreate } = scripts
 
     const path = resolve(name)
     await assertDoesNotExist(path)
@@ -149,6 +151,9 @@ const getPackageNameWithScope = (packageName, scope) => {
 
     console.log('Created a new package: %s.', c(packageName, 'green'))
   } catch ({ controlled, message, stack }) {
+    if (/Must have admin rights to Repository/.test(message)) {
+      console.log('Does your access token have "delete" rights?')
+    }
     if (controlled) {
       console.error(message)
     } else {

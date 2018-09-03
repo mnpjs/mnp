@@ -42,7 +42,6 @@ const copy = async (from, to) => {
   })
 }
 
-const b = resolve(TEMP, '.alamoderc.json')
 const m = resolve(TEMP, '.mnprc')
 
 export default class Context {
@@ -63,7 +62,7 @@ export default class Context {
       await makepromise(mkdir, TEMP)
     } catch (err) { /* */ }
 
-    await copy(resolve(__dirname, '../../.mnprc'), m)
+    await copy(resolve(__dirname, '../../../.mnprc'), m)
 
     LOG('Copied .mnprc')
     LOG('%s expected', this.packageName)

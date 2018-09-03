@@ -13,6 +13,29 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch Dev",
+      "program": "${workspaceFolder}/src/bin/alamode.js",
+      "env": {
+        "BABEL_ENV": "debug",
+        "NODE_DEBUG": "mnp",
+      },
+      "cwd": "${workspaceFolder}/..",
+      "args": [
+        "test-package-8", // package-name
+        "-d", // delete github
+        // "-s", "structure",
+        // "-l", // local
+        // "-c", // check
+        // "-l", // local
+      ],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch mnp",
       "program": "${workspaceFolder}/build/bin/index.js",
       "env": {
@@ -23,7 +46,7 @@
       "args": [
         "package8", // package-name
         "-s", "structure", // structure
-        "-d", "debug", // structure
+        "-d", // delete
         // "-l", // local
         // "-c", // check
         // "-l", // local
@@ -40,11 +63,10 @@
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "args": [
         "test/spec/integration.js",
-        "-b",
+        "-a",
         "-w",
       ],
       "env": {
-        "BABEL_ENV": "debug",
         "ZOROASTER_TIMEOUT": "9999999",
         "NODE_DEBUG": "mnp",
       },
