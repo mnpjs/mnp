@@ -1,3 +1,10 @@
+## 3 September 2018
+
+### [0.10.2](https://github.com/artdecocode/mnp/compare/v0.10.1...v0.10.2)
+
+- [build] Build w/ `alamode`.
+- [package] Update `package` to the latest (mainly for using `alamode`).
+
 ## 17 July 2018
 
 ### [0.10.1](https://github.com/artdecocode/mnp/compare/v0.10.0...v0.10.1)
