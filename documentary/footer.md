@@ -1,16 +1,16 @@
 
-## todo
+## TODO
 
-- [ ] Binary Structure
-- [ ] Tags and Keywords
+- [ ] Binary Structure.
+- [ ] Patch structures.
+- [ ] Create own structures.
+- [ ] Tags and Keywords.
 <!-- - [ ] Fix tests -->
 <!-- - [ ] Star -->
-* create own structures
-* keywords
-* fetch repo info
-* global manager
+<!-- - [ ] Fetch repo info. -->
+<!-- - [ ] Global manager of packages / repos. -->
 
----
+## Copyright
 
 (c) [Art Deco](https://artdeco.bz) 2018
 
