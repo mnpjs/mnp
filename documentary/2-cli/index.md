@@ -81,7 +81,7 @@ Initialising configuration: <code>mnp -I</code>.
 <tr>
 <td>
 
-%FORK src/bin/register.js -h%
+%FORK src/bin/alamode.js -h%
 </td>
 </tr>
 </tbody>

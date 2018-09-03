@@ -25,10 +25,10 @@
   * [Documentation with `doc`](#documentation-with-doc)
     * [`Examples` Embedding](#examples-embedding)
   * [Scripts in `Package.json`](#scripts-in-packagejson)
-    * [Build With _Bestie_](#build-with-_bestie_)
+    * [Build With _À La Mode_](#build-with-_-la-mode_)
     * [Document With _Documentary_](#document-with-_documentary_)
     * [Test With _Zoroaster_](#test-with-_zoroaster_)
-  * [`.babelrc` Transforms](#babelrc-transforms)
+  * [_.alamoderc.json_](#_alamodercjson_)
   * [`launch.json` Debugging](#launchjson-debugging)
 - [todo](#todo)
 
@@ -357,7 +357,7 @@ The output can be printed with the `FORK` command:
 ```
 
 ```js
-/* yarn example */
+/* yarn example/ */
 import myNewPackage from '../src'
 
 (async () => {
@@ -383,22 +383,22 @@ The scripts are useful for testing, running in debugger, building and building d
 ```json
 {
   "name": "my-new-package",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "{{ description }}",
   "main": "build",
   "scripts": {
-    "t": "zoroaster -b",
-    "test": "zoroaster -b test/spec",
-    "test-build": "BABEL_ENV=test-build yarn test",
+    "t": "zoroaster -a",
+    "test": "yarn t test/spec",
+    "test-build": "ALAMODE_ENV=test-build yarn test",
     "test-all": "yarn-s test test-build",
     "test-watch": "yarn test -w",
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
+    "b": "alamode src -o build",
+    "build": "yarn-s b doc",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "e": "node example",
-    "example/": "yarn e example/example.js",
-    "build": "yarn-s b doc",
-    "b": "b --source-maps"
+    "example/": "yarn e example/example.js"
   },
   "files": [
     "build"
@@ -417,10 +417,11 @@ The scripts are useful for testing, running in debugger, building and building d
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "documentary": "1.8.2",
+    "alamode": "1.4.0",
+    "documentary": "1.11.0",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "2.1.0"
+    "zoroaster": "3.0.0"
   }
 }
 ```
@@ -428,41 +429,28 @@ The scripts are useful for testing, running in debugger, building and building d
 | Script | Meaning | Description |
 | ------ | ------- | ----------- |
 | `t` | Test a single file or directory. | To run: `yarn t test/spec/lib.js`. |
-| `b` | <a name="build-with-_bestie_">Build With _Bestie_</a>. | The package uses [`bestie`](https://github.com/artdecocode/bestie) to not have to install all `@babel` dependencies in each project directory individually. Instead, after the package has been created, it will be linked to the local version of `bestie`, which needs to be cloned beforehand. E.g., `babel src --out-dir build --copy-files` becomes just `b --copy-files`. |
-| `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>. | Is run with `yarn doc`, but is also a part of `build` script. |
-| `build` | Run `b` and `doc` in series. | Builds source code into the `build` directory, and compiles documentation to `README.md` file. |
+| `b` | <a name="build-with-_-la-mode_">Build With _À La Mode_</a>. | The package uses [`alamode`](https://github.com/a-la/alamode) to allow writing `import` and `export` statements. |
+| `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>. | Is run with `yarn doc`, but is also a part of the `build` script. |
+| `build` | Run `b` and `doc` in series. | Builds source code into the `build` directory, and compiles documentation to the `README.md` file. |
 | `test` | <a name="test-with-_zoroaster_">Test With _Zoroaster_</a>. | Run all tests, `yarn test`. |
 | `test-build` | Test build files. | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
 | `e` | Run an example file. | Run specified example, e.g., `yarn e example/test.js`. |
 | `example/` | Run a <a name="particular-example">particular example</a>. | A job specifically created as a short-hand for a particular example. |
 | `lint` | Check code style. | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
-###  `.babelrc` Transforms
+### _.alamoderc.json_
 
-The main reason behind using `.babelrc` is to be able to use `import` and `export` syntax which is made possible with the `modules` babel transform. Moreover, the `babel-plugin-transform-rename-import` allows to run tests against the built code by substituting the path on the fly via a regex.
+`alamode` is a fast Regex-based JavaScript transpiler which is capable of transforming `import` and `export` statements into `require` calls and `module.export` assignments. Because the stable Node.js contains most in not all of the features that could be wanted by developers, except for the ECMAScript 6 modules, the code inside packages is transpiled with `alamode` either during the build process, or via a require hook. It also allows to substitute the path to the source directory, e.g., when testing the build with the `test-build` command when `ALAMODE_ENV` is set to `test-build`.
 
 ```json
 {
-  "plugins": [
-    "@babel/plugin-syntax-object-rest-spread",
-    "@babel/plugin-transform-modules-commonjs"
-  ],
   "env": {
     "test-build": {
-      "plugins": [
-        [
-          "transform-rename-import",
-          {
-            "original": "^((../)+)src",
-            "replacement": "$1build"
-          }
-        ]
-      ],
-      "ignore": [
-        "build/**/*.js"
-      ]
-    },
-    "debug": {
-      "retainLines": true
+      "import": {
+        "replacement": {
+          "from": "^((../)+)src",
+          "to": "$1build"
+        }
+      }
     }
   }
 }
@@ -486,14 +474,13 @@ This explains the structure of the `launch.json` file, which will have a configu
       "name": "Launch Zoroaster",
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "env": {
-        "BABEL_ENV": "debug",
         "ZOROASTER_TIMEOUT": "9999999",
         "NODE_DEBUG": "my-new-package",
       },
       "console": "integratedTerminal",
       "args": [
         "test/spec",
-        "-b",
+        "-a",
         "-w",
       ],
       "skipFiles": [
