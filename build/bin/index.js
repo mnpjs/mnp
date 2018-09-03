@@ -8,7 +8,9 @@ let getUsage = require('./usage'); if (getUsage && getUsage.__esModule) getUsage
 let cloneSource = require('../lib/clone-source'); if (cloneSource && cloneSource.__esModule) cloneSource = cloneSource.default;
 let git = require('../lib/git'); if (git && git.__esModule) git = git.default;
 const { assertNotInGitPath } = require('../lib/git-lib');
-const { createRepository, starRepository, deleteRepository } = require('../lib/github');
+const {
+  createRepository, starRepository, deleteRepository,
+} = require('../lib/github');
 const { getStructure, create } = require('../lib');
 let info = require('../lib/info'); if (info && info.__esModule) info = info.default;
 let signIn = require('../lib/sign-in'); if (signIn && signIn.__esModule) signIn = signIn.default;
@@ -72,9 +74,6 @@ const getPackageNameWithScope = (packageName, scope) => {
       return
     }
 
-    const { structure, scripts, structurePath } = getStructure(struct)
-    const { onCreate } = scripts
-
     const {
       org, token, name: userName, email, website, legalName, trademark, scope,
     } = await signIn()
@@ -88,6 +87,9 @@ const getPackageNameWithScope = (packageName, scope) => {
       console.log('Deleted %s/%s.', org, name)
       return
     }
+
+    const { structure, scripts, structurePath } = getStructure(struct)
+    const { onCreate } = scripts
 
     const path = resolve(name)
     await assertDoesNotExist(path)
@@ -149,6 +151,9 @@ const getPackageNameWithScope = (packageName, scope) => {
 
     console.log('Created a new package: %s.', c(packageName, 'green'))
   } catch ({ controlled, message, stack }) {
+    if (/Must have admin rights to Repository/.test(message)) {
+      console.log('Does your access token have "delete" rights?')
+    }
     if (controlled) {
       console.error(message)
     } else {
