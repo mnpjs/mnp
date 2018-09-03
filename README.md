@@ -125,17 +125,10 @@ MNP: create My New Package.
 
 Check if the package name is already taken or not.
 
-```sh
-mnp taken -c
-```
-
-![taken output](doc/taken.png)
-
-```sh
-mnp isfree -c
-```
-
-![free output](doc/free.png)
+| Command | Output |
+| ------- | ------ |
+| `mnp taken -c` | ![taken output](doc/taken.png) |
+| `mnp isfree -c` | ![free output](doc/free.png) |
 
 ### `-d`, `--delete`: Delete Repository
 

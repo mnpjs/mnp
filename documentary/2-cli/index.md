@@ -91,17 +91,24 @@ Initialising configuration: <code>mnp -I</code>.
 
 Check if the package name is already taken or not.
 
+<!--
 ```sh
 mnp taken -c
-```
-
+``` -->
+<!--
+<table>
+<tr><td>
 ![taken output](doc/taken.png)
+</td></tr>
+</table> -->
 
-```sh
-mnp isfree -c
+```table
+[
+  ["Command", "Output"],
+  ["`mnp taken -c`", "![taken output](doc/taken.png)"],
+  ["`mnp isfree -c`", "![free output](doc/free.png)"]
+]
 ```
-
-![free output](doc/free.png)
 
 ### `-d`, `--delete`: Delete Repository
 
