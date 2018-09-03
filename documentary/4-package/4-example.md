@@ -14,11 +14,11 @@ The output can be printed with the `FORK` command:
 
 %EXAMPLE: node_modules/@mnpjs/package/structure/example/example.js%
 
-Because the examples are written using `import` and `export` syntax, a `index.js` file is required which will include `@babel/register`:
+Because the examples are written using `import` and `export` syntax, a `index.js` file is required which will include `alamode`:
 
 ```js
-require('@babel/register')
 const { resolve } = require('path')
+require('alamode')()
 
 const p = resolve(__dirname, '..', process.argv[2])
 require(p)

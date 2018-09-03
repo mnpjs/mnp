@@ -4,4 +4,4 @@ The documentation is pre-processed with [`documentary`](https://github.com/artde
 
 %TREE node_modules/@mnpjs/package/structure/documentary%
 
-To process documentation, `yarn doc` can be used.
+To process documentation, the `yarn doc` command can be run.

@@ -2,7 +2,9 @@
 
 The scripts are useful for testing, running in debugger, building and building documentation.
 
-%EXAMPLE: node_modules/@mnpjs/package/structure/package.json, json%
+%EXAMPLE: node_modules/@mnpjs/package/structure/package.json, json5%
+
+The description of each script is as follows:
 
 ```table
 [

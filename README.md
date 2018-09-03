@@ -362,7 +362,7 @@ node_modules/@mnpjs/package/structure/documentary
 └── index.md
 ```
 
-To process documentation, `yarn doc` can be used.
+To process documentation, the `yarn doc` command can be run.
 #### `Examples` Embedding
 
 The examples are extremely useful for people reading the documentation, and they also allow developers to manually check that everything works correctly in the package. `documentary` supports embedding of examples and their output, eliminating the need to copy those by hand. The examples are put in the `example` directory, and embedded in the README file with the following snippet:
@@ -386,11 +386,11 @@ import myNewPackage from '../src'
 })()
 ```
 
-Because the examples are written using `import` and `export` syntax, a `index.js` file is required which will include `@babel/register`:
+Because the examples are written using `import` and `export` syntax, a `index.js` file is required which will include `alamode`:
 
 ```js
-require('@babel/register')
 const { resolve } = require('path')
+require('alamode')()
 
 const p = resolve(__dirname, '..', process.argv[2])
 require(p)
@@ -401,7 +401,7 @@ To provide a quick way to run examples, each of them needs to be [created a scri
 
 The scripts are useful for testing, running in debugger, building and building documentation.
 
-```json
+```json5
 {
   "name": "my-new-package",
   "version": "0.0.0",
@@ -447,6 +447,8 @@ The scripts are useful for testing, running in debugger, building and building d
 }
 ```
 
+The description of each script is as follows:
+
 | Script | Meaning | Description |
 | ------ | ------- | ----------- |
 | `t` | Test a single file or directory. | To run: `yarn t test/spec/lib.js`. |
@@ -462,7 +464,7 @@ The scripts are useful for testing, running in debugger, building and building d
 
 `alamode` is a fast Regex-based JavaScript transpiler which is capable of transforming `import` and `export` statements into `require` calls and `module.export` assignments. Because the stable Node.js contains most in not all of the features that could be wanted by developers, except for the ECMAScript 6 modules, the code inside packages is transpiled with `alamode` either during the build process, or via a require hook. It also allows to substitute the path to the source directory, e.g., when testing the build with the `test-build` command when `ALAMODE_ENV` is set to `test-build`.
 
-```json
+```json5
 {
   "env": {
     "test-build": {
@@ -478,9 +480,9 @@ The scripts are useful for testing, running in debugger, building and building d
 ```
 ###  `launch.json` Debugging
 
-Debugging is extremely useful and almost always required way to progress with a development of a software program. A new functionality can be introduced by writing the tests first, and then running them against the source code. That is, the `TDD` approach to testing can be summarised as having to somehow run the code being tested first, and the best place to put it in is a test file. By providing a quick sketch of tests, the program can then be debugged to see whether the execution flows as expected, and adjust it on-the-fly.
+Debugging is very useful and almost always required way to progress with a development of a software program. A new functionality can be introduced by writing the tests first, and then running them against the source code. That is, the `TDD` approach to testing can be summarised as having to somehow run the code being tested first, and the best place to put it in is a test file. By providing a quick sketch of tests, the program can then be debugged to see whether the execution flows as expected, and adjust it on-the-fly.
 
-This explains the structure of the `launch.json` file, which will have a configuration to start `Zoroaster` testing in `watch` mode, so that it is not necessary to restart the Node process every time. Also, if changes are made during a pause at a breakpoint, the execution will need finish running completely first before a changed version can be run. A known issue is that `source-maps-support` will not update positions of errors including their line and this leads to incorrect presentation of errors. `retainLines` is also needed for `@babel/register` to work correctly with the debugger which is set via the `BABEL_ENV=debug`.
+This explains the structure of the `launch.json` file, which will have a configuration to start `Zoroaster` testing in `watch` mode, so that it is not necessary to restart the Node process every time. Also, if changes are made during a pause at a breakpoint, the execution will need finish running completely first before a changed version can be run.
 
 ```json5
 {
