@@ -1,173 +1,128 @@
 #!/usr/bin/env node
-"use strict";
-
-var _path = require("path");
-
-var _wrote = require("wrote");
-
-var _reloquent = require("reloquent");
-
-var _argufy = _interopRequireDefault(require("argufy"));
-
-var _erte = require("erte");
-
-var _usage = _interopRequireDefault(require("./usage"));
-
-var _cloneSource = _interopRequireDefault(require("../lib/clone-source"));
-
-var _git = _interopRequireDefault(require("../lib/git"));
-
-var _gitLib = require("../lib/git-lib");
-
-var _github = require("../lib/github");
-
-var _lib = require("../lib");
-
-var _info = _interopRequireDefault(require("../lib/info"));
-
-var _signIn = _interopRequireDefault(require("../lib/sign-in"));
-
-var _package = require("../../package.json");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const { resolve } = require('path');
+const { assertDoesNotExist } = require('wrote');
+const { askSingle } = require('reloquent');
+let argufy = require('argufy'); if (argufy && argufy.__esModule) argufy = argufy.default;
+const { c, b } = require('erte');
+let getUsage = require('./usage'); if (getUsage && getUsage.__esModule) getUsage = getUsage.default;
+let cloneSource = require('../lib/clone-source'); if (cloneSource && cloneSource.__esModule) cloneSource = cloneSource.default;
+let git = require('../lib/git'); if (git && git.__esModule) git = git.default;
+const { assertNotInGitPath } = require('../lib/git-lib');
+const { createRepository, starRepository, deleteRepository } = require('../lib/github');
+const { getStructure, create } = require('../lib');
+let info = require('../lib/info'); if (info && info.__esModule) info = info.default;
+let signIn = require('../lib/sign-in'); if (signIn && signIn.__esModule) signIn = signIn.default;
+const { version } = require('../../package.json');
 
 const {
-  struct,
-  help,
-  name: _name,
-  check,
-  delete: _delete,
-  init,
-  desc: _description,
-  version: _version
-} = (0, _argufy.default)({
+  struct, help, name: _name, check, delete: _delete, init, desc: _description,
+  version: _version,
+} = argufy({
   struct: 's',
-  help: {
-    short: 'h',
-    boolean: true
-  },
-  desc: {
-    short: 'D'
-  },
-  name: {
-    command: true
-  },
-  version: {
-    short: 'v',
-    boolean: true
-  },
-  check: {
-    short: 'c',
-    boolean: true
-  },
-  delete: {
-    short: 'd',
-    boolean: true
-  },
-  init: {
-    short: 'I',
-    boolean: true
-  }
-});
+  help: { short: 'h', boolean: true },
+  desc: { short: 'D' },
+  name: { command: true },
+  version: { short: 'v', boolean: true },
+  check: { short: 'c', boolean: true },
+  delete: { short: 'd', boolean: true },
+  init: { short: 'I', boolean: true },
+})
 
 if (_version) {
-  console.log(_package.version);
-  process.exit();
+  console.log(version)
+  process.exit()
 }
 
-const ANSWER_TIMEOUT = null;
+const ANSWER_TIMEOUT = null
 
 const makeGitLinks = (org, name) => ({
   ssh_url: `git://github.com/${org}/${name}.git`,
   git_url: 123,
-  html_url: `https://github.com/${org}/${name}#readme`
-});
+  html_url: `https://github.com/${org}/${name}#readme`,
+})
 
 if (help) {
-  const u = (0, _usage.default)();
-  console.log(u);
-  process.exit();
+  const u = getUsage()
+  console.log(u)
+  process.exit()
 }
 
 const getPackageNameWithScope = (packageName, scope) => {
-  return `${scope ? `@${scope}/` : ''}${packageName}`;
-};
+  return `${scope ? `@${scope}/` : ''}${packageName}`
+}
 
 (async () => {
   try {
     if (init) {
-      await (0, _signIn.default)(true);
-      return;
+      await signIn(true)
+      return
     }
 
-    const name = _name || (await (0, _reloquent.askSingle)({
+    const name = _name || await askSingle({
       text: 'Package name',
-
       validation(a) {
-        if (!a) throw new Error('You must specify the package name.');
-      }
-
-    }, ANSWER_TIMEOUT));
+        if (!a) throw new Error('You must specify the package name.')
+      },
+    }, ANSWER_TIMEOUT)
 
     if (check) {
-      console.log('Checking package %s...', name);
-      const available = await (0, _info.default)(name);
-      console.log('Package named %s is %s.', available ? (0, _erte.c)(name, 'green') : (0, _erte.c)(name, 'red'), available ? 'available' : 'taken');
-      return;
+      console.log('Checking package %s...', name)
+      const available = await info(name)
+      console.log('Package named %s is %s.', available ? c(name, 'green') : c(name, 'red'), available ? 'available' : 'taken')
+      return
     }
 
+    const { structure, scripts, structurePath } = getStructure(struct)
+    const { onCreate } = scripts
+
     const {
-      structure,
-      scripts,
-      structurePath
-    } = (0, _lib.getStructure)(struct);
-    const {
-      onCreate
-    } = scripts;
-    const {
-      org,
-      token,
-      name: userName,
-      email,
-      website,
-      legalName,
-      trademark,
-      scope
-    } = await (0, _signIn.default)();
-    const packageName = getPackageNameWithScope(name, scope);
+      org, token, name: userName, email, website, legalName, trademark, scope,
+    } = await signIn()
+
+    const packageName = getPackageNameWithScope(name, scope)
 
     if (_delete) {
-      const y = await (0, _reloquent.askSingle)(`Are you sure you want to delete ${packageName}?`);
-      if (y != 'y') return;
-      await (0, _github.deleteRepository)(token, name, org);
-      console.log('Deleted %s/%s.', org, name);
-      return;
+      const y = await askSingle(`Are you sure you want to delete ${packageName}?`)
+      if (y != 'y') return
+      await deleteRepository(token, name, org)
+      console.log('Deleted %s/%s.', org, name)
+      return
     }
 
-    const path = (0, _path.resolve)(name);
-    await (0, _wrote.assertDoesNotExist)(path);
-    await (0, _gitLib.assertNotInGitPath)();
-    console.log(`# ${packageName}`);
-    const description = _description || (await (0, _reloquent.askSingle)({
+    const path = resolve(name)
+    await assertDoesNotExist(path)
+
+    await assertNotInGitPath()
+
+    console.log(`# ${packageName}`)
+
+    const description = _description || await askSingle({
       text: 'Description',
       postProcess: s => s.trim(),
-      defaultValue: ''
-    }, ANSWER_TIMEOUT));
+      defaultValue: '',
+    }, ANSWER_TIMEOUT)
+
     const {
       ssh_url: sshUrl,
       git_url: gitUrl,
-      html_url: htmlUrl
-    } = await (0, _github.createRepository)(token, name, org, description);
-    if (!sshUrl) throw new Error('GitHub repository was not created via API.');
-    await (0, _github.starRepository)(token, name, org);
-    console.log('%s\n%s', (0, _erte.c)('Created and starred a new repository', 'grey'), (0, _erte.b)(htmlUrl, 'green'));
-    const readmeUrl = `${htmlUrl}#readme`;
-    const issuesUrl = `${htmlUrl}/issues`;
-    await (0, _git.default)(['clone', sshUrl, path]);
-    console.log('Setting user %s<%s>...', userName, email);
-    await (0, _git.default)(['config', 'user.name', userName], path);
-    await (0, _git.default)(['config', 'user.email', email], path);
-    await (0, _cloneSource.default)(structure, path, {
+      html_url: htmlUrl,
+    } = await createRepository(token, name, org, description)
+
+    if (!sshUrl) throw new Error('GitHub repository was not created via API.')
+
+    await starRepository(token, name, org)
+    console.log('%s\n%s', c('Created and starred a new repository', 'grey'), b(htmlUrl, 'green'))
+
+    const readmeUrl = `${htmlUrl}#readme`
+    const issuesUrl = `${htmlUrl}/issues`
+
+    await git(['clone', sshUrl, path])
+
+    console.log('Setting user %s<%s>...', userName, email)
+    await git(['config', 'user.name', userName], path)
+    await git(['config', 'user.email', email], path)
+
+    await cloneSource(structure, path, {
       org,
       name,
       scope,
@@ -180,30 +135,27 @@ const getPackageNameWithScope = (packageName, scope) => {
       gitUrl,
       description,
       legalName,
-      trademark
-    });
-    await (0, _git.default)('add .', path, true);
-    await (0, _git.default)(['commit', '-m', 'initialise package'], path, true);
-    console.log('Initialised package structure, pushing.');
-    await (0, _git.default)('push origin master', path, true);
+      trademark,
+    })
+
+    await git('add .', path, true)
+    await git(['commit', '-m', 'initialise package'], path, true)
+    console.log('Initialised package structure, pushing.')
+    await git('push origin master', path, true)
 
     if (onCreate) {
-      await (0, _lib.create)(path, structurePath, onCreate);
+      await create(path, structurePath, onCreate)
     }
 
-    console.log('Created a new package: %s.', (0, _erte.c)(packageName, 'green'));
-  } catch ({
-    controlled,
-    message,
-    stack
-  }) {
+    console.log('Created a new package: %s.', c(packageName, 'green'))
+  } catch ({ controlled, message, stack }) {
     if (controlled) {
-      console.error(message);
+      console.error(message)
     } else {
-      console.error(stack);
+      console.error(stack)
     }
-
-    process.exit(1);
+    process.exit(1)
   }
-})();
+})()
+
 //# sourceMappingURL=index.js.map

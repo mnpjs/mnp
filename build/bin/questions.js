@@ -1,69 +1,52 @@
-"use strict";
+let git = require('../lib/git'); if (git && git.__esModule) git = git.default;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _git = _interopRequireDefault(require("../lib/git"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = {
+module.exports={
   token: {
     text: 'GitHub access token',
-    validation: a => {
+    validation: (a) => {
       if (!a) {
-        throw new Error('Please specify token.');
+        throw new Error('Please specify token.')
       }
-    }
+    },
   },
   org: {
     text: 'GitHub organisation',
-    defaultValue: null
+    defaultValue: null,
   },
   scope: {
     text: 'npm scope',
-
     postProcess(v) {
-      if (!v) return v;
-      return v.replace(/^@/, '');
+      if (!v) return v
+      return v.replace(/^@/, '')
     },
-
-    defaultValue: null
+    defaultValue: null,
   },
   name: {
     async getDefault() {
-      const {
-        stdout
-      } = await (0, _git.default)('config user.name', null, true);
-      return stdout.trim();
+      const { stdout } = await git('config user.name', null, true)
+      return stdout.trim()
     },
-
-    text: 'user'
+    text: 'user',
   },
   email: {
     async getDefault() {
-      const {
-        stdout
-      } = await (0, _git.default)('config user.email', null, true);
-      return stdout.trim();
+      const { stdout } = await git('config user.email', null, true)
+      return stdout.trim()
     },
-
-    text: 'email'
+    text: 'email',
   },
   website: {
     text: 'Website (for readme)',
-    defaultValue: null
+    defaultValue: null,
   },
   trademark: {
     text: 'Trademark (for readme)',
-    defaultValue: null
+    defaultValue: null,
   },
   legalName: {
     text: 'Legal name (for license)',
-    defaultValue: null
-  }
-};
-exports.default = _default;
+    defaultValue: null,
+  },
+}
+
 //# sourceMappingURL=questions.js.map

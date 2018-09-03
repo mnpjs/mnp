@@ -1,23 +1,17 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = signIn;
-
-var _africa = _interopRequireDefault(require("africa"));
-
-var _questions = _interopRequireDefault(require("../bin/questions"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+let africa = require('africa'); if (africa && africa.__esModule) africa = africa.default;
 // import { debuglog } from 'util'
+let questions = require('../bin/questions'); if (questions && questions.__esModule) questions = questions.default;
+
 // const LOG = debuglog('mnp')
-async function signIn(force = false) {
-  const conf = await (0, _africa.default)('mnp', _questions.default, {
+
+               async function signIn(force = false) {
+  const conf = await africa('mnp', questions, {
     force,
-    local: true
-  });
-  return conf;
+    local: true,
+  })
+  return conf
 }
+
+
+module.exports = signIn
 //# sourceMappingURL=sign-in.js.map

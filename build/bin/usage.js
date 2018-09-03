@@ -1,18 +1,10 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _usually = _interopRequireDefault(require("usually"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+let usually = require('usually'); if (usually && usually.__esModule) usually = usually.default;
 
 const u1 = `
 + package:\ta modern Node.js package to publish on npm (default);
 + idio:\t\ta JSX-powered Koa2 + React-Redux universal website;
-+ structure:\tan mnp template to create new structures.`.trim();
++ structure:\tan mnp template to create new structures.`.trim()
+
 const usage = {
   'package-name': 'Name of the new or checked package.',
   '-D, --desc': 'Description of the software.',
@@ -21,11 +13,11 @@ const usage = {
   '-h, --help': 'Print this information and quit.',
   '-d, --delete': 'Delete a repository. Useful in testing.',
   '-v, --version': 'Show mnp version.',
-  '--init, -I': 'Initialise configuration in the local .mnprc file.'
-};
+  '--init, -I': 'Initialise configuration in the local .mnprc file.',
+}
 
-var _default = () => {
-  const u = (0, _usually.default)({
+module.exports=() => {
+  const u = usually({
     usage,
     line: 'mnp [package-name] [-D description] [-s structure] [-cIhdv]',
     description: `MNP: create My New Package.
@@ -38,10 +30,9 @@ var _default = () => {
  modern Node.js library by default are available, including:
 
 ${u1}`,
-    example: 'mnp my-new-package -s idio'
-  });
-  return u;
-};
+    example: 'mnp my-new-package -s idio',
+  })
+  return u
+}
 
-exports.default = _default;
 //# sourceMappingURL=usage.js.map
