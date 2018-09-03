@@ -195,15 +195,36 @@ The default package structure is an up-to-date template of a modern Node.js appl
 
 ```m
 node_modules/@mnpjs/package/structure
+├── .alamoderc.json
+├── .eslintignore
+├── .eslintrc
+├── .gitignore
+├── .vscode
+│   └── launch.json
 ├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
 ├── build
+│   ├── index.js
+│   └── index.js.map
 ├── documentary
+│   ├── API
+│   │   └── index.md
+│   ├── footer.md
+│   └── index.md
 ├── example
+│   ├── example.js
+│   └── index.js
 ├── package.json
 ├── src
+│   └── index.js
 ├── test
+│   ├── context
+│   │   └── index.js
+│   ├── fixture
+│   │   └── test.txt
+│   └── spec
+│       └── default.js
 └── yarn.lock
 ```
 </td>
