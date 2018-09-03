@@ -1,16 +1,13 @@
 import { stat } from 'fs'
 import makepromise from 'makepromise'
 import { fork } from 'spawncommand'
-import { resolve } from 'path'
 import { Readable } from 'stream'
-import context from '../context'
+import Context from '../context'
 
-const MNP = process.env.BABEL_ENV == 'test-build' ? '../../build/bin' : '../../src/bin/register'
-const BIN = resolve(__dirname, MNP)
-
+/** @type {Object.<string, (c: Context)} */
 const T = {
-  context,
-  async 'creates a new package'({ cwd, packageName, packagePath }){
+  context: Context,
+  async 'creates a new package'({ cwd, BIN, packageName, packagePath }){
     const { promise, stdout, stderr, stdin } = fork(BIN, [packageName], {
       cwd,
       stdio: 'pipe',

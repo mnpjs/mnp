@@ -1,5 +1,7 @@
 import makepromise from 'makepromise'
-import { stat, rmdir, mkdir, createReadStream, createWriteStream } from 'fs'
+import {
+  stat, rmdir, mkdir, createReadStream, createWriteStream,
+} from 'fs'
 import { resolve, basename } from 'path'
 import { readDir } from 'wrote'
 import { tmpdir } from 'os'
@@ -9,7 +11,11 @@ import { debuglog } from 'util'
 const LOG = debuglog('mnp')
 
 const TEMP = resolve(tmpdir(), 'mnp_test.context')
-const FIXTURES = resolve(__dirname, '../fixtures')
+const FIXTURE = resolve(__dirname, '../fixture')
+
+const TEST_BUILD = process.env.ALAMODE_ENV == 'test-build'
+const MNP = TEST_BUILD ? '../../build/bin' : '../../src/bin/alamode'
+const BIN = resolve(__dirname, MNP)
 
 async function findName(parent, initialName, n = 0) {
   const currentName = `${initialName}${n ? `-${n}` : ''}`
@@ -36,12 +42,18 @@ const copy = async (from, to) => {
   })
 }
 
-const b = resolve(TEMP, '.babelrc')
+const b = resolve(TEMP, '.alamoderc.json')
 const m = resolve(TEMP, '.mnprc')
 
 export default class Context {
   get cwd() {
     return TEMP
+  }
+  /**
+   * Path to the mnp executable.
+   */
+  get BIN() {
+    return BIN
   }
   async _init() {
     this.packagePath = await findName(TEMP, 'test-package')
@@ -63,7 +75,7 @@ export default class Context {
     return readDir(this.expectedStructurePath, true)
   }
   get expectedStructurePath() {
-    return resolve(FIXTURES, 'expected-cloned')
+    return resolve(FIXTURE, 'expected-cloned')
   }
   get MNP_PACKAGE() {
     return `${MNP_PACKAGE}/structure`
