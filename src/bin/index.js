@@ -8,9 +8,7 @@ import getUsage from './usage'
 import cloneSource from '../lib/clone-source'
 import git from '../lib/git'
 import { assertNotInGitPath } from '../lib/git-lib'
-import {
-  createRepository, starRepository, deleteRepository,
-} from '../lib/github'
+import GitHub from '@rqt/github'
 import { getStructure, create } from '../lib'
 import info from '../lib/info'
 import signIn from '../lib/sign-in'
@@ -33,21 +31,13 @@ const {
 if (_version) {
   console.log(version)
   process.exit()
-}
-
-const ANSWER_TIMEOUT = null
-
-const makeGitLinks = (org, name) => ({
-  ssh_url: `git://github.com/${org}/${name}.git`,
-  git_url: 123,
-  html_url: `https://github.com/${org}/${name}#readme`,
-})
-
-if (help) {
+} else if (help) {
   const u = getUsage()
   console.log(u)
   process.exit()
 }
+
+const ANSWER_TIMEOUT = null
 
 const getPackageNameWithScope = (packageName, scope) => {
   return `${scope ? `@${scope}/` : ''}${packageName}`
@@ -77,13 +67,14 @@ const getPackageNameWithScope = (packageName, scope) => {
     const {
       org, token, name: userName, email, website, legalName, trademark, scope,
     } = await signIn()
+    const github = new GitHub(token)
 
     const packageName = getPackageNameWithScope(name, scope)
 
     if (_delete) {
       const y = await askSingle(`Are you sure you want to delete ${packageName}?`)
       if (y != 'y') return
-      await deleteRepository(token, name, org)
+      await github.repos.delete(org, name)
       console.log('Deleted %s/%s.', org, name)
       return
     }
@@ -108,11 +99,19 @@ const getPackageNameWithScope = (packageName, scope) => {
       ssh_url: sshUrl,
       git_url: gitUrl,
       html_url: htmlUrl,
-    } = await createRepository(token, name, org, description)
+    } = await github.repos.create({
+      name,
+      org,
+      description,
+      auto_init: true,
+      gitignore_template: 'Node',
+      homepage: website,
+      license_template: 'mit',
+    })
 
     if (!sshUrl) throw new Error('GitHub repository was not created via API.')
 
-    await starRepository(token, name, org)
+    await github.activity.star(org, name)
     console.log('%s\n%s', c('Created and starred a new repository', 'grey'), b(htmlUrl, 'green'))
 
     const readmeUrl = `${htmlUrl}#readme`

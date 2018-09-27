@@ -62,13 +62,14 @@
       "name": "Launch Zoroaster",
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "args": [
-        "test/spec/integration.js",
+        "test/spec",
         "-a",
         "-w",
+        "-t",
+        "9999999"
       ],
       "env": {
-        "ZOROASTER_TIMEOUT": "9999999",
-        "NODE_DEBUG": "mnp",
+        "NODE_DEBUG": "mnp,aqt",
       },
       "console": "integratedTerminal",
       "skipFiles": [
