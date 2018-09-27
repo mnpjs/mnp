@@ -397,9 +397,9 @@ yarn-s@1.1.0:
   dependencies:
     spawncommand "1.1.0"
 
-zoroaster@3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/zoroaster/-/zoroaster-3.5.1.tgz#3964799488f868e6cd81658aaa83e62d43efbc36"
+zoroaster@3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/zoroaster/-/zoroaster-3.5.2.tgz#6672d2f3b41334efde3fee0ae6c0762b4763c066"
   dependencies:
     "@artdeco/clean-stack" "1.0.0"
     alamode "1.5.1"
