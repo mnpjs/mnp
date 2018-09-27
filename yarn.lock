@@ -40,6 +40,14 @@
     "@wrote/read-dir-structure" "1.0.1"
     makepromise "3.0.1"
 
+"@wrote/clone@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@wrote/clone/-/clone-1.1.0.tgz#6f5d05b320c3294d6879f65a3950475249cdfcab"
+  dependencies:
+    "@wrote/ensure-path" "1.0.3"
+    "@wrote/read-dir-structure" "1.0.1"
+    makepromise "3.0.1"
+
 "@wrote/ensure-path@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@wrote/ensure-path/-/ensure-path-1.0.3.tgz#7faeff4ebb5b3972b745e0cc85f3e06cbca51d51"
@@ -52,9 +60,9 @@
   dependencies:
     makepromise "2.0.0"
 
-"@wrote/rm@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@wrote/rm/-/rm-1.0.0.tgz#d7e95c4296b346370d313e383397e1eaf02d8eb8"
+"@wrote/rm@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@wrote/rm/-/rm-1.1.0.tgz#6dd14b164e9ac11e9c5c90b569ca7a987bea5b52"
   dependencies:
     "@wrote/read-dir-structure" "1.0.1"
     makepromise "3.0.1"
@@ -339,13 +347,13 @@ spawncommand@2.1.0:
   dependencies:
     catchment "3.1.1"
 
-temp-context@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/temp-context/-/temp-context-1.1.0.tgz#52a744e91a23f979a9548a431fc5abf4f392e0f8"
+temp-context@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/temp-context/-/temp-context-1.2.0.tgz#662ff24f9644218826aa72ffef19b750780ac506"
   dependencies:
-    "@wrote/clone" "1.0.1"
+    "@wrote/clone" "1.1.0"
     "@wrote/ensure-path" "1.0.3"
-    "@wrote/rm" "1.0.0"
+    "@wrote/rm" "1.1.0"
     catchment "3.1.1"
     makepromise "3.0.1"
     pedantry "2.2.0"
