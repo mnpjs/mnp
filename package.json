@@ -57,16 +57,16 @@
   },
   "homepage": "https://github.com/mnpjs/mnp#readme",
   "devDependencies": {
-    "alamode": "1.4.0",
+    "alamode": "1.5.1",
     "assert-diff": "2.0.3",
-    "documentary": "1.11.0",
+    "documentary": "1.20.1",
     "eslint-config-artdeco": "1.0.1",
     "snapshot-context": "2.0.4",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.0.0"
+    "zoroaster": "3.5.1"
   },
   "dependencies": {
-    "@mnpjs/package": "1.6.0",
+    "@mnpjs/package": "1.7.0",
     "@mnpjs/structure": "1.1.1",
     "africa": "1.2.0",
     "argufy": "1.2.1",
@@ -77,9 +77,9 @@
     "mnp-idio": "1.2.5",
     "promto": "1.0.1",
     "reloquent": "1.0.6",
-    "restream": "3.1.1",
-    "rqt": "2.0.0",
-    "spawncommand": "2.0.1",
+    "restream": "3.2.1",
+    "rqt": "3.0.0",
+    "spawncommand": "2.1.0",
     "usually": "1.0.0",
     "wrote": "1.4.0"
   }
