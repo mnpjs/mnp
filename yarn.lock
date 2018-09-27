@@ -32,6 +32,12 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@rqt/aqt/-/aqt-1.1.2.tgz#6ee88031222d7a86c0d8be0c5cdb276ccfbcb5e7"
 
+"@rqt/github@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@rqt/github/-/github-1.0.0.tgz#5f85e9ce290c05487b9fd1ce8bf3c893532579c1"
+  dependencies:
+    rqt "3.0.0"
+
 "@wrote/clone@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@wrote/clone/-/clone-1.0.1.tgz#2f6e24f4855467b13cc4d7a2ca9677d07ab40292"

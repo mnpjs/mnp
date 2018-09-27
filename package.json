@@ -70,6 +70,7 @@
   "dependencies": {
     "@mnpjs/package": "1.7.0",
     "@mnpjs/structure": "1.1.1",
+    "@rqt/github": "1.0.0",
     "africa": "1.2.0",
     "argufy": "1.2.1",
     "bosom": "1.0.0",
