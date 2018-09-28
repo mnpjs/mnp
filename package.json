@@ -6,7 +6,9 @@
   "bin": "build/bin/index.js",
   "scripts": {
     "t": "zoroaster -a",
-    "test": "yarn t test/spec -t 20000",
+    "test": "yarn t test/spec test/mask -t 20000",
+    "spec": "yarn t test/spec -t 20000",
+    "mask": "yarn t test/mask -t 20000",
     "test-build": "ALAMODE_ENV=test-build yarn test",
     "test-watch": "yarn test -w",
     "lint": "eslint .",
@@ -57,6 +59,7 @@
   },
   "homepage": "https://github.com/mnpjs/mnp#readme",
   "devDependencies": {
+    "@wrote/read": "1.0.0",
     "@wrote/rm": "1.1.0",
     "alamode": "1.5.1",
     "assert-diff": "2.0.3",
@@ -65,7 +68,7 @@
     "snapshot-context": "2.0.4",
     "temp-context": "2.0.0",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.5.2"
+    "zoroaster": "3.6.0"
   },
   "dependencies": {
     "@mnpjs/package": "1.7.1",
