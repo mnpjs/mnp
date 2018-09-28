@@ -20,9 +20,9 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@artdeco/clean-stack/-/clean-stack-1.0.0.tgz#36ff9c9f66e6cb1eb0bfa90341be21cba70c7ea6"
 
-"@mnpjs/package@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.7.0.tgz#c7444f3794236d3c5f2d9dc8fe2aea56c2ca249e"
+"@mnpjs/package@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.7.1.tgz#de2da580b5540c7ac23ed8e1e221384344e7a076"
 
 "@mnpjs/structure@1.1.1":
   version "1.1.1"

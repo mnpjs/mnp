@@ -68,7 +68,7 @@
     "zoroaster": "3.5.2"
   },
   "dependencies": {
-    "@mnpjs/package": "1.7.0",
+    "@mnpjs/package": "1.7.1",
     "@mnpjs/structure": "1.1.1",
     "@rqt/github": "1.0.0",
     "africa": "1.2.0",
