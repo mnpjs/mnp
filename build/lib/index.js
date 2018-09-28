@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-let spawn = require('spawncommand'); if (spawn && spawn.__esModule) spawn = spawn.default; const { fork } = spawn
+let spawn = require('spawncommand'); const { fork } = spawn; if (spawn && spawn.__esModule) spawn = spawn.default;
 const { existsSync } = require('fs');
 
 const error = (text) => {
@@ -36,17 +36,22 @@ const error = (text) => {
   }
 }
 
-const runOnCreate = async (path, structurePath, script) => {
+/**
+ * @param {string} cwd The directory in which to execute the script.
+ * @param {string} structurePath The path to the structure.
+ * @param {string} script The string with a script and its arguments.
+ */
+       const runOnCreate = async (cwd, structurePath, script) => {
   const oc = resolve(structurePath, script)
   if (existsSync(oc)) {
     await fork(oc, [], {
-      cwd: path,
+      cwd,
       stdio: 'inherit',
       execArgv: [],
     })
   } else {
     await spawn(script, [], {
-      cwd: path,
+      cwd,
       stdio: 'inherit',
     })
   }
@@ -54,4 +59,5 @@ const runOnCreate = async (path, structurePath, script) => {
 
 module.exports.getStructure = getStructure
 module.exports.create = create
+module.exports.runOnCreate = runOnCreate
 //# sourceMappingURL=index.js.map
