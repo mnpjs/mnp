@@ -1,13 +1,13 @@
 import africa from 'africa'
-// import { debuglog } from 'util'
 import questions from '../bin/questions'
 
-// const LOG = debuglog('mnp')
-
 export default async function signIn(force = false) {
+  /** @type {Settings} */
   const conf = await africa('mnp', questions, {
     force,
     local: true,
   })
   return conf
 }
+
+/** @typedef {{token: string, org: string, scope: string, name: string, email: string, website: string, trademark: string, legalName: string }} Settings */
