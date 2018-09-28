@@ -17,7 +17,7 @@
     "start": "node build/bin",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
-    "b": "alamode src -o build -i bin/alamode.js",
+    "b": "alamode src -o build -i bin/alamode.js,bin/.eslintrc",
     "build": "yarn-s b doc"
   },
   "files": [

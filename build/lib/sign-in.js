@@ -1,10 +1,8 @@
 let africa = require('africa'); if (africa && africa.__esModule) africa = africa.default;
-// import { debuglog } from 'util'
 let questions = require('../bin/questions'); if (questions && questions.__esModule) questions = questions.default;
 
-// const LOG = debuglog('mnp')
-
                async function signIn(force = false) {
+  /** @type {Settings} */
   const conf = await africa('mnp', questions, {
     force,
     local: true,
@@ -12,6 +10,7 @@ let questions = require('../bin/questions'); if (questions && questions.__esModu
   return conf
 }
 
+/** @typedef {{token: string, org: string, scope: string, name: string, email: string, website: string, trademark: string, legalName: string }} Settings */
 
 module.exports = signIn
 //# sourceMappingURL=sign-in.js.map
