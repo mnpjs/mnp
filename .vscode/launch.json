@@ -19,12 +19,13 @@
         "BABEL_ENV": "debug",
         "NODE_DEBUG": "mnp",
       },
-      "cwd": "${workspaceFolder}/..",
+      "cwd": "${workspaceFolder}/../../mnp-test",
       "args": [
-        "test-package-8", // package-name
-        "-d", // delete github
+        "debug-package-1", // package-name
+        // "-d", // delete github
         // "-s", "structure",
         // "-l", // local
+        // "test", "-c",
         // "-c", // check
         // "-l", // local
       ],
@@ -39,8 +40,7 @@
       "name": "Launch mnp",
       "program": "${workspaceFolder}/build/bin/index.js",
       "env": {
-        "BABEL_ENV": "debug",
-        "NODE_DEBUG": "mnp",
+        "NODE_DEBUG": "mnp,aqt",
       },
       "cwd": "${workspaceFolder}/../../mnpjs",
       "args": [

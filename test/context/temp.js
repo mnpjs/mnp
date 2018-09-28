@@ -1,4 +1,4 @@
-import { debuglog, log } from 'util'
+import { debuglog } from 'util'
 import TempContext from 'temp-context'
 import GitHub from '@rqt/github'
 
@@ -13,9 +13,11 @@ export default class Temp extends TempContext {
     this._useOSTemp(Temp.ORG)
   }
   async _init() {
-    await super._init()
     const token = await this.readGlobal('.token')
     this._github = new GitHub(token)
+    await this._destroy()
+
+    await super._init()
 
     const rc = JSON.stringify({
       token,
@@ -38,12 +40,15 @@ export default class Temp extends TempContext {
   get github() {
     return this._github
   }
-  async _destroy() {
+  async _deleteRepo() {
     try {
       await this.github.repos.delete(Temp.ORG, this.PACKAGE_NAME)
     } catch ({ message }) {
-      log(message)
+      LOG(message)
     }
+  }
+  async _destroy() {
+    await this._deleteRepo()
     await super._destroy()
   }
 }
