@@ -63,6 +63,7 @@
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "args": [
         "test/spec",
+        "test/mask",
         "-a",
         "-w",
         "-t",

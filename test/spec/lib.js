@@ -30,7 +30,7 @@ export default {
     const name = 'preact'
     await throws({
       fn: getStructure,
-      args: [name],
+      args: name,
       message: `Could not require structure "${name}".`,
     })
   },

@@ -1,24 +1,22 @@
 import { debuglog, log } from 'util'
-import { join } from 'path'
-import { tmpdir } from 'os'
 import TempContext from 'temp-context'
 import GitHub from '@rqt/github'
 
 const LOG = debuglog('mnp')
 
-const TEMP = join(tmpdir(), 'mnp-test')
-
-TempContext.setTemp(TEMP)
-
 export default class Temp extends TempContext {
   static get ORG() {
     return 'mnp-test'
   }
+  constructor() {
+    super()
+    this._useOSTemp(Temp.ORG)
+  }
   async _init() {
     await super._init()
-    const token = await this.read('.token')
-    const github = new GitHub(token)
-    this._github = github
+    const token = await this.readGlobal('.token')
+    this._github = new GitHub(token)
+
     const rc = JSON.stringify({
       token,
       org: Temp.ORG,
@@ -28,14 +26,14 @@ export default class Temp extends TempContext {
       trademark: 'MNP',
       legalName: 'Art Deco Code Limited',
     }, null, 2)
-    const pp = await this.write(rc, '.mnprc')
+    const pp = await this.write('.mnprc', rc)
     LOG('Created .mnprc at %s', pp)
   }
   get PACKAGE_NAME() {
     return 'mnp-test-package'
   }
   get PACKAGE_PATH() {
-    return join(this.TEMP, this.PACKAGE_NAME)
+    return this.resolve(this.PACKAGE_NAME)
   }
   get github() {
     return this._github
@@ -43,8 +41,8 @@ export default class Temp extends TempContext {
   async _destroy() {
     try {
       await this.github.repos.delete(Temp.ORG, this.PACKAGE_NAME)
-    } catch (err) {
-      log(err)
+    } catch ({ message }) {
+      log(message)
     }
     await super._destroy()
   }

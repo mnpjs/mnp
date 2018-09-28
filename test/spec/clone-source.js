@@ -1,5 +1,4 @@
 import { join } from 'path'
-import rm from '@wrote/rm'
 import SnapshotContext from 'snapshot-context'
 import Context from '../context'
 import TempContext from '../context/temp'
@@ -10,7 +9,7 @@ const T = {
   context: [Context, TempContext, SnapshotContext],
   async 'updates references in files'(
     { SNAPSHOT_DIR, MNP_PACKAGE },
-    { PACKAGE_NAME, PACKAGE_PATH, snapshot },
+    { PACKAGE_NAME, PACKAGE_PATH, snapshot, rm },
     { setDir, test },
   ) {
     setDir(SNAPSHOT_DIR)
@@ -35,7 +34,10 @@ const T = {
       trademark: 'Art Deco',
       legalName: 'Art Deco Code Limited',
     })
-    await rm(join(PACKAGE_PATH, '.documentary'))
+    await Promise.all([
+      rm(join(PACKAGE_NAME, '.documentary')),
+      rm(join(PACKAGE_NAME, 'yarn.lock')),
+    ])
     const s = await snapshot(PACKAGE_NAME)
     await test('cloned.txt', s.trim())
   },

@@ -36,17 +36,22 @@ export const create = async (path, structurePath, script) => {
   }
 }
 
-const runOnCreate = async (path, structurePath, script) => {
+/**
+ * @param {string} cwd The directory in which to execute the script.
+ * @param {string} structurePath The path to the structure.
+ * @param {string} script The string with a script and its arguments.
+ */
+export const runOnCreate = async (cwd, structurePath, script) => {
   const oc = resolve(structurePath, script)
   if (existsSync(oc)) {
     await fork(oc, [], {
-      cwd: path,
+      cwd,
       stdio: 'inherit',
       execArgv: [],
     })
   } else {
     await spawn(script, [], {
-      cwd: path,
+      cwd,
       stdio: 'inherit',
     })
   }
