@@ -15,7 +15,11 @@ export default class Temp extends TempContext {
   async _init() {
     const token = await this.readGlobal('.token')
     this._github = new GitHub(token)
-    await this._destroy()
+    try { // Remove temp dir if was left over by an interrupted test.
+      await this._destroy()
+    } catch (err) {
+      if (err.code != 'ENOENT') throw err
+    }
 
     await super._init()
 

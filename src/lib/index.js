@@ -44,15 +44,17 @@ export const create = async (path, structurePath, script) => {
 export const runOnCreate = async (cwd, structurePath, script) => {
   const oc = resolve(structurePath, script)
   if (existsSync(oc)) {
-    await fork(oc, [], {
+    const { promise } = fork(oc, [], {
       cwd,
       stdio: 'inherit',
       execArgv: [],
     })
+    await promise
   } else {
-    await spawn(script, [], {
+    const { promise } = spawn(script, [], {
       cwd,
       stdio: 'inherit',
     })
+    await promise
   }
 }

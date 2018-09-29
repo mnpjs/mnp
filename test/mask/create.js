@@ -1,7 +1,6 @@
 import { makeTestSuite } from 'zoroaster'
 import TempContext from '../context/temp'
 import Context from '../context'
-import { tmpdir } from 'os'
 
 const BIN = Context.BIN
 
@@ -19,7 +18,6 @@ const ts = makeTestSuite('test/result/create.md', {
     getOptions({ TEMP }) {
       return {
         cwd: TEMP,
-        execArgv: [],
       }
     },
     inputs: [
@@ -30,7 +28,8 @@ const ts = makeTestSuite('test/result/create.md', {
   mapActual({ stdout }) {
     const r = stdout
       .replace(re, '')
-      .replace(/yarn [\s\S]+/, '')
+      .replace(/yarn [\s\S]+?Created/, 'Created') // when not debugging, this will be missing?
+      .replace(/\[1\/4\] [\s\S]+?Created/, 'Created')
     return r
   },
   context: TempContext,

@@ -1,4 +1,4 @@
-// !can create a package
+// can create a package
 -ok
 
 /* expected */
