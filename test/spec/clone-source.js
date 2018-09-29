@@ -1,11 +1,17 @@
+import { join } from 'path'
 import SnapshotContext from 'snapshot-context'
 import Context from '../context'
+import TempContext from '../context/temp'
 import cloneSource from '../../src/lib/clone-source'
 
-/** @type {Object.<string, (c: Context, s: SnapshotContext)>} */
+/** @type {Object.<string, (c: Context, t: TempContext, s: SnapshotContext)>} */
 const T = {
-  context: [Context, SnapshotContext],
-  async 'should update references in files'({ packagePath, readDir, SNAPSHOT_DIR, MNP_PACKAGE }, { setDir, test }) {
+  context: [Context, TempContext, SnapshotContext],
+  async 'updates references in files'(
+    { SNAPSHOT_DIR, MNP_PACKAGE },
+    { PACKAGE_NAME, PACKAGE_PATH, snapshot, rm },
+    { setDir, test },
+  ) {
     setDir(SNAPSHOT_DIR)
     const org = 'test-org'
     const name = 'test-package-10'
@@ -13,7 +19,7 @@ const T = {
     const packageName = `${scope}/${name}`
     const website = 'https://test.io'
 
-    await cloneSource(MNP_PACKAGE, packagePath, {
+    await cloneSource(MNP_PACKAGE, PACKAGE_PATH, {
       org,
       name,
       scope,
@@ -28,8 +34,12 @@ const T = {
       trademark: 'Art Deco',
       legalName: 'Art Deco Code Limited',
     })
-    const actual = await readDir(packagePath)
-    await test('expected.json', actual)
+    await Promise.all([
+      rm(join(PACKAGE_NAME, '.documentary')),
+      rm(join(PACKAGE_NAME, 'yarn.lock')),
+    ])
+    const s = await snapshot(PACKAGE_NAME)
+    await test('cloned.txt', s.trim())
   },
 }
 

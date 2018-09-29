@@ -11,4 +11,3 @@ let spawn = require('spawncommand'); if (spawn && spawn.__esModule) spawn = spaw
 
 
 module.exports.assertNotInGitPath = assertNotInGitPath
-//# sourceMappingURL=git-lib.js.map

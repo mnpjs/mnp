@@ -18,19 +18,19 @@ export default {
       getStructure(null)
     }, /Could not require structure "null"/)
   },
-  'finds an idio structure'() {
-    const res = getStructure('idio')
-    deepEqual(res, {
-      structure: mnpIdio,
-      scripts: {},
-      structurePath: resolve(mnpIdio, '..'),
-    })
-  },
+  // 'finds an idio structure'() {
+  //   const res = getStructure('idio')
+  //   deepEqual(res, {
+  //     structure: mnpIdio,
+  //     scripts: {},
+  //     structurePath: resolve(mnpIdio, '..'),
+  //   })
+  // },
   async 'throws an error when structure could not be required'() {
     const name = 'preact'
     await throws({
       fn: getStructure,
-      args: [name],
+      args: name,
       message: `Could not require structure "${name}".`,
     })
   },

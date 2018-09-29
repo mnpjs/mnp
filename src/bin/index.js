@@ -1,23 +1,16 @@
 #!/usr/bin/env node
-import { resolve } from 'path'
-import { assertDoesNotExist } from 'wrote'
 import { askSingle } from 'reloquent'
 import argufy from 'argufy'
-import { c, b } from 'erte'
 import getUsage from './usage'
-import cloneSource from '../lib/clone-source'
-import git from '../lib/git'
-import { assertNotInGitPath } from '../lib/git-lib'
-import {
-  createRepository, starRepository, deleteRepository,
-} from '../lib/github'
-import { getStructure, create } from '../lib'
-import info from '../lib/info'
+import GitHub from '@rqt/github'
 import signIn from '../lib/sign-in'
 import { version } from '../../package.json'
+import runCheck from './commands/check'
+import runDelete from './commands/delete'
+import runCreate from './commands/create'
 
 const {
-  struct, help, name: _name, check, delete: _delete, init, desc: _description,
+  struct, help, name: _name, check: _check, delete: _delete, init, desc: _description,
   version: _version,
 } = argufy({
   struct: 's',
@@ -33,132 +26,50 @@ const {
 if (_version) {
   console.log(version)
   process.exit()
-}
-
-const ANSWER_TIMEOUT = null
-
-const makeGitLinks = (org, name) => ({
-  ssh_url: `git://github.com/${org}/${name}.git`,
-  git_url: 123,
-  html_url: `https://github.com/${org}/${name}#readme`,
-})
-
-if (help) {
+} else if (help) {
   const u = getUsage()
   console.log(u)
   process.exit()
 }
 
-const getPackageNameWithScope = (packageName, scope) => {
-  return `${scope ? `@${scope}/` : ''}${packageName}`
+const getName = async (name) => {
+  if (name) return name
+  const res = await askSingle({
+    text: 'Package name',
+    validation(a) {
+      if (!a) throw new Error('You must specify the package name.')
+    },
+  })
+  return res
 }
 
 (async () => {
   try {
-    if (init) {
-      await signIn(true)
-      return
-    }
+    if (init) return signIn(true)
 
-    const name = _name || await askSingle({
-      text: 'Package name',
-      validation(a) {
-        if (!a) throw new Error('You must specify the package name.')
-      },
-    }, ANSWER_TIMEOUT)
+    const name = await getName(_name)
 
-    if (check) {
-      console.log('Checking package %s...', name)
-      const available = await info(name)
-      console.log('Package named %s is %s.', available ? c(name, 'green') : c(name, 'red'), available ? 'available' : 'taken')
-      return
-    }
+    if (_check) return runCheck(name)
 
-    const {
-      org, token, name: userName, email, website, legalName, trademark, scope,
-    } = await signIn()
+    const { token, ...settings } = await signIn()
+    const github = new GitHub(token)
 
-    const packageName = getPackageNameWithScope(name, scope)
+    if (_delete) return runDelete(github, settings.org, name)
 
-    if (_delete) {
-      const y = await askSingle(`Are you sure you want to delete ${packageName}?`)
-      if (y != 'y') return
-      await deleteRepository(token, name, org)
-      console.log('Deleted %s/%s.', org, name)
-      return
-    }
-
-    const { structure, scripts, structurePath } = getStructure(struct)
-    const { onCreate } = scripts
-
-    const path = resolve(name)
-    await assertDoesNotExist(path)
-
-    await assertNotInGitPath()
-
-    console.log(`# ${packageName}`)
-
-    const description = _description || await askSingle({
-      text: 'Description',
-      postProcess: s => s.trim(),
-      defaultValue: '',
-    }, ANSWER_TIMEOUT)
-
-    const {
-      ssh_url: sshUrl,
-      git_url: gitUrl,
-      html_url: htmlUrl,
-    } = await createRepository(token, name, org, description)
-
-    if (!sshUrl) throw new Error('GitHub repository was not created via API.')
-
-    await starRepository(token, name, org)
-    console.log('%s\n%s', c('Created and starred a new repository', 'grey'), b(htmlUrl, 'green'))
-
-    const readmeUrl = `${htmlUrl}#readme`
-    const issuesUrl = `${htmlUrl}/issues`
-
-    await git(['clone', sshUrl, path])
-
-    console.log('Setting user %s<%s>...', userName, email)
-    await git(['config', 'user.name', userName], path)
-    await git(['config', 'user.email', email], path)
-
-    await cloneSource(structure, path, {
-      org,
+    await runCreate(settings, {
       name,
-      scope,
-      packageName,
-      website,
-      authorName: userName,
-      authorEmail: email,
-      issuesUrl,
-      readmeUrl,
-      gitUrl,
-      description,
-      legalName,
-      trademark,
+      struct,
+      github,
+      description: _description,
     })
-
-    await git('add .', path, true)
-    await git(['commit', '-m', 'initialise package'], path, true)
-    console.log('Initialised package structure, pushing.')
-    await git('push origin master', path, true)
-
-    if (onCreate) {
-      await create(path, structurePath, onCreate)
-    }
-
-    console.log('Created a new package: %s.', c(packageName, 'green'))
   } catch ({ controlled, message, stack }) {
     if (/Must have admin rights to Repository/.test(message)) {
-      console.log('Does your access token have "delete" rights?')
+      console.log('Does your GitHub access token have "delete" rights?')
     }
     if (controlled) {
       console.error(message)
     } else {
       console.error(stack)
     }
-    process.exit(1)
   }
 })()
