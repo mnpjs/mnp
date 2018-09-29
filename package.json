@@ -68,7 +68,7 @@
     "snapshot-context": "2.0.4",
     "temp-context": "2.0.0",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.6.0"
+    "zoroaster": "3.6.1"
   },
   "dependencies": {
     "@mnpjs/package": "1.7.1",
