@@ -1,3 +1,15 @@
+## 28 September 2018
+
+### [0.11.0](https://github.com/artdecocode/mnp/compare/v0.10.2...v0.11.0)
+
+- [feature] Display more information about package on check.
+- [feature] Add website to GitHub when creating a package.
+- [code] Refactor code into commands; use `@rqt/GitHub` API library.
+- [build] Build w/out source maps.
+- [fix] Run `onCreate` commands asynchronously.
+- [testing] Test w/ _Zoroaster_ masks and `temp-context`.
+- [structure] Update to the latest `package` structure with masks and section breaks.
+
 ## 3 September 2018
 
 ### [0.10.2](https://github.com/artdecocode/mnp/compare/v0.10.1...v0.10.2)
