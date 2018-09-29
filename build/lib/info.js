@@ -17,4 +17,3 @@ module.exports=async (program) => {
   const { statusCode, body } = await promto(p, 5000, 'Registry request timed out.')
   return statusCode == 404 ? null : body
 }
-//# sourceMappingURL=info.js.map

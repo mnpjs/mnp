@@ -73,4 +73,3 @@ const getName = async (name) => {
     }
   }
 })()
-//# sourceMappingURL=index.js.map

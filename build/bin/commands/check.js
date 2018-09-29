@@ -16,4 +16,3 @@ const runCheck = async (name) => {
 }
 
 module.exports=runCheck
-//# sourceMappingURL=check.js.map

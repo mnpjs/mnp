@@ -44,20 +44,21 @@ const error = (text) => {
        const runOnCreate = async (cwd, structurePath, script) => {
   const oc = resolve(structurePath, script)
   if (existsSync(oc)) {
-    await fork(oc, [], {
+    const { promise } = fork(oc, [], {
       cwd,
       stdio: 'inherit',
       execArgv: [],
     })
+    await promise
   } else {
-    await spawn(script, [], {
+    const { promise } = spawn(script, [], {
       cwd,
       stdio: 'inherit',
     })
+    await promise
   }
 }
 
 module.exports.getStructure = getStructure
 module.exports.create = create
 module.exports.runOnCreate = runOnCreate
-//# sourceMappingURL=index.js.map

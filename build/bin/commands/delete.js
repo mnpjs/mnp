@@ -8,4 +8,3 @@ const runDelete = async (github, org, name) => {
 }
 
 module.exports=runDelete
-//# sourceMappingURL=delete.js.map

@@ -34,5 +34,3 @@ ${u1}`,
   })
   return u
 }
-
-//# sourceMappingURL=usage.js.map

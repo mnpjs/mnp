@@ -109,4 +109,3 @@ function getDefaultCreateDate() {
 
 
 module.exports = cloneSource
-//# sourceMappingURL=clone-source.js.map

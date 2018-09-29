@@ -13,4 +13,3 @@ let questions = require('../bin/questions'); if (questions && questions.__esModu
 /** @typedef {{token: string, org: string, scope: string, name: string, email: string, website: string, trademark: string, legalName: string }} Settings */
 
 module.exports = signIn
-//# sourceMappingURL=sign-in.js.map
