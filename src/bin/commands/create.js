@@ -72,6 +72,7 @@ const runCreate = async (settings, {
       e.controlled = 1
       throw e
     }
+    err.controlled = 1
     throw err
   }
 

@@ -50,21 +50,34 @@ const runCreate = async (settings, {
 
   const description = await getDescription(_description)
 
-  const {
-    ssh_url: sshUrl,
-    git_url: gitUrl,
-    html_url: htmlUrl,
-  } = await github.repos.create({
-    name,
-    org,
-    description,
-    auto_init: true,
-    gitignore_template: 'Node',
-    homepage: website,
-    license_template: 'mit',
-  })
+  let sshUrl, gitUrl, htmlUrl
+  try {
+    ({
+      ssh_url: sshUrl,
+      git_url: gitUrl,
+      html_url: htmlUrl,
+    } = await github.repos.create({
+      name,
+      org,
+      description,
+      auto_init: true,
+      gitignore_template: 'Node',
+      homepage: website,
+      license_template: 'mit',
+    }))
+  } catch (err) {
+    if (err.message == 'Repository: name already exists on this account') {
+      const l = org ? ` https://github.com/${org}/${name}` : ''
+      const e = new Error(`Repository${l} already exists.`)
+      e.controlled = 1
+      throw e
+    }
+    err.controlled = 1
+    throw err
+  }
 
-  if (!sshUrl) throw new Error('GitHub repository was not created via the API.')
+  if (!sshUrl)
+    throw new Error('GitHub repository was not created via the API.')
 
   await github.activity.star(org, name)
   console.log(
