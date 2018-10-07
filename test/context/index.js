@@ -5,7 +5,7 @@ import MNP_PACKAGE from '@mnpjs/package'
 const FIXTURE = 'test/fixture'
 
 const TEST_BUILD = process.env.ALAMODE_ENV == 'test-build'
-const MNP = TEST_BUILD ? '../../build/bin' : '../../src/bin/alamode'
+const MNP = TEST_BUILD ? '../../build/bin/mnp' : '../../src/bin'
 const BIN = join(__dirname, MNP)
 
 export default class Context {

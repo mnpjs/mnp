@@ -16,7 +16,6 @@ const ts = makeTestSuite('test/result/check.md', {
   },
 })
 
-// MIT (c) https://github.com/ivoputzer/m.noansi
-const re = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-PRZcf-nqry=><]/g // eslint-disable-line
+const re = /\033\[.*?m/g
 
 export default ts
