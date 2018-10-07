@@ -1,3 +1,9 @@
+## 7 October 2018
+
+### [0.11.1](https://github.com/artdecocode/mnp/compare/v0.11.0...v0.11.1)
+
+- [fix] Control error when cannot create a repository.
+
 ## 28 September 2018
 
 ### [0.11.0](https://github.com/artdecocode/mnp/compare/v0.10.2...v0.11.0)
