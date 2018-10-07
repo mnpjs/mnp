@@ -3,7 +3,7 @@
   "version": "0.11.0",
   "description": "Quickly create a Node.js package with a Github repository.",
   "main": "build",
-  "bin": "build/bin/index.js",
+  "bin": "build/bin/mnp.js",
   "scripts": {
     "t": "zoroaster -a",
     "test": "yarn t test/spec test/mask -t 20000",
