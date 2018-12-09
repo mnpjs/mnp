@@ -1,4 +1,4 @@
-let info = require('../../lib/info'); if (info && info.__esModule) info = info.default;
+const info = require('../../lib/info');
 const { c } = require('erte');
 
 const runCheck = async (name) => {

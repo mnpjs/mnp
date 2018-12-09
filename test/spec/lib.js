@@ -1,7 +1,6 @@
 import { deepEqual, throws, assert } from 'zoroaster/assert'
-import mnpIdio from 'mnp-idio'
 import mnpPackage from '@mnpjs/package'
-import { resolve } from 'path'
+import idioPackage from '@mnpjs/idio'
 import { getStructure } from '../../src/lib'
 
 export default {
@@ -18,14 +17,14 @@ export default {
       getStructure(null)
     }, /Could not require structure "null"/)
   },
-  // 'finds an idio structure'() {
-  //   const res = getStructure('idio')
-  //   deepEqual(res, {
-  //     structure: mnpIdio,
-  //     scripts: {},
-  //     structurePath: resolve(mnpIdio, '..'),
-  //   })
-  // },
+  'finds the idio structure'() {
+    const res = getStructure('idio')
+    deepEqual(res, {
+      structure: `${idioPackage}/structure`,
+      scripts: { onCreate: 'yarn' },
+      structurePath: idioPackage,
+    })
+  },
   async 'throws an error when structure could not be required'() {
     const name = 'preact'
     await throws({

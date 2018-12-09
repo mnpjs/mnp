@@ -2,8 +2,8 @@ const { resolve } = require('path');
 const { assertDoesNotExist } = require('wrote');
 const { c, b } = require('erte');
 const { askSingle } = require('reloquent');
-let cloneSource = require('../../lib/clone-source'); if (cloneSource && cloneSource.__esModule) cloneSource = cloneSource.default;
-let git = require('../../lib/git'); if (git && git.__esModule) git = git.default;
+const cloneSource = require('../../lib/clone-source');
+const git = require('../../lib/git');
 const { assertNotInGitPath } = require('../../lib/git-lib');
 const { getStructure, create } = require('../../lib');
 

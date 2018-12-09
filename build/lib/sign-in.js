@@ -1,5 +1,5 @@
 let africa = require('africa'); if (africa && africa.__esModule) africa = africa.default;
-let questions = require('../bin/questions'); if (questions && questions.__esModule) questions = questions.default;
+const questions = require('../bin/questions');
 
                async function signIn(force = false) {
   /** @type {Settings} */

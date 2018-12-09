@@ -1,4 +1,4 @@
-let git = require('../lib/git'); if (git && git.__esModule) git = git.default;
+const git = require('../lib/git');
 
 module.exports={
   token: {

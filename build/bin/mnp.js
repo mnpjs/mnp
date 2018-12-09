@@ -2,12 +2,12 @@
 const { askSingle } = require('reloquent');
 let argufy = require('argufy'); if (argufy && argufy.__esModule) argufy = argufy.default;
 let GitHub = require('@rqt/github'); if (GitHub && GitHub.__esModule) GitHub = GitHub.default;
-let getUsage = require('./usage'); if (getUsage && getUsage.__esModule) getUsage = getUsage.default;
-let signIn = require('../lib/sign-in'); if (signIn && signIn.__esModule) signIn = signIn.default;
+const getUsage = require('./usage');
+const signIn = require('../lib/sign-in');
 const { version } = require('../../package.json');
-let runCheck = require('./commands/check'); if (runCheck && runCheck.__esModule) runCheck = runCheck.default;
-let runDelete = require('./commands/delete'); if (runDelete && runDelete.__esModule) runDelete = runDelete.default;
-let runCreate = require('./commands/create'); if (runCreate && runCreate.__esModule) runCreate = runCreate.default;
+const runCheck = require('./commands/check');
+const runDelete = require('./commands/delete');
+const runCreate = require('./commands/create');
 
 const {
   struct, help, name: _name, check: _check, delete: _delete, init, desc: _description,

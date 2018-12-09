@@ -61,16 +61,17 @@
   "devDependencies": {
     "@wrote/read": "1.0.0",
     "@wrote/rm": "1.1.0",
-    "alamode": "1.5.1",
+    "alamode": "1.6.1",
     "assert-diff": "2.0.3",
     "documentary": "1.20.1",
     "eslint-config-artdeco": "1.0.1",
     "snapshot-context": "2.0.4",
     "temp-context": "2.0.0",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.6.1"
+    "zoroaster": "3.6.6"
   },
   "dependencies": {
+    "@mnpjs/idio": "1.0.1",
     "@mnpjs/package": "1.7.1",
     "@mnpjs/structure": "1.1.1",
     "@rqt/github": "1.0.0",
@@ -80,13 +81,12 @@
     "camel-case": "3.0.0",
     "erte": "1.1.4",
     "makepromise": "3.0.1",
-    "mnp-idio": "1.2.5",
     "promto": "1.0.1",
-    "reloquent": "1.0.6",
-    "restream": "3.2.1",
-    "rqt": "3.0.0",
+    "reloquent": "1.2.3",
+    "restream": "3.4.1",
+    "rqt": "3.0.1",
     "spawncommand": "2.1.0",
-    "usually": "1.0.0",
+    "usually": "1.1.0",
     "wrote": "1.4.0"
   }
 }
