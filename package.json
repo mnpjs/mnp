@@ -71,7 +71,7 @@
     "zoroaster": "3.6.6"
   },
   "dependencies": {
-    "@mnpjs/idio": "1.0.1",
+    "@mnpjs/idio": "1.1.0",
     "@mnpjs/package": "1.7.1",
     "@mnpjs/structure": "1.1.1",
     "@rqt/github": "1.0.0",
