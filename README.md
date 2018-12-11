@@ -19,7 +19,7 @@
   * [`Art Deco Node.js Package`](#art-deco-nodejs-package)
   * [@idio/core web server](#idiocore-web-server)
   * [Azure functions app](#azure-functions-app)
-  * [creating new structures](#creating-new-structures)
+  * [The metastructure](#the-metastructure)
   * [Scripts](#scripts)
 - [`Package` Structure](#package-structure)
   * [Main Function](#main-function)
@@ -155,12 +155,12 @@ mnp package -d
 
 There are a number of structures available. The default one is the `package` structure.
 
-|   Name    |                                                                       Description                                                                        |                           Link                           |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+|    Name     |                                                                       Description                                                                        |                           Link                           |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
 | `package` | <a name="art-deco-nodejs-package">`Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnpjs/package`](https://github.com/mnpjs/package) |
 | `idio` | The <a name="idiocore-web-server">@idio/core web server</a> structure. Fast backend with Facebook auth and dotenv support.                                                            | [`@mnpjs/idio`](https://github.com/mnpjs/idio) |
-| azure     | The <a name="azure-functions-app">Azure functions app</a> structure for creating serverless APIs.                                                                                     | [`@mnpjs/structure`](https://github.com/mnpjs/azure) |
-| structure | The structure for <a name="creating-new-structures">creating new structures</a> with `mnp`.                                                             | [`@mnpjs/structure`](https://github.com/mnpjs/structure) |
+| `azure` | The <a name="azure-functions-app">Azure functions app</a> structure for creating serverless APIs.                                                                                     | [`@mnpjs/azure`](https://github.com/mnpjs/azure) |
+| `structure` | <a name="the-metastructure">The metastructure</a> for creating new structures with `mnp`.                                                         | [`@mnpjs/structure`](https://github.com/mnpjs/structure) |
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/7.svg?sanitize=true" width="15"></a></p>
 
