@@ -21,10 +21,10 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@artdeco/clean-stack/-/clean-stack-1.0.0.tgz#36ff9c9f66e6cb1eb0bfa90341be21cba70c7ea6"
 
-"@mnpjs/idio@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@mnpjs/idio/-/idio-1.1.0.tgz#639d3975fbdb356926e5a8b2cd0f80975b4158fc"
-  integrity sha512-QxWm2tuQY1qaewhz4bs9XxFh9461Svk0QzzXsUND4ZxxQBUOZvOqMdcC5uGInJOA99MRKSabIThm0XOs+sDoyQ==
+"@mnpjs/idio@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@mnpjs/idio/-/idio-1.2.0.tgz#4fe60c61768db58f548fdbc2ca8f0f29abe368ea"
+  integrity sha512-jaJQz3Ix+v2/2VUSZgv2tmZV2zuDxExJv3QEfEbwnctk0YHaPMPQGFL7tVhEOu5FozD52XX77QRyJ3mqt4FDAA==
 
 "@mnpjs/package@1.7.1":
   version "1.7.1"
