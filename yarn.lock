@@ -31,10 +31,10 @@
   resolved "https://registry.yarnpkg.com/@mnpjs/idio/-/idio-1.2.0.tgz#4fe60c61768db58f548fdbc2ca8f0f29abe368ea"
   integrity sha512-jaJQz3Ix+v2/2VUSZgv2tmZV2zuDxExJv3QEfEbwnctk0YHaPMPQGFL7tVhEOu5FozD52XX77QRyJ3mqt4FDAA==
 
-"@mnpjs/package@1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.7.1.tgz#de2da580b5540c7ac23ed8e1e221384344e7a076"
-  integrity sha512-WzlWjrWxn9QXX+cNRKh9dHuzI8yulugSAn7em2hkQsmuC+HjmRWlTSuMw4OvmeFM5J61FxiqCAnzgi0obB4zSw==
+"@mnpjs/package@1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.7.3.tgz#cc86abf7a35e02df85496acbfd01694729f7383b"
+  integrity sha512-0zoOdXPeNCxcMAIZec9SnR7Fc43x/WqniCRSM0F3ALcCS0xs2Bc80ASM9+s7yDFgJu6LF6VltkjUqDgpUqm9xQ==
 
 "@mnpjs/structure@1.1.1":
   version "1.1.1"
