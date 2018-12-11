@@ -493,11 +493,11 @@ The scripts are useful for testing, running in debugger, building and building d
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "alamode": "1.5.1",
+    "alamode": "1.6.1",
     "documentary": "1.20.1",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.5.2"
+    "zoroaster": "3.6.6"
   }
 }
 ```
