@@ -21,6 +21,11 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@artdeco/clean-stack/-/clean-stack-1.0.0.tgz#36ff9c9f66e6cb1eb0bfa90341be21cba70c7ea6"
 
+"@mnpjs/azure@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@mnpjs/azure/-/azure-1.0.0.tgz#97b1de4fbbb7aa3fdb0717ec3ee9f947dbb602dd"
+  integrity sha512-VZj/kmvoP0hO3Kf8dWtqHkgDvGLFHyRemcVBw3UxjAenRU8YPSNeFFDSSbVdmxjLPlGDGNFXzCH9bv2X59jqVw==
+
 "@mnpjs/idio@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@mnpjs/idio/-/idio-1.2.0.tgz#4fe60c61768db58f548fdbc2ca8f0f29abe368ea"
