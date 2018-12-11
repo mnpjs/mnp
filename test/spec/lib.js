@@ -1,6 +1,7 @@
 import { deepEqual, throws, assert } from 'zoroaster/assert'
 import mnpPackage from '@mnpjs/package'
 import idioPackage from '@mnpjs/idio'
+import azurePackage from '@mnpjs/azure'
 import { getStructure } from '../../src/lib'
 
 export default {
@@ -23,6 +24,14 @@ export default {
       structure: `${idioPackage}/structure`,
       scripts: { onCreate: 'yarn' },
       structurePath: idioPackage,
+    })
+  },
+  'finds the azure structure'() {
+    const res = getStructure('azure')
+    deepEqual(res, {
+      structure: `${azurePackage}/structure`,
+      scripts: { onCreate: 'yarn' },
+      structurePath: azurePackage,
     })
   },
   async 'throws an error when structure could not be required'() {
