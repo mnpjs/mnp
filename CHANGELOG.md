@@ -1,3 +1,11 @@
+## 11 December 2018
+
+### [0.12.0](https://github.com/artdecocode/mnp/compare/v0.11.1...v0.12.0)
+
+- [feature] `azure` and `idio` structures.
+- [doc] Add section breaks.
+- [build] No `_esModule` check for internal deps.
+
 ## 7 October 2018
 
 ### [0.11.1](https://github.com/artdecocode/mnp/compare/v0.11.0...v0.11.1)
