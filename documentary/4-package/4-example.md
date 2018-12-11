@@ -25,3 +25,5 @@ require(p)
 ```
 
 To provide a quick way to run examples, each of them needs to be [created a script](#particular-example) for in the `package.json`.
+
+%~ width="15"%

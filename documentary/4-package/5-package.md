@@ -20,3 +20,5 @@ The description of each script is as follows:
   ["`lint`", "Check code style.", "`eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency."]
 ]
 ```
+
+%~ width="15"%

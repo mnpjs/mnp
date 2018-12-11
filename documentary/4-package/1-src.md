@@ -5,3 +5,5 @@ Every package will have a main file specified in the `main` field in the package
 %EXAMPLE: node_modules/@mnpjs/package/structure/src/index.js%
 
 ![Config Api Type](doc/config.gif)
+
+%~ width="15"%

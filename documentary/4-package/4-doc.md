@@ -5,3 +5,5 @@ The documentation is pre-processed with [`documentary`](https://github.com/artde
 %TREE node_modules/@mnpjs/package/structure/documentary%
 
 To process documentation, the `yarn doc` command can be run.
+
+%~ width="15"%

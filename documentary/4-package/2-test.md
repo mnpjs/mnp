@@ -9,3 +9,5 @@ The tests are written with `zoroaster` framework, which expects a file to export
 %EXAMPLE: node_modules/@mnpjs/package/structure/test/spec/default.js%
 
 If [_snapshot-testing_](t) is required, it can be additionally installed with `yarn add -DE snapshot-context`. This will allow to write snapshot tests.
+
+%~ width="15"%

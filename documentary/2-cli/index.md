@@ -1,4 +1,3 @@
-
 ## CLI: `mnp my-new-package`
 
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
@@ -51,6 +50,8 @@ npm publish
 
 <!-- Documentary: to run a program and answer the questions with stdin  -->
 
+%~ width="15"%
+
 ### `-I`, `--init`: Configure
 
 When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token, and then initialise `mnp` in other directories, when it will reuse the token from the `HOME` config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes, while reusing the access token.
@@ -73,6 +74,8 @@ Initialising the configuration.
 Initialising configuration: <code>mnp -I</code>.
 %
 
+%~ width="15"%
+
 ### `-h`, `--help`: Show Help
 
 <table>
@@ -81,26 +84,17 @@ Initialising configuration: <code>mnp -I</code>.
 <tr>
 <td>
 
-%FORK src/bin/alamode.js -h%
+%FORK src/bin -h%
 </td>
 </tr>
 </tbody>
 </table>
 
+%~ width="15"%
+
 ### `-c`, `--check`: Check Exists
 
 Check if the package name is already taken or not.
-
-<!--
-```sh
-mnp taken -c
-``` -->
-<!--
-<table>
-<tr><td>
-![taken output](doc/taken.png)
-</td></tr>
-</table> -->
 
 ```table
 [
@@ -110,6 +104,8 @@ mnp taken -c
 ]
 ```
 
+%~ width="15"%
+
 ### `-d`, `--delete`: Delete Repository
 
 Delete specified repository from `GitHub`. Useful when a package was created for testing. The organisation name will be read from the configuration.
@@ -118,5 +114,4 @@ Delete specified repository from `GitHub`. Useful when a package was created for
 mnp package -d
 ```
 
-
-<!-- ![configuration process](https://sobes.s3.eu-west-2.amazonaws.com/mnp-config2.gif) -->
+%~%

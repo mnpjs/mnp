@@ -2,7 +2,9 @@
 
 [![npm version](https://badge.fury.io/js/mnp.svg)](https://npmjs.org/package/mnp)
 
-`mnp` aka _My New Package_ is a global npm package which allows to quickly create a new _Node.js_ package with a default structure (`src`, `test`, `package.json`, _etc_) and initialise a _GitHub_ repository.
+`mnp` aka _My New Package_ is a Node.js CLI binary that allows to quickly create a new _Node.js_ package with a default structure (`src`, `test`, `package.json`, _etc_) and initialise a _GitHub_ repository. It provides a number of essential structures for web development.
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/0.svg?sanitize=true"></a></p>
 
 ## Table Of Contents
 
@@ -15,7 +17,9 @@
   * [`-d`, `--delete`: Delete Repository](#-d---delete-delete-repository)
 - [Structures](#structures)
   * [`Art Deco Node.js Package`](#art-deco-nodejs-package)
-  * [Universal Koa Website](#universal-koa-website)
+  * [@idio/core web server](#idiocore-web-server)
+  * [Azure functions app](#azure-functions-app)
+  * [creating new structures](#creating-new-structures)
   * [Scripts](#scripts)
 - [`Package` Structure](#package-structure)
   * [Main Function](#main-function)
@@ -30,10 +34,9 @@
     * [Test With _Zoroaster_](#test-with-_zoroaster_)
   * [_.alamoderc.json_](#_alamodercjson_)
   * [`launch.json` Debugging](#launchjson-debugging)
-- [TODO](#todo)
 - [Copyright](#copyright)
 
-
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
 ## CLI: `mnp my-new-package`
 
@@ -56,19 +59,21 @@ To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 <td><img src="doc/create.gif" alt="Creating a new package."></td>
 </tr></tbody></table>
 
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true" width="15"></a></p>
+
 ### `-I`, `--init`: Configure
 
 When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token, and then initialise `mnp` in other directories, when it will reuse the token from the `HOME` config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes, while reusing the access token.
 
-| Field | Description |
-| ----- | ----------- |
-| `token` | A `GitHub` [developer token][1]. |
+|      Field      |                                                                        Description                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `token` | A `GitHub` [developer token][1].                                                                                           |
 | `organisation` | An optional `GitHub` organisation name to create repositories for. A personal `GitHub` account is used if not supplied. |
 | `name`, `email` | Author's name and email to set in the `package.json` file, and in the project directory's git config. Default values are read from the global git config. |
-| `scope` | A scope with which to create packages. |
-| `website` | A link location in the copyright section of the `README` file. |
-| `trademark` | A display text for the website link in the `README`. |
-| `legal name` | A legal name placed in the `LICENCE` file. |
+| `scope` | A scope with which to create packages.                                                                                                                    |
+| `website` | A link location in the copyright section of the `README` file.                                                             |
+| `trademark` | A display text for the website link in the `README`.                                                                       |
+| `legal name` | A legal name placed in the `LICENCE` file.                                                                                  |
 
 <details>
   <summary>Initialising configuration: <code>mnp -I</code>.</summary>
@@ -78,6 +83,8 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
   </td></tr>
   </table>
 </details>
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true" width="15"></a></p>
 
 ### `-h`, `--help`: Show Help
 
@@ -121,14 +128,18 @@ MNP: create My New Package.
 </tbody>
 </table>
 
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true" width="15"></a></p>
+
 ### `-c`, `--check`: Check Exists
 
 Check if the package name is already taken or not.
 
-| Command | Output |
-| ------- | ------ |
+|     Command     |             Output             |
+| --------------- | ------------------------------ |
 | `mnp taken -c` | ![taken output](doc/taken.png) |
-| `mnp isfree -c` | ![free output](doc/free.png) |
+| `mnp isfree -c` | ![free output](doc/free.png)   |
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/5.svg?sanitize=true" width="15"></a></p>
 
 ### `-d`, `--delete`: Delete Repository
 
@@ -138,17 +149,21 @@ Delete specified repository from `GitHub`. Useful when a package was created for
 mnp package -d
 ```
 
-
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/6.svg?sanitize=true"></a></p>
 
 ## Structures
 
 There are a number of structures available. The default one is the `package` structure.
 
-| Name | Description | Link |
-| ---- | ----------- | ---- |
+|   Name    |                                                                       Description                                                                        |                           Link                           |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
 | `package` | <a name="art-deco-nodejs-package">`Art Deco Node.js Package`</a>. It has everything needed to create high-quality modern application with testing, building and documentation facilities. | [`@mnpjs/package`](https://github.com/mnpjs/package) |
-| `idio` | A <a name="universal-koa-website">Universal Koa Website</a> that allows to write server-side JSX and provides Hot Module Reload. | [`mnp-idio`](https://github.com/artdecocode/mnp-idio) |
-| structure | A structure for creating new structures with `mnp`. | [`@mnp/structure`](https://github.com/mnpjs/structure) |
+| `idio` | The <a name="idiocore-web-server">@idio/core web server</a> structure. Fast backend with Facebook auth and dotenv support.                                                            | [`@mnpjs/idio`](https://github.com/mnpjs/idio) |
+| azure     | The <a name="azure-functions-app">Azure functions app</a> structure for creating serverless APIs.                                                                                     | [`@mnpjs/structure`](https://github.com/mnpjs/azure) |
+| structure | The structure for <a name="creating-new-structures">creating new structures</a> with `mnp`.                                                             | [`@mnpjs/structure`](https://github.com/mnpjs/structure) |
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/7.svg?sanitize=true" width="15"></a></p>
+
 
 ### Scripts
 
@@ -177,6 +192,9 @@ If a script is given as a `.js` file which exists in the structure directory, it
   }
 }
 ```
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/8.svg?sanitize=true"></a></p>
+
 ## `Package` Structure
 
 The default package structure is an up-to-date template of a modern Node.js application.
@@ -190,6 +208,12 @@ The default package structure is an up-to-date template of a modern Node.js appl
 ```m
 node_modules/@mnpjs/package/structure
 ├── .alamoderc.json
+├── .documentary
+│   └── section-breaks
+│       ├── -1.svg
+│       ├── 0.svg
+│       ├── 1.svg
+│       └── 2.svg
 ├── .eslintignore
 ├── .eslintrc
 ├── .gitignore
@@ -202,7 +226,7 @@ node_modules/@mnpjs/package/structure
 │   ├── index.js
 │   └── index.js.map
 ├── documentary
-│   ├── API
+│   ├── 1-API
 │   │   └── index.md
 │   ├── footer.md
 │   └── index.md
@@ -217,8 +241,14 @@ node_modules/@mnpjs/package/structure
 │   │   └── index.js
 │   ├── fixture
 │   │   └── test.txt
+│   ├── mask
+│   │   └── index.js
+│   ├── result
+│   │   └── index.md
 │   └── spec
 │       └── default.js
+├── types
+│   └── index.xml
 └── yarn.lock
 ```
 </td>
@@ -227,6 +257,9 @@ node_modules/@mnpjs/package/structure
 </table>
 
 It also includes `yarn.lock` file to speed up the installation process.
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/9.svg?sanitize=true" width="15"></a></p>
+
 ### Main Function
 
 Every package will have a main file specified in the `main` field in the package.json file, unless they have a `bin` field otherwise (in other words, if package does not provide a Node.js API, and only CLI usage). This structure has a minimum example of working function which is exported with `export default` keyword, and documented with JSDoc. It's important to document the config argument in a `typedef` so that other developers are able to see the autocompletion hints when trying to use the function.
@@ -238,24 +271,32 @@ const LOG = debuglog('my-new-package')
 
 /**
  * {{ description }}
- * @param {Config} config Configuration object.
- * @param {string} config.type The type.
+ * @param {Config} [config] Options for the program.
+ * @param {boolean} [config.shouldRun=true] A boolean option. Default `true`.
+ * @param {string} config.text A text to return.
  */
 export default async function myNewPackage(config = {}) {
   const {
-    type,
+    shouldRun = true,
+    text,
   } = config
-  LOG('my-new-package called with %s', type)
-  return type
+  if (!shouldRun) return
+  LOG('my-new-package called with %s', text)
+  return text
 }
 
+/* documentary types/index.xml */
 /**
- * @typedef {Object} Config
- * @property {string} type The type.
+ * @typedef {Object} Config Options for the program.
+ * @prop {boolean} [shouldRun=true] A boolean option. Default `true`.
+ * @prop {string} text A text to return.
  */
 ```
 
 ![Config Api Type](doc/config.gif)
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/10.svg?sanitize=true" width="15"></a></p>
+
 ### Test Suites
 
 The tests are found in the `test/spec` directory, and all necessary infrastructure in the `test` dir, including a `fixture` directory and optionally a `snapshot` directory if the package is using snapshot testing.
@@ -266,6 +307,10 @@ node_modules/@mnpjs/package/structure/test
 │   └── index.js
 ├── fixture
 │   └── test.txt
+├── mask
+│   └── index.js
+├── result
+│   └── index.md
 └── spec
     └── default.js
 ```
@@ -288,7 +333,7 @@ const T = {
   },
   async 'gets a link to the fixture'({ FIXTURE }) {
     const res = await myNewPackage({
-      type: FIXTURE,
+      text: FIXTURE,
     })
     ok(res, FIXTURE)
   },
@@ -298,6 +343,9 @@ export default T
 ```
 
 If <a name="_snapshot-testing_">_snapshot-testing_</a> is required, it can be additionally installed with `yarn add -DE snapshot-context`. This will allow to write snapshot tests.
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/11.svg?sanitize=true" width="15"></a></p>
+
 ### Testing Context
 
 The structure uses a test context -- a feature of `Zoroaster` that lets separate the set-up and tear-down methods from the test implementations. All common methods, e.g., reading a fixture file, should be implemented in the context and accessed via the destructuring capabilities of the JavaScript language. All clean-up code such as destroying a server, can be done in the `_destroy` method of the class.
@@ -344,19 +392,24 @@ When a context is used in tests, there's an access to the test context API:
 
 Context testing also allows to split files into mulitple sub-directories much easier.
 
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/12.svg?sanitize=true" width="15"></a></p>
+
 ### Documentation with `doc`
 
 The documentation is pre-processed with [`documentary`](https://github.com/artdecocode/documentary) which simplifies working on the `README.md` file by allowing to split files, and inserting examples and output text in the docs.
 
 ```m
 node_modules/@mnpjs/package/structure/documentary
-├── API
+├── 1-API
 │   └── index.md
 ├── footer.md
 └── index.md
 ```
 
 To process documentation, the `yarn doc` command can be run.
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/13.svg?sanitize=true" width="15"></a></p>
+
 #### `Examples` Embedding
 
 The examples are extremely useful for people reading the documentation, and they also allow developers to manually check that everything works correctly in the package. `documentary` supports embedding of examples and their output, eliminating the need to copy those by hand. The examples are put in the `example` directory, and embedded in the README file with the following snippet:
@@ -376,7 +429,10 @@ The output can be printed with the `FORK` command:
 import myNewPackage from '../src'
 
 (async () => {
-  await myNewPackage()
+  const res = await myNewPackage({
+    text: 'example',
+  })
+  console.log(res)
 })()
 ```
 
@@ -391,6 +447,9 @@ require(p)
 ```
 
 To provide a quick way to run examples, each of them needs to be [created a script](#particular-example) for in the `package.json`.
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/14.svg?sanitize=true" width="15"></a></p>
+
 ### Scripts in `Package.json`
 
 The scripts are useful for testing, running in debugger, building and building documentation.
@@ -403,14 +462,16 @@ The scripts are useful for testing, running in debugger, building and building d
   "main": "build",
   "scripts": {
     "t": "zoroaster -a",
-    "test": "yarn t test/spec",
+    "test": "yarn t test/spec test/mask",
+    "spec": "yarn t test/spec",
+    "mask": "yarn t test/mask",
     "test-build": "ALAMODE_ENV=test-build yarn test",
-    "test-all": "yarn-s test test-build",
-    "test-watch": "yarn test -w",
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
     "b": "alamode src -o build",
-    "build": "yarn-s b doc",
+    "d": "yarn-s d1",
+    "d1": "NODE_DEBUG=doc doc src/index.js -g",
+    "build": "yarn-s d b doc",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "e": "node example",
     "example/": "yarn e example/example.js"
@@ -432,28 +493,31 @@ The scripts are useful for testing, running in debugger, building and building d
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "alamode": "1.4.0",
-    "documentary": "1.11.0",
+    "alamode": "1.5.1",
+    "documentary": "1.20.1",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.0.0"
+    "zoroaster": "3.5.2"
   }
 }
 ```
 
 The description of each script is as follows:
 
-| Script | Meaning | Description |
-| ------ | ------- | ----------- |
-| `t` | Test a single file or directory. | To run: `yarn t test/spec/lib.js`. |
-| `b` | <a name="build-with-_-la-mode_">Build With _À La Mode_</a>. | The package uses [`alamode`](https://github.com/a-la/alamode) to allow writing `import` and `export` statements. |
-| `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>. | Is run with `yarn doc`, but is also a part of the `build` script. |
-| `build` | Run `b` and `doc` in series. | Builds source code into the `build` directory, and compiles documentation to the `README.md` file. |
-| `test` | <a name="test-with-_zoroaster_">Test With _Zoroaster_</a>. | Run all tests, `yarn test`. |
-| `test-build` | Test build files. | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
-| `e` | Run an example file. | Run specified example, e.g., `yarn e example/test.js`. |
-| `example/` | Run a <a name="particular-example">particular example</a>. | A job specifically created as a short-hand for a particular example. |
-| `lint` | Check code style. | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
+|    Script    |                          Meaning                           |                                                                                                                                  Description                                                                                                                                   |
+| ------------ | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `t` | Test a single file or directory.                           | To run: `yarn t test/spec/lib.js`.                                                                                                                                                                                                                               |
+| `b` | <a name="build-with-_-la-mode_">Build With _À La Mode_</a>.                               | The package uses [`alamode`](https://github.com/a-la/alamode) to allow writing `import` and `export` statements.                                                                   |
+| `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>.                          | Is run with `yarn doc`, but is also a part of the `build` script.                                                                                                                                                 |
+| `build` | Run `b` and `doc` in series. | Builds source code into the `build` directory, and compiles documentation to the `README.md` file.                                                                                                               |
+| `test` | <a name="test-with-_zoroaster_">Test With _Zoroaster_</a>.                                | Run all tests, `yarn test`.                                                                                                                                                                                                                       |
+| `test-build` | Test build files.                                          | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
+| `e` | Run an example file.                                       | Run specified example, e.g., `yarn e example/test.js`.                                                                                                                                                                                                         |
+| `example/` | Run a <a name="particular-example">particular example</a>. | A job specifically created as a short-hand for a particular example.                                                                                                                                                                                                           |
+| `lint` | Check code style.                                          | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/15.svg?sanitize=true" width="15"></a></p>
+
 ### _.alamoderc.json_
 
 `alamode` is a fast Regex-based JavaScript transpiler which is capable of transforming `import` and `export` statements into `require` calls and `module.export` assignments. Because the stable Node.js contains most in not all of the features that could be wanted by developers, except for the ECMAScript 6 modules, the code inside packages is transpiled with `alamode` either during the build process, or via a require hook. It also allows to substitute the path to the source directory, e.g., when testing the build with the `test-build` command when `ALAMODE_ENV` is set to `test-build`.
@@ -472,6 +536,8 @@ The description of each script is as follows:
   }
 }
 ```
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/16.svg?sanitize=true" width="15"></a></p>
+
 ###  `launch.json` Debugging
 
 Debugging is very useful and almost always required way to progress with a development of a software program. A new functionality can be introduced by writing the tests first, and then running them against the source code. That is, the `TDD` approach to testing can be summarised as having to somehow run the code being tested first, and the best place to put it in is a test file. By providing a quick sketch of tests, the program can then be debugged to see whether the execution flows as expected, and adjust it on-the-fly.
@@ -491,14 +557,32 @@ This explains the structure of the `launch.json` file, which will have a configu
       "name": "Launch Zoroaster",
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "env": {
-        "ZOROASTER_TIMEOUT": "9999999",
         "NODE_DEBUG": "my-new-package",
       },
       "console": "integratedTerminal",
       "args": [
         "test/spec",
+        "test/mask",
         "-a",
         "-w",
+        "-t",
+        "9999999"
+      ],
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Example",
+      "program": "${workspaceFolder}/example/index.js",
+      "env": {
+        "NODE_DEBUG": "my-new-package",
+      },
+      "console": "integratedTerminal",
+      "args": [
+        "example/example.js"
       ],
       "skipFiles": [
         "<node_internals>/**/*.js"
@@ -508,14 +592,13 @@ This explains the structure of the `launch.json` file, which will have a configu
 }
 ```
 
-## TODO
 
-- [ ] Binary Structure.
-- [ ] Patch structures.
-- [ ] Create own structures.
-- [ ] Tags and Keywords.
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/17.svg?sanitize=true"></a></p>
+
 ## Copyright
 
-(c) [Art Deco](https://artdeco.bz) 2018
+(c) [Art Deco](https://artd.eco) 2018
 
 [1]: https://github.com/settings/tokens
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-1.svg?sanitize=true"></a></p>

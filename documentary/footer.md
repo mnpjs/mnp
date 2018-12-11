@@ -1,10 +1,9 @@
-
-## TODO
+<!-- ## TODO
 
 - [ ] Binary Structure.
 - [ ] Patch structures.
 - [ ] Create own structures.
-- [ ] Tags and Keywords.
+- [ ] Tags and Keywords. -->
 <!-- - [ ] Fix tests -->
 <!-- - [ ] Star -->
 <!-- - [ ] Fetch repo info. -->
@@ -12,6 +11,8 @@
 
 ## Copyright
 
-(c) [Art Deco](https://artdeco.bz) 2018
+(c) [Art Deco](https://artd.eco) 2018
 
 [1]: https://github.com/settings/tokens
+
+%~ -1%

@@ -10,3 +10,4 @@ When a context is used in tests, there's an access to the test context API:
 
 Context testing also allows to split files into mulitple sub-directories much easier.
 
+%~ width="15"%

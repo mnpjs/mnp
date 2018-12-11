@@ -15,3 +15,5 @@ The default package structure is an up-to-date template of a modern Node.js appl
 </table>
 
 It also includes `yarn.lock` file to speed up the installation process.
+
+%~ width="15"%

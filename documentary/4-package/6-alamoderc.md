@@ -7,3 +7,5 @@
 %EXAMPLE: node_modules/@mnpjs/package/structure/.alamoderc.json, json5%
 <!--
 However, when `bestie` implements the support for `RegExp`-based fast build of the modules, the `@babel` dependency will be removed. -->
+
+%~ width="15"%
