@@ -1,6 +1,6 @@
 ## 18 January 2018
 
-### [0.13.0](https://github.com/artdecocode/mnp/compare/v0.12.0...v0.13.0)
+### [0.13.0-1](https://github.com/artdecocode/mnp/compare/v0.12.0...v0.13.1)
 
 - [structure] Update `idio` structure.
 
