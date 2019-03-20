@@ -11,7 +11,7 @@ import runCreate from './commands/create'
 
 const {
   struct, help, name: _name, check: _check, delete: _delete, init, desc: _description,
-  version: _version,
+  version: _version, 'no-scope': noScope,
 } = argufy({
   struct: 's',
   help: { short: 'h', boolean: true },
@@ -21,6 +21,7 @@ const {
   check: { short: 'c', boolean: true },
   delete: { short: 'd', boolean: true },
   init: { short: 'I', boolean: true },
+  'no-scope': { short: 'n', boolean: true },
 })
 
 if (_version) {
@@ -51,12 +52,15 @@ const getName = async (name) => {
 
     if (_check) return runCheck(name)
 
-    const { token, ...settings } = await signIn()
+    const { token, scope, ...settings } = await signIn()
     const github = new GitHub(token)
 
     if (_delete) return runDelete(github, settings.org, name)
 
-    await runCreate(settings, {
+    await runCreate({
+      ...(noScope ? {} : { scope }),
+      ...settings,
+    }, {
       name,
       struct,
       github,
