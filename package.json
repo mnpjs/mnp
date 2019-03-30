@@ -29,7 +29,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mnpjs/mnp.git"
+    "url": "git://github.com/dpck/depack.git"
   },
   "keywords": [
     "npm",

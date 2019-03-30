@@ -1,3 +1,10 @@
+## 30 March 2019
+
+### [0.14.0](https://github.com/dpck/depack/compare/v0.13.1...v0.14.0)
+
+- [feature] Flags to work with scopes.
+- [structures] The newest package structure.
+
 ## 18 January 2018
 
 ### [0.13.0-1](https://github.com/artdecocode/mnp/compare/v0.12.0...v0.13.1)
