@@ -1,6 +1,6 @@
 #!/usr/bin/env node
+import { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _struct, _description } from './get-args'
 import { askSingle } from 'reloquent'
-import argufy from 'argufy'
 import GitHub from '@rqt/github'
 import getUsage from './usage'
 import signIn from '../lib/sign-in'
@@ -9,26 +9,10 @@ import runCheck from './commands/check'
 import runDelete from './commands/delete'
 import runCreate from './commands/create'
 
-const {
-  struct, help, name: _name, check: _check, delete: _delete, init, desc: _description,
-  version: _version, 'no-scope': noScope, scope,
-} = argufy({
-  struct: 's',
-  help: { short: 'h', boolean: true },
-  desc: { short: 'D' },
-  name: { command: true },
-  version: { short: 'v', boolean: true },
-  check: { short: 'c', boolean: true },
-  delete: { short: 'd', boolean: true },
-  init: { short: 'I', boolean: true },
-  'no-scope': { short: 'n', boolean: true },
-  'scope': { short: '@' },
-})
-
 if (_version) {
   console.log(version)
   process.exit()
-} else if (help) {
+} else if (_help) {
   const u = getUsage()
   console.log(u)
   process.exit()
@@ -47,7 +31,7 @@ const getName = async (name) => {
 
 (async () => {
   try {
-    if (init) return signIn(true)
+    if (_init) return signIn(true)
 
     const name = await getName(_name)
 
@@ -60,11 +44,11 @@ const getName = async (name) => {
     if (_delete) return runDelete(github, settings.org, name)
 
     await runCreate({
-      ...(noScope ? {} : { scope: scope || settingsScope }),
+      ...(_noScope ? {} : { scope: _scope || settingsScope }),
       ...settings,
     }, {
       name,
-      struct,
+      struct: _struct,
       github,
       description: _description,
     })

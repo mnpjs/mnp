@@ -114,4 +114,24 @@ Delete specified repository from `GitHub`. Useful when a package was created for
 mnp package -d
 ```
 
+%~ width="15"%
+
+### `-@`, `--scope`: Set Scope
+
+When a particular scope needs to be specified for the package, the `-@` option can be used.
+
+```sh
+mnp package -@ superscope
+```
+
+%~ width="15"%
+
+### `-`, `--scope`: Set Scope
+
+When a particular scope needs to be specified for the package, the `-@` option can be used.
+
+```sh
+mnp package -@ superscope
+```
+
 %~%
