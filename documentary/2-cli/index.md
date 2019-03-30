@@ -3,7 +3,7 @@
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
 ```sh
-mnp [package-name] [-D description] [-s structure] [-cIhd]
+mnp [package-name] [-D description] [-s structure] [--init|I] [-chdn@]
 ```
 
 To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.
@@ -84,7 +84,7 @@ Initialising configuration: <code>mnp -I</code>.
 <tr>
 <td>
 
-%FORK src/bin -h%
+%FORK src/bin/mnp -h%
 </td>
 </tr>
 </tbody>
@@ -126,12 +126,12 @@ mnp package -@ superscope
 
 %~ width="15"%
 
-### `-`, `--scope`: Set Scope
+### `-n`, `--no-scope`: Disable Scope
 
-When a particular scope needs to be specified for the package, the `-@` option can be used.
+If the settings read from `.mnprc` contained an NPM scope, but it is not needed for the particular package, it can be disabled with this option.
 
 ```sh
-mnp package -@ superscope
+mnp package -n
 ```
 
 %~%

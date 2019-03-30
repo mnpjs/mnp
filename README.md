@@ -15,6 +15,8 @@
   * [`-h`, `--help`: Show Help](#-h---help-show-help)
   * [`-c`, `--check`: Check Exists](#-c---check-check-exists)
   * [`-d`, `--delete`: Delete Repository](#-d---delete-delete-repository)
+  * [`-@`, `--scope`: Set Scope](#----scope-set-scope)
+  * [`-n`, `--no-scope`: Disable Scope](#-n---no-scope-disable-scope)
 - [Structures](#structures)
   * [`Art Deco Node.js Package`](#art-deco-nodejs-package)
   * [@idio/core web server](#idiocore-web-server)
@@ -29,7 +31,7 @@
   * [Documentation with `doc`](#documentation-with-doc)
     * [`Examples` Embedding](#examples-embedding)
   * [Scripts in `Package.json`](#scripts-in-packagejson)
-    * [Build With _À La Mode_](#build-with-_-la-mode_)
+    * [Build With _À La Mode_](#build-with-_à-la-mode_)
     * [Document With _Documentary_](#document-with-_documentary_)
     * [Test With _Zoroaster_](#test-with-_zoroaster_)
   * [_.alamoderc.json_](#_alamodercjson_)
@@ -149,7 +151,27 @@ Delete specified repository from `GitHub`. Useful when a package was created for
 mnp package -d
 ```
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/6.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/6.svg?sanitize=true" width="15"></a></p>
+
+### `-@`, `--scope`: Set Scope
+
+When a particular scope needs to be specified for the package, the `-@` option can be used.
+
+```sh
+mnp package -@ superscope
+```
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/7.svg?sanitize=true" width="15"></a></p>
+
+### `-n`, `--no-scope`: Disable Scope
+
+If the settings read from `.mnprc` contained an NPM scope, but it is not needed for the particular package, it can be disabled with this option.
+
+```sh
+mnp package -n
+```
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/8.svg?sanitize=true"></a></p>
 
 ## Structures
 
@@ -162,8 +184,7 @@ There are a number of structures available. The default one is the `package` str
 | `azure` | The <a name="azure-functions-app">Azure functions app</a> structure for creating serverless APIs.                                                                                     | [`@mnpjs/azure`](https://github.com/mnpjs/azure) |
 | `structure` | <a name="the-metastructure">The metastructure</a> for creating new structures with `mnp`.                                                         | [`@mnpjs/structure`](https://github.com/mnpjs/structure) |
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/7.svg?sanitize=true" width="15"></a></p>
-
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/9.svg?sanitize=true" width="15"></a></p>
 
 ### Scripts
 
@@ -193,7 +214,7 @@ If a script is given as a `.js` file which exists in the structure directory, it
 }
 ```
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/8.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/10.svg?sanitize=true"></a></p>
 
 ## `Package` Structure
 
@@ -232,7 +253,6 @@ node_modules/@mnpjs/package/structure
 │   ├── footer.md
 │   └── index.md
 ├── example
-│   ├── example.js
 │   └── index.js
 ├── package.json
 ├── src
@@ -259,7 +279,7 @@ node_modules/@mnpjs/package/structure
 
 It also includes `yarn.lock` file to speed up the installation process.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/9.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/11.svg?sanitize=true" width="15"></a></p>
 
 ### Main Function
 
@@ -296,7 +316,7 @@ export default async function myNewPackage(config = {}) {
 
 ![Config Api Type](doc/config.gif)
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/10.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/12.svg?sanitize=true" width="15"></a></p>
 
 ### Test Suites
 
@@ -345,19 +365,17 @@ export default T
 
 If <a name="_snapshot-testing_">_snapshot-testing_</a> is required, it can be additionally installed with `yarn add -DE snapshot-context`. This will allow to write snapshot tests.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/11.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/13.svg?sanitize=true" width="15"></a></p>
 
 ### Testing Context
 
 The structure uses a test context -- a feature of `Zoroaster` that lets separate the set-up and tear-down methods from the test implementations. All common methods, e.g., reading a fixture file, should be implemented in the context and accessed via the destructuring capabilities of the JavaScript language. All clean-up code such as destroying a server, can be done in the `_destroy` method of the class.
 
 ```js
-import { resolve } from 'path'
+import { join } from 'path'
 import { debuglog } from 'util'
 
 const LOG = debuglog('my-new-package')
-
-const FIXTURE = resolve(__dirname, '../fixture')
 
 /**
  * A testing context for the package.
@@ -373,13 +391,14 @@ export default class Context {
     return 'OK'
   }
   /**
-   * Path to the fixture file.
+   * A tagged template that returns the relative path to the fixture.
+   * @param {string} file
+   * @example
+   * fixture`input.txt` // -> test/fixture/input.txt
    */
-  get FIXTURE() {
-    return resolve(FIXTURE, 'test.txt')
-  }
-  get SNAPSHOT_DIR() {
-    return resolve(__dirname, '../snapshot')
+  fixture(file) {
+    const f = file.raw[0]
+    return join('test/fixture', f)
   }
   async _destroy() {
     LOG('destroy context')
@@ -393,7 +412,7 @@ When a context is used in tests, there's an access to the test context API:
 
 Context testing also allows to split files into mulitple sub-directories much easier.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/12.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/14.svg?sanitize=true" width="15"></a></p>
 
 ### Documentation with `doc`
 
@@ -409,7 +428,7 @@ node_modules/@mnpjs/package/structure/documentary
 
 To process documentation, the `yarn doc` command can be run.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/13.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/15.svg?sanitize=true" width="15"></a></p>
 
 #### `Examples` Embedding
 
@@ -419,7 +438,7 @@ The examples are extremely useful for people reading the documentation, and they
 %EXAMPLE: example/example, ../src => mnp%
 ```
 
-The paths to JS and JSX files will be resolved automatically, however to embed the source of other files, the extension should be passed. To specify the markdown language, it can be passed at the end, otherwise it will be determined from the file extension:
+The paths to JS and JSX files will be resolved automatically, however to embed the source of other files, the extension should be passed. To specify the code block language in output markdown, it can be passed at the end, otherwise it will be determined from the file extension:
 
 ```
 %EXAMPLE: example/config.yml, yaml%
@@ -432,7 +451,7 @@ The output can be printed with the `FORK` command:
 ```
 
 ```js
-/* yarn example/ */
+/* alanode example/ */
 import myNewPackage from '../src'
 
 (async () => {
@@ -443,20 +462,13 @@ import myNewPackage from '../src'
 })()
 ```
 
-Because the examples are written using `import` and `export` syntax, the `index.js` file is required which will include `alamode`:
-
-```js
-require('alamode')()
-require(`../${process.argv[2]}`)
-```
-
-However, this is not required to fork examples for documentation, because _Documentary_ will take care of the `import` and `export` statements by using ÀLaMode internally. To disable that, the `_FORK` should be used instead.
+Because the examples are written using `import` and `export` syntax, _ÀLaMode_ transpiler bundlers `alanode` binary, which is added as an alias with `yarn e` command, e.g., `yarn e example/` or `yarn e example/second`. However, this is not required to fork examples for documentation, because _Documentary_ will take care of the `import` and `export` statements by using _ÀLaMode_ internally. To disable that, the `_FORK` should be used instead.
 
 Forking also supports caching, so that examples don't have to be rerun each time the documentation changes in a different place. This allows to recompile the output `README.md` much faster. Caches include module's mtime and its dependencies' versions if they are packages, or mtimes if they are other modules. To disable caching globally, the `doc` command can be run with `-c`, or `!FORK` should be specified for individual forks. Because caches rely on mtime, they are not submitted to git.
 
 To provide a quick way to run examples, each of them needs to be [created a script](#particular-example) for in the `package.json`.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/14.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/16.svg?sanitize=true" width="15"></a></p>
 
 ### Scripts in `Package.json`
 
@@ -481,9 +493,7 @@ The scripts are useful for testing, running in debugger, building and building d
     "d": "yarn-s d1",
     "d1": "NODE_DEBUG=doc doc src/index.js -g",
     "build": "yarn-s d b doc",
-    "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
-    "e": "node example",
-    "example/": "yarn e example/example.js"
+    "e": "alanode"
   },
   "files": [
     "build",
@@ -503,8 +513,8 @@ The scripts are useful for testing, running in debugger, building and building d
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "alamode": "1.8.6",
-    "documentary": "1.23.1",
+    "alamode": "1.9.0",
+    "documentary": "1.23.2",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
     "zoroaster": "3.11.2"
@@ -517,7 +527,7 @@ The description of each script is as follows:
 |    Script    |                          Meaning                           |                                                                                                                                  Description                                                                                                                                   |
 | ------------ | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `t` | Test a single file or directory.                           | To run: `yarn t test/spec/lib.js`.                                                                                                                                                                                                                              |
-| `b` | <a name="build-with-_-la-mode_">Build With _À La Mode_</a>.                               | The package uses [`alamode`](https://github.com/a-la/alamode) to allow writing `import` and `export` statements.                                                                |
+| `b` | <a name="build-with-_à-la-mode_">Build With _À La Mode_</a>.                               | The package uses [`alamode`](https://github.com/a-la/alamode) to allow writing `import` and `export` statements.                                                                |
 | `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>.                          | Is run with `yarn doc`, but is also a part of the `build` script.                                                                                                                                               |
 | `build` | Run `b` and `doc` in series. | Builds source code into the `build` directory, and compiles documentation to the `README.md` file.                                                                                                               |
 | `test` | <a name="test-with-_zoroaster_">Test With _Zoroaster_</a>.                                | Run all tests, `yarn test`.                                                                                                                                                                                                                       |
@@ -526,7 +536,7 @@ The description of each script is as follows:
 | `example/` | Run a <a name="particular-example">particular example</a>. | A job specifically created as a short-hand for a particular example.                                                                                                                                                                                                           |
 | `lint` | Check code style.                                          | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/15.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/17.svg?sanitize=true" width="15"></a></p>
 
 ### _.alamoderc.json_
 
@@ -546,7 +556,7 @@ The description of each script is as follows:
   }
 }
 ```
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/16.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/18.svg?sanitize=true" width="15"></a></p>
 
 ###  `launch.json` Debugging
 
@@ -603,7 +613,7 @@ This explains the structure of the `launch.json` file, which will have a configu
 ```
 
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/17.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/19.svg?sanitize=true"></a></p>
 
 ## Copyright
 
