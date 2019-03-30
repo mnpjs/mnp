@@ -69,7 +69,6 @@
     "assert-diff": "2.0.3",
     "documentary": "1.23.1",
     "eslint-config-artdeco": "1.0.1",
-    "snapshot-context": "2.2.1",
     "temp-context": "2.1.1",
     "yarn-s": "1.1.0",
     "zoroaster": "3.11.2"

@@ -21,9 +21,14 @@ build
 # .eslintrc
 
 {
-  "extends": "artdeco"
+  "extends": ["artdeco", "plugin:react/recommended"],
+  "rules": {
+    "quotes": 0,
+    "quote-props": 0,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0
+  }
 }
-
 
 # .gitignore
 
@@ -85,7 +90,7 @@ typings/
 
 # dotenv environment variables file
 .env
-
+.documentary/cache
 
 # .vscode/launch.json
 
@@ -167,21 +172,15 @@ const LOG = debuglog('@adc/test-package-10')
 
 
 module.exports = testPackage_10
-//# sourceMappingURL=index.js.map
-
-# build/index.js.map
-
-{"version":3,"sources":["../src/index.js"],"names":[],"mappings":"AAAA,MAAM,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,CAAC,IAAI,CAAC,CAAC,IAAI;;AAE9B,KAAK,CAAC,GAAG,CAAC,CAAC,CAAC,QAAQ,CAAC,CAAC,EAAE,CAAC,GAAG,CAAC,OAAO,CAAC;;;;;;;;AAQrC,MAAM,CAAC,OAAO,CAAC,KAAK,CAAC,QAAQ,CAAC,YAAY,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC;EACtD,KAAK,CAAC;IACJ,SAAS,CAAC,CAAC,CAAC,IAAI;IAChB,IAAI;EACN,CAAC,CAAC,CAAC,CAAC;EACJ,EAAE,CAAC,CAAC,CAAC,SAAS,CAAC,CAAC;EAChB,GAAG,CAAC,CAAC,EAAE,CAAC,GAAG,CAAC,OAAO,CAAC,MAAM,CAAC,IAAI,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,IAAI;EACzC,MAAM,CAAC;AACT","file":"index.js","sourcesContent":["import { debuglog } from 'util'\n\nconst LOG = debuglog('@adc/test-package-10')\n\n/**\n * Description of the test package\n * @param {Config} [config] Options for the program.\n * @param {boolean} [config.shouldRun=true] A boolean option. Default `true`.\n * @param {string} config.text A text to return.\n */\nexport default async function testPackage_10(config = {}) {\n  const {\n    shouldRun = true,\n    text,\n  } = config\n  if (!shouldRun) return\n  LOG('@adc/test-package-10 called with %s', text)\n  return text\n}\n\n/* documentary types/index.xml */\n/**\n * @typedef {Object} Config Options for the program.\n * @prop {boolean} [shouldRun=true] A boolean option. Default `true`.\n * @prop {string} text A text to return.\n */\n"]}
 
 # CHANGELOG.md
 
-## 25 May 2018
+## 30 March 2019
 
-### 1.0.0
+### 0.0.0
 
-- Create `@adc/test-package-10` with [`mnp`][https://mnpjs.org]
+- Create `@adc/test-package-10` with _[`My New Package`](https://mnpjs.org)_
 - [repository]: `src`, `test`
-
 
 # documentary/index.md
 
@@ -224,8 +223,8 @@ Call this function to get the result you want.
 
 %TYPEDEF types/index.xml%
 
-%EXAMPLE: example/example.js, ../src => @adc/test-package-10%
-%FORK example example/example%
+%EXAMPLE: example/example, ../src => @adc/test-package-10%
+%FORK example/example%
 
 %~%
 
@@ -237,7 +236,7 @@ Call this function to get the result you want.
 
 ## Copyright
 
-(c) [Art Deco][1] 2018
+(c) [MNP JS][1] 2019
 
 [1]: https://test.io
 
@@ -264,7 +263,7 @@ require(`../${process.argv[2]}`)
 
 MIT License
 
-Copyright (c) 2018 Art Deco Code Limited
+Copyright (c) 2019 Art Deco Code Limited
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -289,9 +288,10 @@ SOFTWARE.
 
 {
   "name": "@adc/test-package-10",
-  "version": "0.0.0",
+  "version": "0.0.0-pre",
   "description": "Description of the test package",
-  "main": "build",
+  "main": "build/index.js",
+  "module": "src/index.js",
   "scripts": {
     "t": "zoroaster -a",
     "test": "yarn t test/spec test/mask",
@@ -300,7 +300,7 @@ SOFTWARE.
     "test-build": "ALAMODE_ENV=test-build yarn test",
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
-    "b": "alamode src -o build",
+    "b": "alamode src -o build -s",
     "d": "yarn-s d1",
     "d1": "NODE_DEBUG=doc doc src/index.js -g",
     "build": "yarn-s d b doc",
@@ -309,7 +309,8 @@ SOFTWARE.
     "example/": "yarn e example/example.js"
   },
   "files": [
-    "build"
+    "build",
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -326,11 +327,11 @@ SOFTWARE.
   },
   "homepage": "https://github.com/test-org/@adc/test-package-10#readme",
   "devDependencies": {
-    "alamode": "1.5.1",
-    "documentary": "1.20.1",
+    "alamode": "1.8.6",
+    "documentary": "1.23.1",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.5.2"
+    "zoroaster": "3.11.2"
   }
 }
 
@@ -396,7 +397,7 @@ example
 
 ## Copyright
 
-(c) [Art Deco][1] 2018
+(c) [MNP JS][1] 2019
 
 [1]: https://test.io
 
@@ -473,13 +474,14 @@ export default class Context {
 a test file
 
 
-# test/mask/index.js
+# test/mask/default.js
 
-import { makeTestSuite } from 'zoroaster'
+import makeTestSuite from '@zoroaster/mask'
 import Context from '../context'
 import testPackage_10 from '../../src'
 
-const ts = makeTestSuite('test/result', {
+// export default
+makeTestSuite('test/result', {
   async getResults(input) {
     const res = await testPackage_10({
       text: input,
@@ -489,11 +491,9 @@ const ts = makeTestSuite('test/result', {
   context: Context,
 })
 
-export default ts
+# test/result/default.md
 
-# test/result/index.md
-
-// returns the correct output
+## returns the correct output
 test
 
 /* expected */

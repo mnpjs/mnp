@@ -1,6 +1,13 @@
 import { join } from 'path'
 import { readDir } from 'wrote'
 import MNP_PACKAGE from '@mnpjs/package'
+import { lstatSync } from 'fs'
+
+const ls = lstatSync('node_modules/@mnpjs/package')
+if(ls.isSymbolicLink()) {
+  console.log('@mnpjs/package is linked, please unlink for testing')
+  process.exit(1)
+}
 
 const FIXTURE = 'test/fixture'
 
@@ -26,8 +33,5 @@ export default class Context {
   }
   get MNP_PACKAGE() {
     return `${MNP_PACKAGE}/structure`
-  }
-  get SNAPSHOT_DIR() {
-    return 'test/snapshot'
   }
 }

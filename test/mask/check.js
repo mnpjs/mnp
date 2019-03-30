@@ -1,9 +1,9 @@
-import { makeTestSuite } from 'zoroaster'
+import makeTestSuite from '@zoroaster/mask'
 import Context from '../context'
 
 const BIN = Context.BIN
 
-const ts = makeTestSuite('test/result/check.md', {
+export default makeTestSuite('test/result/check', {
   fork: {
     module: BIN,
     log: true,
@@ -17,5 +17,3 @@ const ts = makeTestSuite('test/result/check.md', {
 })
 
 const re = /\033\[.*?m/g
-
-export default ts

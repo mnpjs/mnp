@@ -1,4 +1,4 @@
-// checks a package
+## checks a package
 mnp -c
 
 /* expected */

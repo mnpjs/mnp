@@ -1,8 +1,8 @@
-import { makeTestSuite } from 'zoroaster'
+import makeTestSuite from '@zoroaster/mask'
 import TempContext from 'temp-context'
 import { runOnCreate } from '../../src/lib'
 
-const ts = makeTestSuite('test/result/run-on-create.md', {
+export default makeTestSuite('test/result/run-on-create', {
   /**
    * @param {string} input
    * @param {TempContext} t
@@ -15,5 +15,3 @@ const ts = makeTestSuite('test/result/run-on-create.md', {
   },
   context: TempContext,
 })
-
-export default ts

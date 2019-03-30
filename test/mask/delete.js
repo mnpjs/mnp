@@ -1,11 +1,11 @@
-import { makeTestSuite } from 'zoroaster'
+import makeTestSuite from '@zoroaster/mask'
 import GitHubContext from '../context/GitHub'
 import TempContext from '../context/temp'
 import Context from '../context'
 
 const BIN = Context.BIN
 
-const ts = makeTestSuite('test/result/delete.md', {
+const ts = makeTestSuite('test/result/delete', {
   fork: {
     module: BIN,
     /**
