@@ -209,6 +209,8 @@ The default package structure is an up-to-date template of a modern Node.js appl
 node_modules/@mnpjs/package/structure
 ├── .alamoderc.json
 ├── .documentary
+│   ├── cache
+│   │   └── fork.json
 │   └── section-breaks
 │       ├── -1.svg
 │       ├── 0.svg
@@ -223,8 +225,7 @@ node_modules/@mnpjs/package/structure
 ├── LICENSE
 ├── README.md
 ├── build
-│   ├── index.js
-│   └── index.js.map
+│   └── index.js
 ├── documentary
 │   ├── 1-API
 │   │   └── index.md
@@ -242,9 +243,9 @@ node_modules/@mnpjs/package/structure
 │   ├── fixture
 │   │   └── test.txt
 │   ├── mask
-│   │   └── index.js
+│   │   └── default.js
 │   ├── result
-│   │   └── index.md
+│   │   └── default.md
 │   └── spec
 │       └── default.js
 ├── types
@@ -308,9 +309,9 @@ node_modules/@mnpjs/package/structure/test
 ├── fixture
 │   └── test.txt
 ├── mask
-│   └── index.js
+│   └── default.js
 ├── result
-│   └── index.md
+│   └── default.md
 └── spec
     └── default.js
 ```
@@ -415,13 +416,19 @@ To process documentation, the `yarn doc` command can be run.
 The examples are extremely useful for people reading the documentation, and they also allow developers to manually check that everything works correctly in the package. `documentary` supports embedding of examples and their output, eliminating the need to copy those by hand. The examples are put in the `example` directory, and embedded in the README file with the following snippet:
 
 ```
-%EXAMPLE: example example/example.js, ../src => mnp, javascript%
+%EXAMPLE: example/example, ../src => mnp%
+```
+
+The paths to JS and JSX files will be resolved automatically, however to embed the source of other files, the extension should be passed. To specify the markdown language, it can be passed at the end, otherwise it will be determined from the file extension:
+
+```
+%EXAMPLE: example/config.yml, yaml%
 ```
 
 The output can be printed with the `FORK` command:
 
 ```
-%FORK-json example example/example.js%
+%FORK-json example/example%
 ```
 
 ```js
@@ -436,15 +443,16 @@ import myNewPackage from '../src'
 })()
 ```
 
-Because the examples are written using `import` and `export` syntax, a `index.js` file is required which will include `alamode`:
+Because the examples are written using `import` and `export` syntax, the `index.js` file is required which will include `alamode`:
 
 ```js
-const { resolve } = require('path')
 require('alamode')()
-
-const p = resolve(__dirname, '..', process.argv[2])
-require(p)
+require(`../${process.argv[2]}`)
 ```
+
+However, this is not required to fork examples for documentation, because _Documentary_ will take care of the `import` and `export` statements by using ÀLaMode internally. To disable that, the `_FORK` should be used instead.
+
+Forking also supports caching, so that examples don't have to be rerun each time the documentation changes in a different place. This allows to recompile the output `README.md` much faster. Caches include module's mtime and its dependencies' versions if they are packages, or mtimes if they are other modules. To disable caching globally, the `doc` command can be run with `-c`, or `!FORK` should be specified for individual forks. Because caches rely on mtime, they are not submitted to git.
 
 To provide a quick way to run examples, each of them needs to be [created a script](#particular-example) for in the `package.json`.
 
@@ -457,9 +465,10 @@ The scripts are useful for testing, running in debugger, building and building d
 ```json5
 {
   "name": "my-new-package",
-  "version": "0.0.0",
+  "version": "0.0.0-pre",
   "description": "{{ description }}",
-  "main": "build",
+  "main": "build/index.js",
+  "module": "src/index.js",
   "scripts": {
     "t": "zoroaster -a",
     "test": "yarn t test/spec test/mask",
@@ -468,7 +477,7 @@ The scripts are useful for testing, running in debugger, building and building d
     "test-build": "ALAMODE_ENV=test-build yarn test",
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
-    "b": "alamode src -o build",
+    "b": "alamode src -o build -s",
     "d": "yarn-s d1",
     "d1": "NODE_DEBUG=doc doc src/index.js -g",
     "build": "yarn-s d b doc",
@@ -477,7 +486,8 @@ The scripts are useful for testing, running in debugger, building and building d
     "example/": "yarn e example/example.js"
   },
   "files": [
-    "build"
+    "build",
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -493,11 +503,11 @@ The scripts are useful for testing, running in debugger, building and building d
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "alamode": "1.6.1",
-    "documentary": "1.20.1",
+    "alamode": "1.8.6",
+    "documentary": "1.23.1",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.6.6"
+    "zoroaster": "3.11.2"
   }
 }
 ```
@@ -506,9 +516,9 @@ The description of each script is as follows:
 
 |    Script    |                          Meaning                           |                                                                                                                                  Description                                                                                                                                   |
 | ------------ | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `t` | Test a single file or directory.                           | To run: `yarn t test/spec/lib.js`.                                                                                                                                                                                                                               |
-| `b` | <a name="build-with-_-la-mode_">Build With _À La Mode_</a>.                               | The package uses [`alamode`](https://github.com/a-la/alamode) to allow writing `import` and `export` statements.                                                                   |
-| `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>.                          | Is run with `yarn doc`, but is also a part of the `build` script.                                                                                                                                                 |
+| `t` | Test a single file or directory.                           | To run: `yarn t test/spec/lib.js`.                                                                                                                                                                                                                              |
+| `b` | <a name="build-with-_-la-mode_">Build With _À La Mode_</a>.                               | The package uses [`alamode`](https://github.com/a-la/alamode) to allow writing `import` and `export` statements.                                                                |
+| `doc` | <a name="document-with-_documentary_">Document With _Documentary_</a>.                          | Is run with `yarn doc`, but is also a part of the `build` script.                                                                                                                                               |
 | `build` | Run `b` and `doc` in series. | Builds source code into the `build` directory, and compiles documentation to the `README.md` file.                                                                                                               |
 | `test` | <a name="test-with-_zoroaster_">Test With _Zoroaster_</a>.                                | Run all tests, `yarn test`.                                                                                                                                                                                                                       |
 | `test-build` | Test build files.                                          | Run all tests by requiring all files from the build directory and not the `src`. This is possible with the `babel-plugin-transform-rename-import` which changes `../src` to `../build` (also as part of a bigger path such as `../../src/lib`). |
@@ -597,7 +607,7 @@ This explains the structure of the `launch.json` file, which will have a configu
 
 ## Copyright
 
-(c) [Art Deco](https://artd.eco) 2018
+(c) [Art Deco](https://artd.eco) 2019
 
 [1]: https://github.com/settings/tokens
 

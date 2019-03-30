@@ -1,0 +1,36 @@
+{
+  "src/bin -h": {
+    "mtime": 1549365235000,
+    "analysis": [
+      "src/bin/mnp.js 1553087716000",
+      "reloquent 1.2.4",
+      "argufy 1.3.2",
+      "@rqt/github 1.0.0",
+      "src/bin/usage.js 1535753282000",
+      "src/lib/sign-in.js 1538156728000",
+      "package.json 1553919405000",
+      "src/bin/commands/check.js 1538155380000",
+      "src/bin/commands/delete.js 1538157669000",
+      "src/bin/commands/create.js 1538932869000",
+      "usually 1.1.0",
+      "africa 1.2.0",
+      "src/bin/questions.js 1535753282000",
+      "src/lib/git.js 1535753282000",
+      "spawncommand 2.1.1",
+      "src/lib/info.js 1538156224000",
+      "erte 1.1.7",
+      "promto 1.0.1",
+      "rqt 3.1.2",
+      "path",
+      "wrote 1.4.0",
+      "src/lib/clone-source.js 1535753282000",
+      "src/lib/git-lib.js 1535753282000",
+      "src/lib/index.js 1538179459000",
+      "bosom 1.0.0",
+      "camel-case 3.0.0",
+      "fs"
+    ],
+    "stdout": "MNP: create My New Package.\n If no package name is given as the first argument, the program will ask\n for it in the CLI. A GitHub repository for each new package will be\n created automatically, and a GitHub token can be generated at:\n https://github.com/settings/tokens for the use in this application.\n The token is saved in the CWD/.mnprc file along with other configuration,\n including organisation name etc. Different types of packages, with a\n modern Node.js library by default are available, including:\n\n+ package:\ta modern Node.js package to publish on npm (default);\n+ idio:\t\ta JSX-powered Koa2 + React-Redux universal website;\n+ structure:\tan mnp template to create new structures.\n\n  mnp [package-name] [-D description] [-s structure] [-cIhdv]\n\n\tpackage-name \tName of the new or checked package.\n\t-D, --desc   \tDescription of the software.\n\t-s structure \tWhich structure to use (package, idio, structure).\n\t-c, --check  \tCheck if the package name has been taken or not.\n\t-h, --help   \tPrint this information and quit.\n\t-d, --delete \tDelete a repository. Useful in testing.\n\t-v, --version\tShow mnp version.\n\t--init, -I   \tInitialise configuration in the local .mnprc file.\n\n  Example:\n\n    mnp my-new-package -s idio\n\n",
+    "stderr": "Reverting JS hook to add new one.\nReverting JSX hook to add new one, pragma:\nconst { h } = require(\"preact\");\n"
+  }
+}
