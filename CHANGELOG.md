@@ -1,3 +1,9 @@
+## 19 April 2019
+
+### [0.14.1](https://github.com/dpck/depack/compare/v0.14.0...v0.14.1)
+
+- [deps] Upgrade and unlock dependencies; update the package structure.
+
 ## 30 March 2019
 
 ### [0.14.0](https://github.com/dpck/depack/compare/v0.13.1...v0.14.0)
