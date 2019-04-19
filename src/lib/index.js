@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
 import spawn, { fork } from 'spawncommand'
 import { existsSync } from 'fs'
 
@@ -14,7 +14,8 @@ export const getStructure = (name = 'package') => {
     path = require(`mnp-${name}`)
   } catch (err) {
     try {
-      path = require(`@mnpjs/${name}`)
+      path = require.resolve(`@mnpjs/${name}/package.json`)
+      path = dirname(path)
     } catch (e) {
       error(`Could not require structure "${name}".`)
     }

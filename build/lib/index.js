@@ -1,4 +1,4 @@
-const { resolve } = require('path');
+const { resolve, dirname } = require('path');
 let spawn = require('spawncommand'); const { fork } = spawn; if (spawn && spawn.__esModule) spawn = spawn.default;
 const { existsSync } = require('fs');
 
@@ -14,7 +14,8 @@ const error = (text) => {
     path = require(`mnp-${name}`)
   } catch (err) {
     try {
-      path = require(`@mnpjs/${name}`)
+      path = require.resolve(`@mnpjs/${name}/package.json`)
+      path = dirname(path)
     } catch (e) {
       error(`Could not require structure "${name}".`)
     }
