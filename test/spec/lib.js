@@ -1,8 +1,8 @@
-import { deepEqual, throws, assert } from 'zoroaster/assert'
+import { deepEqual, throws, assert } from '@zoroaster/assert'
 import mnpPackage from '@mnpjs/package'
 import idioPackage from '@mnpjs/idio'
 import azurePackage from '@mnpjs/azure'
-import { getStructure } from '../../src/lib'
+import { getStructure, getProgWithArgs } from '../../src/lib'
 
 export default {
   'finds a default structure'() {
@@ -41,5 +41,9 @@ export default {
       args: name,
       message: `Could not require structure "${name}".`,
     })
+  },
+  'splits the program and args'() {
+    const res = getProgWithArgs('git tag -a v0.0.0')
+    deepEqual(res, { prog: 'git', args: ['tag', '-a', 'v0.0.0'] })
   },
 }

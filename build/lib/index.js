@@ -1,6 +1,7 @@
 const { resolve, dirname } = require('path');
 let spawn = require('spawncommand'); const { fork } = spawn; if (spawn && spawn.__esModule) spawn = spawn.default;
 const { existsSync } = require('fs');
+const getArgs = require('./get-args');
 
 const error = (text) => {
   const err = new Error(text)
@@ -37,29 +38,39 @@ const error = (text) => {
   }
 }
 
+       const getProgWithArgs = (/** @type {string} */ script) => {
+  const [prog] = script.split(' ', 1)
+  const a = script.slice(prog.length + 1)
+  const args = getArgs(a)
+  return { prog, args }
+}
+
 /**
  * @param {string} cwd The directory in which to execute the script.
  * @param {string} structurePath The path to the structure.
  * @param {string} script The string with a script and its arguments.
  */
        const runOnCreate = async (cwd, structurePath, script) => {
-  const oc = resolve(structurePath, script)
+  const { prog, args } = getProgWithArgs(script)
+  const oc = resolve(structurePath, prog)
+
+  let promise
   if (existsSync(oc)) {
-    const { promise } = fork(oc, [], {
+    ({ promise } = fork(oc, args, {
       cwd,
       stdio: 'inherit',
       execArgv: [],
-    })
-    await promise
+    }))
   } else {
-    const { promise } = spawn(script, [], {
+    ({ promise } = spawn(prog, args, {
       cwd,
       stdio: 'inherit',
-    })
-    await promise
+    }))
   }
+  await promise
 }
 
 module.exports.getStructure = getStructure
 module.exports.create = create
+module.exports.getProgWithArgs = getProgWithArgs
 module.exports.runOnCreate = runOnCreate
