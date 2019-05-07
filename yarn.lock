@@ -44,10 +44,10 @@
   resolved "https://registry.yarnpkg.com/@mnpjs/idio/-/idio-1.3.1.tgz#1d4b17e2c36de0fa8ca87fdd69e6a60e9708e70f"
   integrity sha512-zjtX/OeDkXeNabE3SwIRP8UFMVhuOz9Ma4rroAW56wJ15rdbRIoaDhxOFRzTDkpCHBSlGJWqYqeS0qc9V0b6Bw==
 
-"@mnpjs/package@^1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.11.0.tgz#5482cee391e805a7ab304515682d369382315d12"
-  integrity sha512-jNmV96ou7zwIrQCzr7TOciT6lUNgax55r/7dUlfQ4tgxC4E0dgalE+WEUofsQwQ8OTiH/q9UISNJiMeBF2SfjQ==
+"@mnpjs/package@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.11.1.tgz#366ecd7e312c461f7ac49f225bc76610f06e57cb"
+  integrity sha512-V5s6MHOAQ5pQAhlbqi2eyB9BUTy/JHmcHX9ahApiJ12ZgDlZc6qNY7yjMfgBusp1FGoEirbvz+yZdWz97+JJ3A==
 
 "@mnpjs/structure@^1.1.1":
   version "1.1.1"
