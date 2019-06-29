@@ -1,3 +1,9 @@
+## 29 June 2019
+
+### [0.14.2](https://github.com/dpck/depack/compare/v0.14.1...v0.14.2)
+
+- [deps] Upgrade `@mnp/package`.
+
 ## 19 April 2019
 
 ### [0.14.1](https://github.com/dpck/depack/compare/v0.14.0...v0.14.1)
