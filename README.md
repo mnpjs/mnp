@@ -4,7 +4,7 @@
 
 `mnp` aka _My New Package_ is a Node.js CLI binary that allows to quickly create a new _Node.js_ package with a default structure (`src`, `test`, `package.json`, _etc_) and initialise a _GitHub_ repository. It provides a number of essential structures for web development.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/0.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/0.svg?sanitize=true"></a></p>
 
 ## Table Of Contents
 
@@ -34,18 +34,18 @@
     * [Build With _À La Mode_](#build-with-_à-la-mode_)
     * [Document With _Documentary_](#document-with-_documentary_)
     * [Test With _Zoroaster_](#test-with-_zoroaster_)
-  * [_.alamoderc.json_](#_alamodercjson_)
+  * [_.alamoderc.json_](#alamodercjson)
   * [`launch.json` Debugging](#launchjson-debugging)
 - [Copyright](#copyright)
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/1.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
 ## CLI: `mnp my-new-package`
 
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
 ```sh
-mnp [package-name] [-D description] [-s structure] [-cIhd]
+mnp [package-name] [-D description] [-s structure] [--init|I] [-chdn@]
 ```
 
 To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.
@@ -61,7 +61,7 @@ To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 <td><img src="doc/create.gif" alt="Creating a new package."></td>
 </tr></tbody></table>
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/2.svg?sanitize=true" width="15"></a></p>
 
 ### `-I`, `--init`: Configure
 
@@ -86,7 +86,7 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
   </table>
 </details>
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/3.svg?sanitize=true" width="15"></a></p>
 
 ### `-h`, `--help`: Show Help
 
@@ -130,7 +130,7 @@ MNP: create My New Package.
 </tbody>
 </table>
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/4.svg?sanitize=true" width="15"></a></p>
 
 ### `-c`, `--check`: Check Exists
 
@@ -141,7 +141,7 @@ Check if the package name is already taken or not.
 | `mnp taken -c` | ![taken output](doc/taken.png) |
 | `mnp isfree -c` | ![free output](doc/free.png)   |
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/5.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/5.svg?sanitize=true" width="15"></a></p>
 
 ### `-d`, `--delete`: Delete Repository
 
@@ -151,7 +151,7 @@ Delete specified repository from `GitHub`. Useful when a package was created for
 mnp package -d
 ```
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/6.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/6.svg?sanitize=true" width="15"></a></p>
 
 ### `-@`, `--scope`: Set Scope
 
@@ -161,7 +161,7 @@ When a particular scope needs to be specified for the package, the `-@` option c
 mnp package -@ superscope
 ```
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/7.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/7.svg?sanitize=true" width="15"></a></p>
 
 ### `-n`, `--no-scope`: Disable Scope
 
@@ -171,7 +171,7 @@ If the settings read from `.mnprc` contained an NPM scope, but it is not needed 
 mnp package -n
 ```
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/8.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/8.svg?sanitize=true"></a></p>
 
 ## Structures
 
@@ -184,7 +184,7 @@ There are a number of structures available. The default one is the `package` str
 | `azure` | The <a name="azure-functions-app">Azure functions app</a> structure for creating serverless APIs.                                                                                     | [`@mnpjs/azure`](https://github.com/mnpjs/azure) |
 | `structure` | <a name="the-metastructure">The metastructure</a> for creating new structures with `mnp`.                                                         | [`@mnpjs/structure`](https://github.com/mnpjs/structure) |
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/9.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/9.svg?sanitize=true" width="15"></a></p>
 
 ### Scripts
 
@@ -214,7 +214,7 @@ If a script is given as a `.js` file which exists in the structure directory, it
 }
 ```
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/10.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/10.svg?sanitize=true"></a></p>
 
 ## `Package` Structure
 
@@ -231,7 +231,8 @@ node_modules/@mnpjs/package/structure
 ├── .alamoderc.json
 ├── .documentary
 │   ├── cache
-│   │   └── fork.json
+│   │   ├── fork.json
+│   │   └── modules.json
 │   └── section-breaks
 │       ├── -1.svg
 │       ├── 0.svg
@@ -269,6 +270,8 @@ node_modules/@mnpjs/package/structure
 │   └── spec
 │       └── default.js
 ├── types
+│   ├── externs.js
+│   ├── index.js
 │   └── index.xml
 └── yarn.lock
 ```
@@ -279,7 +282,7 @@ node_modules/@mnpjs/package/structure
 
 It also includes `yarn.lock` file to speed up the installation process.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/11.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/11.svg?sanitize=true" width="15"></a></p>
 
 ### Main Function
 
@@ -292,7 +295,7 @@ const LOG = debuglog('my-new-package')
 
 /**
  * {{ description }}
- * @param {Config} [config] Options for the program.
+ * @param {_my-new-package.Config} [config] Options for the program.
  * @param {boolean} [config.shouldRun=true] A boolean option. Default `true`.
  * @param {string} config.text A text to return.
  */
@@ -308,7 +311,12 @@ export default async function myNewPackage(config = {}) {
 
 /* documentary types/index.xml */
 /**
- * @typedef {Object} Config Options for the program.
+ * @suppress {nonStandardJsDocs}
+ * @typedef {_my-new-package.Config} Config Options for the program.
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {Object} _my-new-package.Config Options for the program.
  * @prop {boolean} [shouldRun=true] A boolean option. Default `true`.
  * @prop {string} text A text to return.
  */
@@ -316,7 +324,7 @@ export default async function myNewPackage(config = {}) {
 
 ![Config Api Type](doc/config.gif)
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/12.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/12.svg?sanitize=true" width="15"></a></p>
 
 ### Test Suites
 
@@ -339,7 +347,7 @@ node_modules/@mnpjs/package/structure/test
 The tests are written with `zoroaster` framework, which expects a file to export a test suite as an object, containing tests as its properties. Tests can be both asynchronous and synchronous, and `zoroaster/assert` includes a `throws` method to assert that the function throws, as well as `deepEqual` with color difference.
 
 ```js
-import { equal, ok } from 'zoroaster/assert'
+import { equal, ok } from '@zoroaster/assert'
 import Context from '../context'
 import myNewPackage from '../../src'
 
@@ -352,11 +360,12 @@ const T = {
   async 'calls package without error'() {
     await myNewPackage()
   },
-  async 'gets a link to the fixture'({ FIXTURE }) {
+  async 'gets a link to the fixture'({ fixture }) {
+    const text = fixture`text.txt`
     const res = await myNewPackage({
-      text: FIXTURE,
+      text,
     })
-    ok(res, FIXTURE)
+    ok(res, text)
   },
 }
 
@@ -365,7 +374,7 @@ export default T
 
 If <a name="_snapshot-testing_">_snapshot-testing_</a> is required, it can be additionally installed with `yarn add -DE snapshot-context`. This will allow to write snapshot tests.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/13.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/13.svg?sanitize=true" width="15"></a></p>
 
 ### Testing Context
 
@@ -412,7 +421,7 @@ When a context is used in tests, there's an access to the test context API:
 
 Context testing also allows to split files into mulitple sub-directories much easier.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/14.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/14.svg?sanitize=true" width="15"></a></p>
 
 ### Documentation with `doc`
 
@@ -428,7 +437,7 @@ node_modules/@mnpjs/package/structure/documentary
 
 To process documentation, the `yarn doc` command can be run.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/15.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/15.svg?sanitize=true" width="15"></a></p>
 
 #### `Examples` Embedding
 
@@ -468,7 +477,7 @@ Forking also supports caching, so that examples don't have to be rerun each time
 
 To provide a quick way to run examples, each of them needs to be [created a script](#particular-example) for in the `package.json`.
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/16.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/16.svg?sanitize=true" width="15"></a></p>
 
 ### Scripts in `Package.json`
 
@@ -488,17 +497,20 @@ The scripts are useful for testing, running in debugger, building and building d
     "mask": "yarn t test/mask",
     "test-build": "ALAMODE_ENV=test-build yarn test",
     "lint": "eslint .",
-    "doc": "NODE_DEBUG=doc doc documentary -o README.md",
+    "doc": "NODE_DEBUG=doc doc -o README.md",
     "b": "alamode src -o build -s",
-    "d": "yarn-s d1",
-    "d1": "NODE_DEBUG=doc doc src/index.js -g",
+    "d": "yarn-s d1 externs",
+    "d1": "typal types/index.js src -c -t types/index.xml",
+    "externs": "typal types/externs.js",
     "build": "yarn-s d b doc",
     "e": "alanode"
   },
   "files": [
     "build",
-    "src"
+    "src",
+    "types/externs.js"
   ],
+  "externs": "types/externs.js",
   "repository": {
     "type": "git",
     "url": "{{ git_url }}"
@@ -513,11 +525,11 @@ The scripts are useful for testing, running in debugger, building and building d
   },
   "homepage": "{{ readme_url }}",
   "devDependencies": {
-    "alamode": "1.9.0",
-    "documentary": "1.23.2",
+    "alamode": "^2.3.4",
+    "documentary": "^1.27.4",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.11.2"
+    "zoroaster": "^4.1.1-alpha"
   }
 }
 ```
@@ -536,7 +548,7 @@ The description of each script is as follows:
 | `example/` | Run a <a name="particular-example">particular example</a>. | A job specifically created as a short-hand for a particular example.                                                                                                                                                                                                           |
 | `lint` | Check code style.                                          | `eslint` is not installed as a dependency, because it can be installed globally easily. It will also work in the IDE if installed globally fine. However, [`eslint-config-artdeco`](https://github.com/artdecocode/eslint-config-artdeco) config is specified as a dependency. |
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/17.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/17.svg?sanitize=true" width="15"></a></p>
 
 ### _.alamoderc.json_
 
@@ -556,7 +568,7 @@ The description of each script is as follows:
   }
 }
 ```
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/18.svg?sanitize=true" width="15"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/18.svg?sanitize=true" width="15"></a></p>
 
 ###  `launch.json` Debugging
 
@@ -583,10 +595,7 @@ This explains the structure of the `launch.json` file, which will have a configu
       "args": [
         "test/spec",
         "test/mask",
-        "-a",
-        "-w",
-        "-t",
-        "9999999"
+        "-a", "-w", "-t", "9999999"
       ],
       "skipFiles": [
         "<node_internals>/**/*.js"
@@ -596,13 +605,10 @@ This explains the structure of the `launch.json` file, which will have a configu
       "type": "node",
       "request": "launch",
       "name": "Launch Example",
-      "program": "${workspaceFolder}/example/index.js",
-      "env": {
-        "NODE_DEBUG": "my-new-package",
-      },
+      "program": "${workspaceFolder}/node_modules/.bin/alanode",
       "console": "integratedTerminal",
       "args": [
-        "example/example.js"
+        "example"
       ],
       "skipFiles": [
         "<node_internals>/**/*.js"
@@ -613,7 +619,7 @@ This explains the structure of the `launch.json` file, which will have a configu
 ```
 
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/19.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/19.svg?sanitize=true"></a></p>
 
 ## Copyright
 
@@ -621,4 +627,4 @@ This explains the structure of the `launch.json` file, which will have a configu
 
 [1]: https://github.com/settings/tokens
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-1.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/-1.svg?sanitize=true"></a></p>
