@@ -9,7 +9,7 @@ const error = (text) => {
   throw err
 }
 
-       const getStructure = (name = 'package') => {
+const getStructure = (name = 'package') => {
   let path
   try {
     path = require(`mnp-${name}`)
@@ -30,7 +30,7 @@ const error = (text) => {
   }
 }
 
-       const create = async (path, structurePath, script) => {
+const create = async (path, structurePath, script) => {
   if (Array.isArray(script)) {
     await Promise.all(script.map(s => runOnCreate(path, structurePath, s)))
   } else {
@@ -38,7 +38,7 @@ const error = (text) => {
   }
 }
 
-       const getProgWithArgs = (/** @type {string} */ script) => {
+const getProgWithArgs = (/** @type {string} */ script) => {
   const [prog] = script.split(' ', 1)
   const a = script.slice(prog.length + 1)
   const args = getArgs(a)
@@ -50,7 +50,7 @@ const error = (text) => {
  * @param {string} structurePath The path to the structure.
  * @param {string} script The string with a script and its arguments.
  */
-       const runOnCreate = async (cwd, structurePath, script) => {
+const runOnCreate = async (cwd, structurePath, script) => {
   const { prog, args } = getProgWithArgs(script)
   const oc = resolve(structurePath, prog)
 

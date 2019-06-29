@@ -12,7 +12,7 @@ function getDefaultCreateDate() {
   return `${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`
 }
 
-               async function cloneSource(from, to, {
+async function cloneSource(from, to, {
   org,
   name,
   scope,

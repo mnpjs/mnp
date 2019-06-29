@@ -1,7 +1,7 @@
 let africa = require('africa'); if (africa && africa.__esModule) africa = africa.default;
 const questions = require('../bin/questions');
 
-               async function signIn(force = false) {
+async function signIn(force = false) {
   /** @type {Settings} */
   const conf = await africa('mnp', questions, {
     force,
