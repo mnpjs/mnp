@@ -1,6 +1,6 @@
 {
   "name": "mnp",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "Quickly create a Node.JS package with a Github repository.",
   "main": "build",
   "bin": {
