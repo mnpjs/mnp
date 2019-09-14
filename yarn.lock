@@ -27,17 +27,12 @@
   resolved "https://registry.yarnpkg.com/@mnpjs/structure/-/structure-1.1.1.tgz#f866f8e40110fda2029858a8dff926d813bd48b5"
   integrity sha1-+Gb45AEQ/aICmFio3/km2BO9SLU=
 
-"@rqt/aqt@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@rqt/aqt/-/aqt-1.1.2.tgz#6ee88031222d7a86c0d8be0c5cdb276ccfbcb5e7"
-  integrity sha512-U8YZ2oqZ0djVS7H9PfR97KNdgtHw57NWOPK5wg3jIcG5Xr6Ht4eMsQ8f8mHl9Pa1uUb42w2m+BxpqMRffX0XrA==
-
-"@rqt/github@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@rqt/github/-/github-1.0.0.tgz#5f85e9ce290c05487b9fd1ce8bf3c893532579c1"
-  integrity sha512-AjNlqZuZwQLvrG9BgRt7rZZPpBIznvU/VLEiUk2FTdl1PupMR8EQAceYTK23gvCLZApFKmfeXaMgYSO+/srpXg==
+"@rqt/github@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@rqt/github/-/github-1.1.0.tgz#121c54c10d71d4c158b2b4027ad72241e1730020"
+  integrity sha512-hUZI2EvhiIyGv9BBrPAqyW2MtPw/fQGTcvhZ4EmkSrGKLx4uRJUZ+1fKIlPDqKl7ykraKrhlC7zXwRk6kNWQ5A==
   dependencies:
-    rqt "3.0.0"
+    rqt "^4.0.0"
 
 "@wrote/clone@^1.1.1":
   version "1.2.1"
@@ -90,9 +85,9 @@
   integrity sha512-5C0LDzW8DkiSSCLyYO9ux3R5ru65yEn/GtxH1wh7ukRhLAZ/Svx4+A81YvciXcn35B2VmvCqyiTrhNdxdgusSw==
 
 "@zoroaster/mask@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@zoroaster/mask/-/mask-2.2.0.tgz#fecdcb6f863440519b91b51f09549b1e981e84da"
-  integrity sha512-/k9B/ofxE4x9Vs6EOjXQjcsltraJzNLg/uxEwzfCZUN+foiJxK/j+YBiyJmN3Gwpnry2D3Qs0D3Qm+SMkLqkTg==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@zoroaster/mask/-/mask-2.3.0.tgz#57d169417e09e481efafccbffdd93cef919ec5e6"
+  integrity sha512-fufal06pS/SYhOKHCmoFQ+PjhQwsCwMr2h0D2xeiVaXstaWHJVEiLg4+BU/KCmOOzLXLKikf81ca4zFXip7ScQ==
 
 africa@^1.3.1:
   version "1.3.1"
@@ -172,14 +167,14 @@ difflib@~0.2.1:
   dependencies:
     heap ">= 0.2.0"
 
-documentary@^1.32.2:
-  version "1.32.2"
-  resolved "https://registry.yarnpkg.com/documentary/-/documentary-1.32.2.tgz#4ee674dbab622bd64b6c625668e3680f43807330"
-  integrity sha512-WvfCNlz585ryP4YF+Wac9wxv8VTi3ePR2q9RNvUmTNrE0ifz8jDmiQxgkv5KeieL8bf4XBn7dQYQ1O6eRkwUyA==
+documentary@^1.33.0:
+  version "1.33.0"
+  resolved "https://registry.yarnpkg.com/documentary/-/documentary-1.33.0.tgz#c13baaf6ea5f075c7a683e1547593dd634158a41"
+  integrity sha512-V6xOSIkBkHhQeUdLtGDUOa5LDXthjDNcmyrT5WIJmaXaYRbFnTwDE6hf9th5Bzq4Ia7CfuP/Jzln7s2ef+vrKA==
   dependencies:
     alamode "^3.0.0"
     preact "8.5.2"
-    typal "^1.22.1"
+    typal "^1.22.6"
 
 dreamopt@~0.6.0:
   version "0.6.0"
@@ -297,13 +292,6 @@ restream@^3.7.4:
     "@artdeco/clean-stack" "^1.1.1"
     catchment "^3.3.0"
 
-rqt@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/rqt/-/rqt-3.0.0.tgz#51ef0cd42de03961970a1e27a992ebb1de8838dc"
-  integrity sha512-zPvZAgLncDoJFE97OAAol8gUBaaLqE2yblDocPZ+uf1EF1uUb7GxnpyyDYpd0IE8v0/9brDCBNN/RqAECkRcww==
-  dependencies:
-    "@rqt/aqt" "1.1.2"
-
 rqt@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/rqt/-/rqt-4.0.0.tgz#b57f64bf1b3b8b8109617f9dc67b9dd9ea5cb4d6"
@@ -337,10 +325,10 @@ temp-context@^2.1.3:
     makepromise "^3.0.3"
     pedantry "^2.3.1"
 
-typal@^1.22.1:
-  version "1.22.1"
-  resolved "https://registry.yarnpkg.com/typal/-/typal-1.22.1.tgz#d7d861b87c7b1e4eb164547a8eb5c3f3863fb6e9"
-  integrity sha512-0gvvH2reH3rFh8lmVatMZI1SjLR8/LHwDpugs51vPDJnd41ANo59cBMsGl7IbQh2ThkOwvOPfbT+JLzz1Wpshg==
+typal@^1.22.6:
+  version "1.22.6"
+  resolved "https://registry.yarnpkg.com/typal/-/typal-1.22.6.tgz#c3162f5f19e91ad6d830375220e6552fcb4a0936"
+  integrity sha512-N6tkgC/r7OXwH0/hEFNRH6S/7zPfMXJU45w78KGgy8JLbt3lAbWPd4NWUZjQt6o2id23P34KeHSmNR4ddI/zZQ==
 
 upper-case@^1.1.1:
   version "1.1.3"
