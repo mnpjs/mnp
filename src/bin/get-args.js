@@ -1,74 +1,106 @@
 import argufy from 'argufy'
 
-const args = argufy({
-  'struct': 's',
-  'help': { short: 'h', boolean: true },
-  'desc': { short: 'D' },
-  'name': { command: true },
-  'version': { short: 'v', boolean: true },
-  'check': { short: 'c', boolean: true },
-  'delete': { short: 'd', boolean: true },
-  'init': { short: 'I', boolean: true },
-  'no-scope': { short: 'n', boolean: true },
-  'scope': { short: '@' },
-})
+export const argsConfig = {
+  'name': {
+    description: 'The name of the new package.',
+    command: true,
+  },
+  'struct': {
+    description: 'The structure to invoke.',
+    short: 's',
+  },
+  'desc': {
+    description: 'The description to add.',
+    short: 'D',
+  },
+  'check': {
+    description: 'Just query NPM registry to see if the package exists.',
+    boolean: true,
+    short: 'c',
+  },
+  'delete': {
+    description: 'Remove the repository from GitHub.',
+    boolean: true,
+    short: 'd',
+  },
+  'init': {
+    description: 'Initialise MNP config in this directory, creating .mnprc.',
+    boolean: true,
+    short: 'I',
+  },
+  'no-scope': {
+    description: 'Don\'t use a scope for this package.',
+    boolean: true,
+    short: 'n',
+  },
+  'scope': {
+    description: 'Use this specific scope for the package.',
+    short: '@',
+  },
+  'help': {
+    description: 'Print the help information and exit.',
+    boolean: true,
+    short: 'h',
+  },
+  'version': {
+    description: 'Show the version\'s number and exit.',
+    boolean: true,
+    short: 'v',
+  },
+}
+const args = argufy(argsConfig)
 
 /**
- * The structure.
- * @type {string}
+ * The name of the new package.
  */
-export const _struct = args['struct']
+export const _name = /** @type {string} */ (args['name'])
 
 /**
- * Show help.
- * @type {boolean}
+ * The structure to invoke.
  */
-export const _help = args['help']
+export const _struct = /** @type {string} */ (args['struct'])
 
 /**
- * Show MNP version.
- * @type {boolean}
+ * The description to add.
  */
-export const _version = args['version']
+export const _desc = /** @type {string} */ (args['desc'])
 
 /**
- * Package name.
- * @type {string}
+ * Just query NPM registry to see if the package exists.
  */
-export const _name = args['name']
+export const _check = /** @type {boolean} */ (args['check'])
 
 /**
- * Check if taken.
- * @type {boolean}
+ * Remove the repository from GitHub.
  */
-export const _check = args['check']
+export const _delete = /** @type {boolean} */ (args['delete'])
 
 /**
- * Remove GitHub repository.
- * @type {boolean}
+ * Initialise MNP config in this directory, creating .mnprc.
  */
-export const _delete = args['delete']
+export const _init = /** @type {boolean} */ (args['init'])
 
 /**
- * Initialise .mnprc.
- * @type {boolean}
+ * Don't use a scope for this package.
  */
-export const _init = args['init']
+export const _noScope = /** @type {boolean} */ (args['no-scope'])
 
 /**
- * Package description.
- * @type {string}
+ * Use this specific scope for the package.
  */
-export const _description = args['desc']
+export const _scope = /** @type {string} */ (args['scope'])
 
 /**
- * Disable scope from the .mnprc.
- * @type {string}
+ * Print the help information and exit.
  */
-export const _noScope = args['no-scope']
+export const _help = /** @type {boolean} */ (args['help'])
 
 /**
- * Set scope.
- * @type {string}
+ * Show the version's number and exit.
  */
-export const _scope = args['scope']
+export const _version = /** @type {boolean} */ (args['version'])
+
+/**
+ * The additional arguments passed to the program.
+ */
+export const _argv = /** @type {!Array<string>} */ (args._argv)

@@ -1,13 +1,18 @@
 import africa from 'africa'
 import questions from '../bin/questions'
 
+/**
+ * Reads the mnprc config file from the file system.
+ */
 export default async function signIn(force = false) {
-  /** @type {Settings} */
-  const conf = await africa('mnp', questions, {
+  const conf = /** @type {_mnp.Settings} */ (await africa('mnp', questions, {
     force,
     local: true,
-  })
+  }))
   return conf
 }
 
-/** @typedef {{token: string, org: string, scope: string, name: string, email: string, website: string, trademark: string, legalName: string }} Settings */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../..').Settings} _mnp.Settings
+ */

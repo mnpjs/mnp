@@ -1,0 +1,32 @@
+<arguments>
+  <arg command name="name">
+    The name of the new package.
+  </arg>
+  <arg name="struct" short="s">
+    The structure to invoke.
+  </arg>
+  <arg name="desc" short="D">
+    The description to add.
+  </arg>
+  <arg boolean name="check" short="c">
+    Just query NPM registry to see if the package exists.
+  </arg>
+  <arg boolean name="delete" short="d">
+    Remove the repository from GitHub.
+  </arg>
+  <arg boolean name="init" short="I">
+    Initialise MNP config in this directory, creating .mnprc.
+  </arg>
+  <arg boolean name="no-scope" short="n">
+    Don't use a scope for this package.
+  </arg>
+  <arg name="scope" short="@">
+    Use this specific scope for the package.
+  </arg>
+  <arg boolean name="help" short="h">
+    Print the help information and exit.
+  </arg>
+  <arg boolean name="version" short="v">
+    Show the version's number and exit.
+  </arg>
+</arguments>

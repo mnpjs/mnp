@@ -6,6 +6,7 @@ import cloneSource from '../../lib/clone-source'
 import git from '../../lib/git'
 import { assertNotInGitPath } from '../../lib/git-lib'
 import { getStructure, create } from '../../lib'
+const GitHub = require(/* depack */'@rqt/github')
 
 const getDescription = async (description) => {
   if (description) return description
@@ -21,15 +22,17 @@ const getPackageNameWithScope = (packageName, scope) => {
   return `${scope ? `@${scope}/` : ''}${packageName}`
 }
 
-/** @param {import('../../lib/sign-in').Settings} settings */
+/**
+ * @param {_mnp.Settings} settings
+ */
 const runCreate = async (settings, {
   name,
   struct,
-  github,
+  token,
   description: _description,
 }) => {
   await assertNotInGitPath()
-
+  const github = new GitHub(token)
   const {
     org,
     website,
@@ -53,17 +56,17 @@ const runCreate = async (settings, {
   let sshUrl, gitUrl, htmlUrl
   try {
     ({
-      ssh_url: sshUrl,
-      git_url: gitUrl,
-      html_url: htmlUrl,
-    } = await github.repos.create({
-      name,
-      org,
-      description,
-      auto_init: true,
-      gitignore_template: 'Node',
-      homepage: website,
-      license_template: 'mit',
+      'ssh_url': sshUrl,
+      'git_url': gitUrl,
+      'html_url': htmlUrl,
+    } = await github['repos']['create']({
+      'name': name,
+      'org': org,
+      'description': description,
+      'auto_init': true,
+      'gitignore_template': 'Node',
+      'homepage': website,
+      'license_template': 'mit',
     }))
   } catch (err) {
     if (err.message == 'Repository: name already exists on this account') {
@@ -79,7 +82,7 @@ const runCreate = async (settings, {
   if (!sshUrl)
     throw new Error('GitHub repository was not created via the API.')
 
-  await github.activity.star(org, name)
+  await github['activity']['star'](org, name)
   console.log(
     '%s\n%s',
     c('Created and starred a new repository', 'grey'),
@@ -124,3 +127,8 @@ const runCreate = async (settings, {
 }
 
 export default runCreate
+
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../../../').Settings} _mnp.Settings
+ */

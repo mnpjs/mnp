@@ -1,24 +1,16 @@
 import usually from 'usually'
+import { argsConfig } from './get-args'
+import { reduceUsage } from 'argufy'
 
 const u1 = `
 + package:\ta modern Node.js package to publish on npm (default);
-+ idio:\t\ta JSX-powered Koa2 + React-Redux universal website;
++ idio:\t\ta back-end server powered by Goa;
++ splendid:\ta static website using Splendid;
 + structure:\tan mnp template to create new structures.`.trim()
-
-const usage = {
-  'package-name': 'Name of the new or checked package.',
-  '-D, --desc': 'Description of the software.',
-  '-s structure': 'Which structure to use (package, idio, structure).',
-  '-c, --check': 'Check if the package name has been taken or not.',
-  '-h, --help': 'Print this information and quit.',
-  '-d, --delete': 'Delete a repository. Useful in testing.',
-  '-v, --version': 'Show mnp version.',
-  '--init, -I': 'Initialise configuration in the local .mnprc file.',
-}
 
 export default () => {
   const u = usually({
-    usage,
+    usage: reduceUsage(argsConfig),
     line: 'mnp [package-name] [-D description] [-s structure] [-cIhdv]',
     description: `MNP: create My New Package.
  If no package name is given as the first argument, the program will ask

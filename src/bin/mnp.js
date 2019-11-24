@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 import { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _struct, _description } from './get-args'
 import { askSingle } from 'reloquent'
-import GitHub from '@rqt/github'
 import getUsage from './usage'
 import signIn from '../lib/sign-in'
-import { version } from '../../package.json'
 import runCheck from './commands/check'
 import runDelete from './commands/delete'
 import runCreate from './commands/create'
 
 if (_version) {
+  const version = require('../../package.json').version
   console.log(version)
   process.exit()
 } else if (_help) {
@@ -31,17 +30,15 @@ const getName = async (name) => {
 
 (async () => {
   try {
-    if (_init) return signIn(true)
+    if (_init) return await signIn(true)
 
     const name = await getName(_name)
 
-    if (_check) return runCheck(name)
+    if (_check) return await runCheck(name)
 
-    const { token,
-      scope: settingsScope, ...settings } = await signIn()
-    const github = new GitHub(token)
+    const { token, scope: settingsScope, ...settings } = await signIn()
 
-    if (_delete) return runDelete(github, settings.org, name)
+    if (_delete) return await runDelete(token, settings.org, name)
 
     await runCreate({
       ...(_noScope ? {} : { scope: _scope || settingsScope }),
@@ -49,7 +46,7 @@ const getName = async (name) => {
     }, {
       name,
       struct: _struct,
-      github,
+      token,
       description: _description,
     })
   } catch ({ controlled, message, stack }) {

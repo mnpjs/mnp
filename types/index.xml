@@ -1,0 +1,28 @@
+<types namespace="_mnp">
+  <type name="Settings">
+    <prop name="token" string>
+      Personal access token.
+    </prop>
+    <prop name="org" string>
+      GitHub organisation.
+    </prop>
+    <prop name="scope" string>
+      NPM scope.
+    </prop>
+    <prop name="name" string>
+      Username (default is look up in git config).
+    </prop>
+    <prop name="email" string>
+      Email (default is looked up in git config).
+    </prop>
+    <prop name="website" string>
+      The websites.
+    </prop>
+    <prop name="trademark" string>
+      The trademark name for README.
+    </prop>
+    <prop name="legalName" string>
+      The official legal name for LICENSE.
+    </prop>
+  </type>
+</types>
