@@ -37,10 +37,10 @@
   resolved "https://registry.yarnpkg.com/@mnpjs/structure/-/structure-1.1.1.tgz#f866f8e40110fda2029858a8dff926d813bd48b5"
   integrity sha1-+Gb45AEQ/aICmFio3/km2BO9SLU=
 
-"@rqt/github@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@rqt/github/-/github-1.1.0.tgz#121c54c10d71d4c158b2b4027ad72241e1730020"
-  integrity sha512-hUZI2EvhiIyGv9BBrPAqyW2MtPw/fQGTcvhZ4EmkSrGKLx4uRJUZ+1fKIlPDqKl7ykraKrhlC7zXwRk6kNWQ5A==
+"@rqt/github@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@rqt/github/-/github-1.2.0.tgz#3c1daaff5513e9f7fc722a74902b65e69d980af0"
+  integrity sha512-rpYmuSJmPrbim2yP0MaKvpYPgzM+HPMRwwnd+l78KfZtHWZvHHkioQju1kSyslgFrhKo3ge3irkNOTMqdCZQLg==
   dependencies:
     rqt "^4.0.0"
 
@@ -60,12 +60,24 @@
   dependencies:
     makepromise "^3.1.0"
 
+"@wrote/exists@^1.0.3":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@wrote/exists/-/exists-1.0.5.tgz#6310f57ee017449ed17f19a85dd1a9dd6380d74b"
+  integrity sha512-OLA2QrG/SkMP5ZGm6Am0ICG8IDzCwwnyErKjWWPTu6C1/eeCEqlZZSONSe6BquCFNQpOqhyZ+CTnmWULPXG9bg==
+  dependencies:
+    makepromise "^3.1.0"
+
 "@wrote/read-dir-structure@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@wrote/read-dir-structure/-/read-dir-structure-1.2.0.tgz#864399b144c6ff3e78bc879fb3d8a1f6bf537384"
   integrity sha512-wl0/zld6Pjssa5mgbAFw/C8u6zGs/zJJ2hLXhMQtI5nuCntTb/idQJSH4WV8+YVNI1IRQO6TBDP+6YDr3cz8jw==
   dependencies:
     makepromise "^3.1.0"
+
+"@wrote/read-dir-structure@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@wrote/read-dir-structure/-/read-dir-structure-1.3.0.tgz#3e0652807ec76085474ec427c2cf198f13a09be4"
+  integrity sha512-+yseRsIOiOrYv0xVuRqDM1OTGytRW2UfLPCFCzG34mRcorOhd7Zy6EYiNbCM2GgEtmhCpHzIKyiLLuKh/M8RHA==
 
 "@wrote/read@^1.0.3", "@wrote/read@^1.0.4":
   version "1.0.4"
@@ -82,12 +94,24 @@
     "@wrote/read-dir-structure" "^1.2.0"
     makepromise "^3.1.0"
 
-"@wrote/write@^1.0.3":
+"@wrote/write@^1.0.3", "@wrote/write@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@wrote/write/-/write-1.0.4.tgz#ad2c4e667b3e2bd5f37bb844d6b78b55952c391f"
   integrity sha512-zhelf+k8hMbk/FCvroJ/KwpX8Bi1lnJ9hkJITLqiCWi1vk6X74QhjdFxSaNDyiC5V1WTPJIWQ+76VB4obY7zVw==
   dependencies:
     erotic "^2.1.0"
+
+"@wrote/wrote@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@wrote/wrote/-/wrote-1.2.3.tgz#aa55c50df4021a849432d466e398783b5daf730a"
+  integrity sha512-cmjtSOjpZMGpT4shHHbeEgwcaYZn3xqI9xyHaAIW0qkDucBaKrwwaZqSSJq7KUnS9OAMxrqh9V7y9BA7YHZDhQ==
+  dependencies:
+    "@wrote/ensure-path" "^1.0.6"
+    "@wrote/exists" "^1.0.3"
+    "@wrote/read" "^1.0.4"
+    "@wrote/read-dir-structure" "^1.2.0"
+    "@wrote/rm" "^1.1.3"
+    "@wrote/write" "^1.0.4"
 
 "@zoroaster/assert@^1.0.2":
   version "1.0.2"

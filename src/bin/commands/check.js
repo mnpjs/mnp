@@ -10,8 +10,8 @@ const runCheck = async (name) => {
     !found ? 'available' : 'taken'
   )
   if (found) {
-    console.log(found.description)
-    found.homepage && console.log(found.homepage)
+    console.log(found['description'])
+    found['homepage'] && console.log(found['homepage'])
   }
 }
 

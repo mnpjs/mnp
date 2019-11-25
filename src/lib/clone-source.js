@@ -12,33 +12,21 @@ function getDefaultCreateDate() {
   return `${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`
 }
 
-export default async function cloneSource(from, to, {
-  org,
-  name,
-  scope,
-  packageName,
-  year = `${new Date().getFullYear()}`,
-  website,
-  issuesUrl = `https://github.com/${org}/${packageName}/issues`,
-  readmeUrl = `https://github.com/${org}/${packageName}#readme`,
-  authorName,
-  authorEmail,
-  gitUrl = `git+https://github.com/${org}/${packageName}.git`,
-  keywords = [name, scope].filter(a => a),
-  description,
-  createDate = getDefaultCreateDate(),
-  legalName,
-  trademark,
-} = {}) {
-  const keywordsReplacement = keywords.map(k => `"${k}"`).join(', ').replace(/^"/, '').replace(/"$/, '')
+export const getRegexes = ({
+  name, packageName, org, legalName, trademark, website,
+  issuesUrl, readmeUrl, authorName, authorEmail, year = `${new Date().getFullYear()}`,
+  gitUrl, description, createDate = getDefaultCreateDate(), keywords = [],
+}) => {
+  const keywordsReplacement = keywords
+    .map(k => `"${k}"`).join(', ')
+    .replace(/^"/, '').replace(/"$/, '')
+
   const regexes = [
-    {
-      re: /myNewPackage/g,
-      replacement: camelCase(name),
-    }, {
-      re: /(my-new-package|{{ package-name }})/g,
-      replacement: packageName,
-    }, {
+    { re: /{{ full-name }}/g, replacement: packageName },
+    { re: /myNewPackage/g, replacement: camelCase(name) },
+    { re: /MyNewPackage/g, replacement:
+      camelCase(name).replace(/^./, m => m.toUpperCase()) },
+    { re: /(my-new-package|{{ package-name }})/g, replacement: packageName }, {
       re: /{{ year }}/g,
       replacement: year,
     }, {
@@ -79,13 +67,15 @@ export default async function cloneSource(from, to, {
       replacement: createDate,
     },
   ]
-  const res = await clone({
-    to,
-    from,
-    regexes,
-  })
+  return regexes
+}
+
+export const updatePackageJson = async (path, {
+  packageName, description, gitUrl, keywords, authorName, authorEmail,
+  issuesUrl, readmeUrl,
+}, homepage = true) => {
   try {
-    const packageJson = resolve(to, 'package.json')
+    const packageJson = resolve(path, 'package.json')
     const p = await bosom(packageJson)
     const pp = {
       ...p,
@@ -100,9 +90,18 @@ export default async function cloneSource(from, to, {
       bugs: {
         url: issuesUrl,
       },
-      homepage: readmeUrl,
+      ...(homepage ? { homepage: readmeUrl } : {} ),
     }
     await bosom(packageJson, pp, { space: 2 })
   } catch (err) {/* no package.json */ }
+}
+
+export default async function cloneSource(from, to, sets = {}) {
+  const res = await clone({
+    to,
+    from,
+    regexes: getRegexes(sets),
+  })
+  await updatePackageJson(to, sets)
   return res
 }

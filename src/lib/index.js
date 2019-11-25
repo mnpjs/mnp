@@ -30,6 +30,11 @@ export const getStructure = (name = 'package') => {
   }
 }
 
+/**
+ * The post-create hook.
+ * @param {string} path The path to the newly created repo.
+ * @param {string} structurePath The path to the structure.
+ */
 export const create = async (path, structurePath, script) => {
   if (Array.isArray(script)) {
     await Promise.all(script.map(s => runOnCreate(path, structurePath, s)))
@@ -38,7 +43,11 @@ export const create = async (path, structurePath, script) => {
   }
 }
 
-export const getProgWithArgs = (/** @type {string} */ script) => {
+/**
+ * Parse the command with arguments.
+ * @param {string} script
+ */
+export const getProgWithArgs = (script) => {
   const [prog] = script.split(' ', 1)
   const a = script.slice(prog.length + 1)
   const args = getArgs(a)
