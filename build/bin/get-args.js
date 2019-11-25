@@ -1,85 +1,119 @@
 let argufy = require('argufy'); if (argufy && argufy.__esModule) argufy = argufy.default;
 
-const args = argufy({
-  'struct': 's',
-  'help': { short: 'h', boolean: true },
-  'desc': { short: 'D' },
-  'name': { command: true },
-  'version': { short: 'v', boolean: true },
-  'check': { short: 'c', boolean: true },
-  'delete': { short: 'd', boolean: true },
-  'init': { short: 'I', boolean: true },
-  'no-scope': { short: 'n', boolean: true },
-  'scope': { short: '@' },
-})
+const argsConfig = {
+  'name': {
+    description: 'The name of the new package.',
+    command: true,
+  },
+  'struct': {
+    description: 'The structure to invoke.',
+    short: 's',
+  },
+  'desc': {
+    description: 'The description to add.',
+    short: 'D',
+  },
+  'check': {
+    description: 'Just query NPM registry to see if the package exists.',
+    boolean: true,
+    short: 'c',
+  },
+  'delete': {
+    description: 'Remove the repository from GitHub.',
+    boolean: true,
+    short: 'd',
+  },
+  'init': {
+    description: 'Initialise MNP config in this directory, creating .mnprc.',
+    boolean: true,
+    short: 'I',
+  },
+  'no-scope': {
+    description: 'Don\'t use a scope for this package.',
+    boolean: true,
+    short: 'n',
+  },
+  'scope': {
+    description: 'Use this specific scope for the package.',
+    short: '@',
+  },
+  'help': {
+    description: 'Print the help information and exit.',
+    boolean: true,
+    short: 'h',
+  },
+  'version': {
+    description: 'Show the version\'s number and exit.',
+    boolean: true,
+    short: 'v',
+  },
+}
+const args = argufy(argsConfig)
 
 /**
- * The structure.
- * @type {string}
+ * The name of the new package.
  */
-const _struct = args['struct']
+const _name = /** @type {string} */ (args['name'])
 
 /**
- * Show help.
- * @type {boolean}
+ * The structure to invoke.
  */
-const _help = args['help']
+const _struct = /** @type {string} */ (args['struct'])
 
 /**
- * Show MNP version.
- * @type {boolean}
+ * The description to add.
  */
-const _version = args['version']
+const _desc = /** @type {string} */ (args['desc'])
 
 /**
- * Package name.
- * @type {string}
+ * Just query NPM registry to see if the package exists.
  */
-const _name = args['name']
+const _check = /** @type {boolean} */ (args['check'])
 
 /**
- * Check if taken.
- * @type {boolean}
+ * Remove the repository from GitHub.
  */
-const _check = args['check']
+const _delete = /** @type {boolean} */ (args['delete'])
 
 /**
- * Remove GitHub repository.
- * @type {boolean}
+ * Initialise MNP config in this directory, creating .mnprc.
  */
-const _delete = args['delete']
+const _init = /** @type {boolean} */ (args['init'])
 
 /**
- * Initialise .mnprc.
- * @type {boolean}
+ * Don't use a scope for this package.
  */
-const _init = args['init']
+const _noScope = /** @type {boolean} */ (args['no-scope'])
 
 /**
- * Package description.
- * @type {string}
+ * Use this specific scope for the package.
  */
-const _description = args['desc']
+const _scope = /** @type {string} */ (args['scope'])
 
 /**
- * Disable scope from the .mnprc.
- * @type {string}
+ * Print the help information and exit.
  */
-const _noScope = args['no-scope']
+const _help = /** @type {boolean} */ (args['help'])
 
 /**
- * Set scope.
- * @type {string}
+ * Show the version's number and exit.
  */
-const _scope = args['scope']
+const _version = /** @type {boolean} */ (args['version'])
 
-module.exports._struct = _struct
-module.exports._help = _help
-module.exports._version = _version
+/**
+ * The additional arguments passed to the program.
+ */
+const _argv = /** @type {!Array<string>} */ (args._argv)
+
+module.exports.argsConfig = argsConfig
 module.exports._name = _name
+module.exports._struct = _struct
+module.exports._desc = _desc
 module.exports._check = _check
 module.exports._delete = _delete
 module.exports._init = _init
-module.exports._description = _description
 module.exports._noScope = _noScope
 module.exports._scope = _scope
+module.exports._help = _help
+module.exports._version = _version
+module.exports._argv = _argv

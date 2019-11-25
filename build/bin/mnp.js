@@ -1,15 +1,14 @@
 #!/usr/bin/env node
-const { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _struct, _description } = require('./get-args');
+const { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _struct, _desc } = require('./get-args');
 const { askSingle } = require('reloquent');
-let GitHub = require('@rqt/github'); if (GitHub && GitHub.__esModule) GitHub = GitHub.default;
 const getUsage = require('./usage');
 const signIn = require('../lib/sign-in');
-const { version } = require('../../package.json');
 const runCheck = require('./commands/check');
 const runDelete = require('./commands/delete');
 const runCreate = require('./commands/create');
 
 if (_version) {
+  const version = require('../../package.json').version
   console.log(version)
   process.exit()
 } else if (_help) {
@@ -31,17 +30,15 @@ const getName = async (name) => {
 
 (async () => {
   try {
-    if (_init) return signIn(true)
+    if (_init) return await signIn(true)
 
     const name = await getName(_name)
 
-    if (_check) return runCheck(name)
+    if (_check) return await runCheck(name)
 
-    const { token,
-      scope: settingsScope, ...settings } = await signIn()
-    const github = new GitHub(token)
+    const { token, scope: settingsScope, ...settings } = await signIn()
 
-    if (_delete) return runDelete(github, settings.org, name)
+    if (_delete) return await runDelete(token, settings.org, name)
 
     await runCreate({
       ...(_noScope ? {} : { scope: _scope || settingsScope }),
@@ -49,8 +46,8 @@ const getName = async (name) => {
     }, {
       name,
       struct: _struct,
-      github,
-      description: _description,
+      token,
+      description: _desc,
     })
   } catch ({ controlled, message, stack }) {
     if (/Must have admin rights to Repository/.test(message)) {
