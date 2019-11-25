@@ -1,4 +1,4 @@
-let promto = require('promto'); if (promto && promto.__esModule) promto = promto.default;
+const { promto } = require('../../stdlib');
 const { aqt } = require('rqt');
 
 const REGISTRY = 'https://skimdb.npmjs.com/registry'

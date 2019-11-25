@@ -8,5 +8,11 @@
         }
       }
     }
+  },
+  "import": {
+    "stdlib": {
+      "path": "stdlib",
+      "packages": ["promto"]
+    }
   }
 }

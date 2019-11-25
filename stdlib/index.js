@@ -1,0 +1,3 @@
+             function f(b,a,d){return setTimeout(()=>{const c=Error(`${b?b:"Promise"} has timed out after ${a}ms`);c.stack=`Error: ${c.message}`;d(c)},a)}function g(b,a){let d;const c=new Promise((e,h)=>{d=f(b,a,h)});return{timeout:d,a:c}};module.exports={promto:async function(b,a,d){if(!(b instanceof Promise))throw Error("Promise expected");if(!a)throw Error("Timeout must be a number");if(0>a)throw Error("Timeout cannot be negative");const {a:c,timeout:e}=g(d,a);try{return await Promise.race([b,c])}finally{clearTimeout(e)}}};
+
+//# sourceMappingURL=index.js.map
