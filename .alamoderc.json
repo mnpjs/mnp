@@ -12,7 +12,9 @@
   "import": {
     "stdlib": {
       "path": "stdlib",
-      "packages": ["promto"]
+      "packages": ["promto", "usually", "bosom",
+        "@wrote/read-dir-structure", "@wrote/wrote", "argufy",
+        "erte", "mismatch", "reloquent", "restream", "rqt", "spawncommand"]
     }
   }
 }

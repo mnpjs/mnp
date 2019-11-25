@@ -1,5 +1,5 @@
 const { promto } = require('../../stdlib');
-const { aqt } = require('rqt');
+const { aqt } = require('../../stdlib');
 
 const REGISTRY = 'https://skimdb.npmjs.com/registry'
 

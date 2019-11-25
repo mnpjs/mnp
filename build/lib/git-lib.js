@@ -1,4 +1,4 @@
-let spawn = require('spawncommand'); if (spawn && spawn.__esModule) spawn = spawn.default;
+const { spawn } = require('../../stdlib');
 
 const assertNotInGitPath = async () => {
   const { promise } = spawn('git', ['rev-parse', '--git-dir'])

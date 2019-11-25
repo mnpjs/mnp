@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _struct, _desc } = require('./get-args');
-const { askSingle } = require('reloquent');
+const { askSingle } = require('../../stdlib');
 const getUsage = require('./usage');
 const signIn = require('../lib/sign-in');
 const runCheck = require('./commands/check');

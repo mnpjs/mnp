@@ -1,5 +1,5 @@
 const { resolve, dirname } = require('path');
-let spawn = require('spawncommand'); const { fork } = spawn; if (spawn && spawn.__esModule) spawn = spawn.default;
+const        { spawn, fork } = require('../../stdlib');
 const { existsSync } = require('fs');
 const getArgs = require('./get-args');
 

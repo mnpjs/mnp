@@ -1,5 +1,5 @@
 const GitHub = require(/* depack */'@rqt/github')
-const { confirm } = require('reloquent');
+const { confirm } = require('../../../stdlib');
 
 const runDelete = async (token, org, name) => {
   const github = new GitHub(token)

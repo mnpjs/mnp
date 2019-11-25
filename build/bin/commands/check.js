@@ -1,5 +1,5 @@
 const info = require('../../lib/info');
-const { c } = require('erte');
+const { c } = require('../../../stdlib');
 
 const runCheck = async (name) => {
   console.log('Checking package %s...', name)

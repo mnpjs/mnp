@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-let bosom = require('bosom'); if (bosom && bosom.__esModule) bosom = bosom.default;
+const { bosom } = require('../../stdlib');
 const { clone } = require('wrote');
 let camelCase = require('camel-case'); if (camelCase && camelCase.__esModule) camelCase = camelCase.default;
 

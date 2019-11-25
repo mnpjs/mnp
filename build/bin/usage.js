@@ -1,6 +1,6 @@
-let usually = require('usually'); if (usually && usually.__esModule) usually = usually.default;
+const { usually } = require('../../stdlib');
 const { argsConfig } = require('./get-args');
-const { reduceUsage } = require('argufy');
+const { reduceUsage } = require('../../stdlib');
 
 const u1 = `
 + package:\ta modern Node.js package to publish on npm (default);

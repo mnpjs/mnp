@@ -1,16 +1,16 @@
 const { resolve, join } = require('path');
 const { assertDoesNotExist } = require('wrote');
-const { c, b } = require('erte');
-let askQuestions = require('reloquent'); const { askSingle } = askQuestions; if (askQuestions && askQuestions.__esModule) askQuestions = askQuestions.default;
+const { c, b } = require('../../../stdlib');
+const               { askQuestions, askSingle } = require('../../../stdlib');
 const cloneSource = require('../../lib/clone-source'); const { getRegexes, updatePackageJson } = cloneSource;
 const git = require('../../lib/git');
 const { assertNotInGitPath } = require('../../lib/git-lib');
 const { getStructure, create } = require('../../lib');
 let GitHub = require('@rqt/github'); if (GitHub && GitHub.__esModule) GitHub = GitHub.default;
 const { renameSync } = require('fs');
-const { Replaceable, replace } = require('restream');
-let readDirStructure = require('@wrote/read-dir-structure'); const { getFiles } = readDirStructure; if (readDirStructure && readDirStructure.__esModule) readDirStructure = readDirStructure.default;
-const { read, write, rm } = require('@wrote/wrote');
+const { Replaceable, replace } = require('../../../stdlib');
+const                   { readDirStructure, getFiles } = require('../../../stdlib');
+const { read, write, rm } = require('../../../stdlib');
 // const GitHub = require(/* depack */'@rqt/github/src')
 
 const getDescription = async (description) => {
