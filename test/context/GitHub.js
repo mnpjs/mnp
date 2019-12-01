@@ -1,6 +1,6 @@
 import { debuglog } from 'util'
 import GitHub from '@rqt/github'
-import read from '@wrote/read'
+import { read } from '@wrote/wrote'
 
 const LOG = debuglog('mnp')
 

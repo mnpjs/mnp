@@ -12,4 +12,5 @@ export {}
  * @prop {string} website The websites.
  * @prop {string} trademark The trademark name for README.
  * @prop {string} legalName The official legal name for LICENSE.
+ * @prop {string} manager Package manager, such as `yarn` or `npm`.
  */

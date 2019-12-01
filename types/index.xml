@@ -24,5 +24,8 @@
     <prop name="legalName" string>
       The official legal name for LICENSE.
     </prop>
+    <prop name="manager" string>
+      Package manager, such as `yarn` or `npm`.
+    </prop>
   </type>
 </types>

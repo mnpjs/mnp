@@ -133,6 +133,7 @@ const runCreate = async (settings, {
   }
   if (struct == 'splendid') {
     // read the mnp.js file
+    require('alamode')()
     const { questions } = require(`${path}/mnp`)
     ;({ onCreate } = require(`${path}/mnp`))
     const q = Object.entries(questions).reduce((acc, [key, getDefault]) => {
