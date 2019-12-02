@@ -27,10 +27,10 @@
   resolved "https://registry.yarnpkg.com/@mnpjs/idio/-/idio-1.3.1.tgz#1d4b17e2c36de0fa8ca87fdd69e6a60e9708e70f"
   integrity sha512-zjtX/OeDkXeNabE3SwIRP8UFMVhuOz9Ma4rroAW56wJ15rdbRIoaDhxOFRzTDkpCHBSlGJWqYqeS0qc9V0b6Bw==
 
-"@mnpjs/package@^1.11.3":
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/@mnpjs/package/-/package-1.11.3.tgz#9979202edb8ae37b65c1c1996566ac003cfdc019"
-  integrity sha512-AnVPUG//UUaMPj3EH7fBF0IFXdJmplH9A6i2iPehjFFYWlIfWVcJJ/1Vjt31jw2rKIC7gXko2MDSdjz3i4Tahw==
+"@mnpjs/licenses@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@mnpjs/licenses/-/licenses-1.0.0.tgz#f154427072c7673706a910b253e2eaeee13be7a5"
+  integrity sha512-Xp2SUndtz97AJ51nZpAfsA/HG5TZ7T770d2POaGUnXMrF9VgyyfziLLcG9rqquOgjaLKYda0anWWZdYKm2SCwg==
 
 "@mnpjs/structure@^1.1.1":
   version "1.1.1"
@@ -152,13 +152,6 @@ bosom@^2.0.0:
   resolved "https://registry.yarnpkg.com/bosom/-/bosom-2.0.0.tgz#226a47b354867dfd3f6fde73f870c9d6ddeb3ca6"
   integrity sha512-Ny8J8hwl4lYzUEwPd70CpF+HUCF8IO3oQp3BErr2sK/ANQLGupZNMqFx8capAqeX+5zXzASRvM9q4dOeI1P3yg==
 
-camel-case@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/camel-case/-/camel-case-4.0.0.tgz#bc52e4d40c63c291f99ac41d28f4e3064858d1ee"
-  integrity sha512-VB2k4JElm81n3itqFHI4bxW2bPAz9/d+uM97NKetCqc/z88bhmqC3yQEiRxVvv5k/icYhJZtHEoa6vFWB2D61A==
-  dependencies:
-    pascal-case "^3.0.0"
-
 catchment@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/catchment/-/catchment-2.0.1.tgz#df0a05ac2e1194cf280c2444d5bb564a9cc8f488"
@@ -268,11 +261,6 @@ json-diff@0.5.2:
     difflib "~0.2.1"
     dreamopt "~0.6.0"
 
-lower-case@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-2.0.0.tgz#8f07128bd5ffd0247d15106e7e8d17d223312faa"
-  integrity sha512-OJifkIqIt8iu216sXZ0Fpo5tK4QhJjOYQIUd09SNkoc71NvU9157VTXsT4aRsx7TTpCtykmbCYal3B7y5L9/wg==
-
 makepromise@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/makepromise/-/makepromise-1.1.1.tgz#4e03bf98c25ca96a4223b0f2e280e3b3a6f9dea4"
@@ -291,20 +279,6 @@ mismatch@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mismatch/-/mismatch-1.2.0.tgz#3f5021861e8084e36a14c2c1f9489941cd18f790"
   integrity sha512-kuw1k8ZHS+12fBVAVOBXMBJBXcNGnByFTJIDzH4W4v84OocejZ/qzxmT4ll9CLX5OD23NXr+NvrQDus0BsQ8xw==
-
-no-case@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/no-case/-/no-case-3.0.0.tgz#e4a875c97613479944b8b01d319b8b89575f1022"
-  integrity sha512-XFxcq4iHOOBanVPfJZkvdWWl8NWszvJFb0DubOXBACe4fwbiZ30CEs7VIpUl+7x4qRwkmO/tOSHdLVun/A5wKw==
-  dependencies:
-    lower-case "^2.0.0"
-
-pascal-case@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/pascal-case/-/pascal-case-3.0.0.tgz#a1a0c8b82fb945a32d3bf85b5785820ac4073da8"
-  integrity sha512-milAq/PR3sNcoaFwjRZh2FzryDWWnmLRZ1559+AqlURdp3DC/SgPKOXjpQyxo4N4u+QlkZ6m/HbJKQShhOnlEQ==
-  dependencies:
-    no-case "^3.0.0"
 
 pedantry@^2.3.1:
   version "2.5.0"

@@ -1,4 +1,4 @@
-const { resolve, join } = require('path');
+const { resolve, join, dirname } = require('path');
 const { assertDoesNotExist } = require('wrote');
 const { c, b } = require('../../../stdlib');
 const               { askQuestions, askSingle } = require('../../../stdlib');
@@ -7,10 +7,11 @@ const git = require('../../lib/git');
 const { assertNotInGitPath } = require('../../lib/git-lib');
 const { getStructure, create } = require('../../lib');
 let GitHub = require('@rqt/github'); if (GitHub && GitHub.__esModule) GitHub = GitHub.default;
-const { renameSync } = require('fs');
 const { Replaceable, replace } = require('../../../stdlib');
 const                   { readDirStructure, getFiles } = require('../../../stdlib');
 const { read, write, rm } = require('../../../stdlib');
+const API = require('../../lib/api');
+const { writeFileSync, readFileSync } = require('fs');
 // const GitHub = require(/* depack */'@rqt/github/src')
 
 const getDescription = async (description) => {
@@ -27,15 +28,17 @@ const getPackageNameWithScope = (packageName, scope) => {
   return `${scope ? `@${scope}/` : ''}${packageName}`
 }
 
+const DEFAULT_FILENAMES = ['LICENSE', '.gitignore', '.eslintrc']
+
 /**
  * @param {_mnp.Settings} settings
  */
-const runCreate = async (settings, {
+async function runCreate(settings, {
   name,
   struct,
   token,
   description: _description,
-}) => {
+}) {
   await assertNotInGitPath()
   const github = new GitHub(token)
   const {
@@ -44,8 +47,6 @@ const runCreate = async (settings, {
     scope,
     name: userName,
     email,
-    legalName,
-    trademark,
   } = settings
   const packageName = getPackageNameWithScope(name, scope)
 
@@ -56,13 +57,13 @@ const runCreate = async (settings, {
 
   const description = await getDescription(_description)
 
-  let sshUrl, gitUrl, htmlUrl
+  let ssh_url, git_url, html_url
   try {
     if (struct == 'splendid') {
       ({
-        'ssh_url': sshUrl,
-        'git_url': gitUrl,
-        'html_url': htmlUrl,
+        'ssh_url': ssh_url,
+        'git_url': git_url,
+        'html_url': html_url,
       } = await github.repos.generate('mnpjs', 'splendid', {
         owner: org,
         name: name,
@@ -72,9 +73,9 @@ const runCreate = async (settings, {
       // debugger
     } else {
       ({
-        'ssh_url': sshUrl,
-        'git_url': gitUrl,
-        'html_url': htmlUrl,
+        'ssh_url': ssh_url,
+        'git_url': git_url,
+        'html_url': html_url,
       } = await github['repos']['create']({
         'name': name,
         'org': org,
@@ -96,20 +97,17 @@ const runCreate = async (settings, {
     throw err
   }
 
-  if (!sshUrl)
+  if (!ssh_url)
     throw new Error('GitHub repository was not created via the API.')
 
-  await github['activity']['star'](org, name)
+  await github.activity.star(org, name)
   console.log(
     '%s\n%s',
     c('⭐️  Created and starred a new repository', 'grey'),
-    b(htmlUrl, 'green'),
+    b(html_url, 'green'),
   )
 
-  const readmeUrl = `${htmlUrl}#readme`
-  const issuesUrl = `${htmlUrl}/issues`
-
-  await git(['clone', sshUrl, path])
+  await git(['clone', ssh_url, path])
 
   console.log('Setting user %s<%s>...', userName, email)
   await git(['config', 'user.name', userName], path)
@@ -117,72 +115,114 @@ const runCreate = async (settings, {
 
   let structurePath, onCreate
   const sets = {
-    org,
+    ...settings,
     name,
-    scope,
     packageName,
-    website,
-    authorName: userName,
-    authorEmail: email,
-    issuesUrl,
-    readmeUrl,
-    gitUrl,
+    author_name: userName,
+    author_email: email,
+    issues_url: `${html_url}/issues`,
+    readme_url: `${html_url}#readme`,
+    git_url,
+    ssh_url,
+    html_url,
     description,
-    legalName,
-    trademark,
   }
   if (struct == 'splendid') {
     // read the mnp.js file
     require('alamode')()
-    const { questions } = require(`${path}/mnp`)
+    let { questions, afterInit, files: {
+      extensions: fileExtensions = ['js','md','html','json','css'],
+      filenames = DEFAULT_FILENAMES,
+    } = {} } = require(`${path}/mnp`)
     ;({ onCreate } = require(`${path}/mnp`))
-    const q = Object.entries(questions).reduce((acc, [key, getDefault]) => {
-      const def = () => getDefault(sets)
-      acc[key] = { text: key, getDefault: def }
-      return acc
-    }, {})
-    const answers = await askQuestions(q)
-    const answersRules = Object.entries(answers).reduce((acc, [key, replacement]) => {
-      const rule = { re: new RegExp(`{{ ${key} }}`), replacement }
-      acc.push(rule)
-      return acc
-    }, [])
-    // select license
-    const license = answers['License (MIT/AGPL)']
-    if (license == 'MIT') {
-      await rm(join(path, 'LICENSE-AGPL'))
-      renameSync(join(path, 'LICENSE-MIT'), join(path, 'LICENSE'))
-    } else if (license == 'AGPL') {
-      await rm(join(path, 'LICENSE-MIT'))
-      renameSync(join(path, 'LICENSE-AGPL'), join(path, 'LICENSE'))
-    } else {
-      console.warn(c(`Unknown license ${license}`, 'red'))
-    }
-    // go into the repo and update
+
     const { content } = await readDirStructure(path, {
       ignore: ['.git'],
     })
     let files = getFiles(content, path)
+    const fer = new RegExp(`\\.${fileExtensions.join('|')}$`)
+
+    if (typeof filenames == 'function') {
+      filenames = filenames(DEFAULT_FILENAMES)
+    }
+
+    const fns = filenames
+      .filter(f => typeof f == 'string')
+      .map(f => join(path, f))
+    const fnre = filenames
+      .filter(f => f instanceof RegExp)
+
     files = files
       .filter(p => {
-        if (/LICENSE$/.test(p)) return true
-        return /\.(js|md|html|json)$/.test(p)
+        if (fns.includes(p)) return true
+        const matches = fnre.some((re) => {
+          re.lastIndex = 0
+          return re.test(p)
+        })
+        if (matches) return true
+        fer.lastIndex = 0
+        return fer.test(p)
       })
-    await Promise.all(files.map(async (p) => {
-      const regexes = getRegexes(sets)
-      const r = new Replaceable([
-        ...answersRules,
-        ...regexes,
-      ])
+
+    const api = new API(path, files, github)
+
+    const mnpQuestions = {
+      license: {
+        text: 'License (e.g., agpl-3.0, apache-2.0, bsd-3-clause, gpl-3.0, mit, custom)\nhttps://github.com/mnpjs/licenses',
+        getDefault() {
+          return 'agpl-3.0'
+        },
+        // https://spdx.org/licenses/
+        afterQuestions({ warn }, license) {
+          if (license == 'custom') return 'SEE LICENSE IN LICENSE'
+          const r = require('@mnpjs/licenses')
+          const exists = license in r
+          if (!exists) return warn(`Unknown license ${license}`)
+
+          const l = join(dirname(require.resolve('@mnpjs/licenses/package.json')), 'licenses', `${license}.txt`)
+          const li = readFileSync(l, 'utf8')
+          writeFileSync(join(path, 'LICENSE'), li)
+          api.addFile('LICENSE')
+          return r[license].spdx
+        },
+      },
+    }
+
+    const { q, afterQuestions } = reduceTemplate({
+      ...mnpQuestions,
+      ...questions,
+    }, sets, api.proxy)
+
+    const answers = await askQuestions(q)
+    const aliases = Object.entries(q).reduce((acc, [key, { alias }]) => {
+      if (alias) acc[alias] = answers[key]
+      return acc
+    }, {})
+    Object.assign(sets, answers)
+
+    await Promise.all(Object.entries(afterQuestions).map(async ([key, fn]) => {
+      const res = await fn()
+      if (res !== undefined)
+        sets[key] = res
+    }))
+
+    // go into the repo and update with core replacements
+    const regexes = getRegexes(sets, aliases)
+
+    await Promise.all(api.files.map(async (p) => {
+      const r = new Replaceable(regexes)
       const file = await read(p)
       const res = await replace(r, file)
       await write(p, res)
     }))
-    // add website to repo
-    await github.repos.edit(org, name, {
-      homepage: answers['URL'],
-    })
-    await rm(join(path, 'mnp.js'))
+
+    if (afterInit) await afterInit(sets, api.proxy)
+
+    try {
+      await rm(join(path, 'mnp.js'))
+    } catch (er) {
+      await rm(join(path, 'mnp'))
+    }
     await updatePackageJson(path, sets, false)
   } else {
     const { structure, scripts, structurePath: sp } = getStructure(struct)
@@ -206,9 +246,56 @@ const runCreate = async (settings, {
   console.log('Created a new package: %s.', c(packageName, 'green'))
 }
 
-module.exports=runCreate
+/**
+ * @param {Object} questions The array with template questions.
+ * @param {Object} sets The settings.
+ * @param {Object} api The API methods.
+ */
+const reduceTemplate = (questions, sets, api) => {
+  const aq = {}
+  const q = Object.entries(questions).reduce((acc, [key, qq]) => {
+    /** @type {_reloquent.Question} */
+    const question = { text: qq.text || key, alias: qq.alias }
+
+    if (typeof qq == 'function') {
+      const def = () => qq(sets)
+      question.getDefault = def
+    } else {
+      const { getDefault, confirm } = qq
+      let { afterQuestions } = qq
+      if (confirm !== undefined) {
+        question.text = `${question.text} [y/n]`
+        if (confirm) question.defaultValue = 'y'
+        else question.defaultValue = 'n'
+        question.postProcess = (a) => a == 'y'
+      } else if (getDefault) {
+        question.getDefault = () => getDefault(sets)
+      }
+      if (afterQuestions) {
+        const boundAfterQuestions = () => {
+          return afterQuestions(api, sets[key], sets)
+        }
+        aq[key] = boundAfterQuestions
+      }
+    }
+    acc[key] = question
+    return acc
+  }, {})
+  return { q, afterQuestions: aq }
+}
 
 /**
  * @suppress {nonStandardJsDocs}
  * @typedef {import('../../../').Settings} _mnp.Settings
  */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('restream').Rule} _restream.Rule
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('reloquent/types').Question} _reloquent.Question
+ */
+
+
+module.exports = runCreate

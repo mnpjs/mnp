@@ -96,11 +96,10 @@
   "dependencies": {
     "@mnpjs/azure": "^1.0.1",
     "@mnpjs/idio": "^1.3.1",
-    "@mnpjs/package": "^1.11.3",
+    "@mnpjs/licenses": "^1.0.0",
     "@mnpjs/structure": "^1.1.1",
     "@rqt/github": "^1.3.0",
     "alamode": "^3.2.0",
-    "camel-case": "^4.0.0",
     "wrote": "^1.4.0"
   }
 }

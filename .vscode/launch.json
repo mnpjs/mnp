@@ -66,9 +66,9 @@
       },
       "cwd": "${workspaceFolder}/../../art-deco",
       "args": [
-        "test2", // package-name
-        "-s", "splendid", // structure
-        "-D", "Testing new Splendid package."
+        "test3", // package-name
+        "-s", "package", // structure
+        "-D", "Testing new package."
         // "-d", // delete
         // "-l", // local
         // "-c", // check

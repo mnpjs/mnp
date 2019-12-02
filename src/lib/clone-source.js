@@ -1,7 +1,12 @@
 import { resolve } from 'path'
 import bosom from 'bosom'
 import { clone } from 'wrote'
-import camelCase from 'camel-case'
+
+const camelCase = (s) => {
+  return s.replace(/-(.)/g, (m, w) => {
+    return w.toUpperCase()
+  })
+}
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -39,7 +44,7 @@ export const getRegexes = (sets, aliases) => {
     year,
   }
   const rules = Object.entries(answers).reduce((acc, [key, replacement]) => {
-    const rule = { re: new RegExp(`{{ ${key} }}`), replacement }
+    const rule = { re: new RegExp(`{{ ${key} }}`, 'g'), replacement }
     acc.push(rule)
     return acc
   }, [])
@@ -52,13 +57,16 @@ export const getRegexes = (sets, aliases) => {
     return acc
   }, [])
 
+  const cc = camelCase(name)
+
   const regexes = [
     ...rules,
     ...aliasesRules,
-    { re: /myNewPackage/g, replacement: camelCase(name) },
+    { re: /myNewPackage/g, replacement: cc },
     { re: /MyNewPackage/g, replacement:
-      camelCase(name).replace(/^./, m => m.toUpperCase()) },
+      cc.replace(/^./, m => m.toUpperCase()) },
     { re: /(my-new-package)/g, replacement: packageName },
+    { re: /(mnp)/g, replacement: name },
   ]
   return regexes
 }

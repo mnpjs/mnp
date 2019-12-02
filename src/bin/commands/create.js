@@ -1,4 +1,4 @@
-import { resolve, join } from 'path'
+import { resolve, join, dirname } from 'path'
 import { assertDoesNotExist } from 'wrote'
 import { c, b } from 'erte'
 import askQuestions, { askSingle } from 'reloquent'
@@ -11,6 +11,7 @@ import { Replaceable, replace } from 'restream'
 import readDirStructure, { getFiles } from '@wrote/read-dir-structure'
 import { read, write, rm } from '@wrote/wrote'
 import API from '../../lib/api'
+import { writeFileSync, readFileSync } from 'fs'
 // const GitHub = require(/* depack */'@rqt/github/src')
 
 const getDescription = async (description) => {
@@ -28,6 +29,7 @@ const getPackageNameWithScope = (packageName, scope) => {
 }
 
 const DEFAULT_FILENAMES = ['LICENSE', '.gitignore', '.eslintrc']
+const DEFAULT_EXTENSIONS = ['js','.jsx','md','html','json','css','xml']
 
 /**
  * @param {_mnp.Settings} settings
@@ -57,13 +59,19 @@ export default async function runCreate(settings, {
   const description = await getDescription(_description)
 
   let ssh_url, git_url, html_url
+
+  const knownStructures = {
+    splendid: { 'org': 'mnpjs', name: 'splendid' },
+    package: { 'org': 'mnpjs', name: 'package' },
+  }
+  const s = knownStructures[struct]
   try {
-    if (struct == 'splendid') {
+    if (s) {
       ({
         'ssh_url': ssh_url,
         'git_url': git_url,
         'html_url': html_url,
-      } = await github.repos.generate('mnpjs', 'splendid', {
+      } = await github.repos.generate(s.org, s.name, {
         owner: org,
         name: name,
         description,
@@ -126,11 +134,11 @@ export default async function runCreate(settings, {
     html_url,
     description,
   }
-  if (struct == 'splendid') {
+  if (s) {
     // read the mnp.js file
     require('alamode')()
-    let { questions, afterInit, files: {
-      extensions: fileExtensions = ['js','md','html','json','css'],
+    let { questions, afterInit, preUpdate, files: {
+      extensions: fileExtensions = DEFAULT_EXTENSIONS,
       filenames = DEFAULT_FILENAMES,
     } = {} } = require(`${path}/mnp`)
     ;({ onCreate } = require(`${path}/mnp`))
@@ -143,6 +151,9 @@ export default async function runCreate(settings, {
 
     if (typeof filenames == 'function') {
       filenames = filenames(DEFAULT_FILENAMES)
+    }
+    if (typeof fileExtensions == 'function') {
+      fileExtensions = fileExtensions(DEFAULT_EXTENSIONS)
     }
 
     const fns = filenames
@@ -163,9 +174,13 @@ export default async function runCreate(settings, {
         return fer.test(p)
       })
 
-    const api = new API(path, files, github)
+    const api = new API(path, files, github, sets)
 
-    const { q, afterQuestions } = reduceTemplate(questions, sets, api.proxy)
+    const { q, afterQuestions } = reduceTemplate({
+      ...questions,
+      ...mnpQuestions,
+      ...questions,
+    }, sets, api.proxy)
 
     const answers = await askQuestions(q)
     const aliases = Object.entries(q).reduce((acc, [key, { alias }]) => {
@@ -174,11 +189,17 @@ export default async function runCreate(settings, {
     }, {})
     Object.assign(sets, answers)
 
-    await Promise.all(Object.entries(afterQuestions).map(async ([key, fn]) => {
+    await api.fixGitignore()
+
+    await Object.entries(afterQuestions).reduce(async (acc, [key, fn]) => {
+      await acc
       const res = await fn()
-      if (res !== undefined)
+      if (typeof res == 'string')
         sets[key] = res
-    }))
+      else Object.assign(sets, res)
+    }, {})
+
+    if (preUpdate) await preUpdate(sets, api.proxy)
 
     // go into the repo and update with core replacements
     const regexes = getRegexes(sets, aliases)
@@ -247,7 +268,7 @@ const reduceTemplate = (questions, sets, api) => {
       }
       if (afterQuestions) {
         const boundAfterQuestions = () => {
-          return afterQuestions(api, sets[key])
+          return afterQuestions(api, sets[key], sets)
         }
         aq[key] = boundAfterQuestions
       }
@@ -256,6 +277,31 @@ const reduceTemplate = (questions, sets, api) => {
     return acc
   }, {})
   return { q, afterQuestions: aq }
+}
+
+const mnpQuestions = {
+  license: {
+    text: 'Choose a license (e.g., agpl-3.0, apache-2.0, bsd-3-clause, gpl-3.0, mit, custom)\nSee full list at https://github.com/mnpjs/licenses\nLicense',
+    getDefault() {
+      return 'agpl-3.0'
+    },
+    // https://spdx.org/licenses/
+    afterQuestions({ warn, addFile, resolve: res }, license) {
+      if (license == 'custom') return 'SEE LICENSE IN LICENSE'
+      const r = require('@mnpjs/licenses')
+      const exists = license in r
+      if (!exists) return warn(`Unknown license ${license}`)
+
+      const l = join(dirname(require.resolve('@mnpjs/licenses/package.json')), 'licenses', `${license}.txt`)
+      const li = readFileSync(l, 'utf8')
+      writeFileSync(res('LICENSE'), li)
+      addFile('LICENSE')
+      return {
+        license_spdx: r[license].spdx,
+        license_name: r[license].name,
+      }
+    },
+  },
 }
 
 /**

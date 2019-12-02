@@ -47,4 +47,8 @@ module.exports={
     text: 'Legal name (for license)',
     defaultValue: null,
   },
+  manager: {
+    text: 'Package Manager (yarn/npm)',
+    defaultValue: 'yarn',
+  },
 }

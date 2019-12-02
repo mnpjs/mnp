@@ -12,85 +12,70 @@ function getDefaultCreateDate() {
   return `${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`
 }
 
-const getRegexes = ({
-  name, packageName, org, legalName, trademark, website,
-  issuesUrl, readmeUrl, authorName, authorEmail, year = `${new Date().getFullYear()}`,
-  gitUrl, description, createDate = getDefaultCreateDate(), keywords = [],
-}) => {
+/**
+ * Creates template regexes based on settings.
+ * @param {Object} sets
+ */
+const getRegexes = (sets, aliases) => {
+  const {
+    name, packageName, legalName,
+    year = `${new Date().getFullYear()}`,
+    create_date = getDefaultCreateDate(), keywords = [],
+  } = sets
+
   const keywordsReplacement = keywords
     .map(k => `"${k}"`).join(', ')
     .replace(/^"/, '').replace(/"$/, '')
 
+
+  const answers = {
+    ...sets,
+    'package-name': packageName,
+    'full-name': packageName,
+    'legal-name': legalName,
+    keywords: keywordsReplacement,
+    legal_name: legalName,
+    'create-date': create_date,
+    year,
+  }
+  const rules = Object.entries(answers).reduce((acc, [key, replacement]) => {
+    const rule = { re: new RegExp(`{{ ${key} }}`), replacement }
+    acc.push(rule)
+    return acc
+  }, [])
+  const aliasesRules = Object.entries(aliases).reduce((acc, [re, replacement]) => {
+    if (typeof re == 'string') {
+      re = new RegExp(re.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g')
+    }
+    const rule = { re, replacement }
+    acc.push(rule)
+    return acc
+  }, [])
+
+  const cc = camelCase(name)
+
   const regexes = [
-    { re: /{{ full-name }}/g, replacement: packageName },
-    { re: /myNewPackage/g, replacement: camelCase(name) },
+    ...rules,
+    ...aliasesRules,
+    { re: /myNewPackage/g, replacement: cc },
     { re: /MyNewPackage/g, replacement:
-      camelCase(name).replace(/^./, m => m.toUpperCase()) },
-    { re: /(my-new-package|{{ package-name }})/g, replacement: packageName }, {
-      re: /{{ year }}/g,
-      replacement: year,
-    }, {
-      re: /{{ org }}/g,
-      replacement: org,
-    }, {
-      re: /{{ legal_name }}/g,
-      replacement: legalName,
-    }, {
-      re: /{{ trademark }}/g,
-      replacement: trademark,
-    }, {
-      re: /{{ website }}/g,
-      replacement: website,
-    }, {
-      re: /{{ issues_url }}/g,
-      replacement: issuesUrl,
-    }, {
-      re: /{{ readme_url }}/g,
-      replacement: readmeUrl,
-    }, {
-      re: /{{ author_name }}/g,
-      replacement: authorName,
-    }, {
-      re: /{{ author_email }}/g,
-      replacement: authorEmail,
-    }, {
-      re: /{{ keywords }}/g,
-      replacement: keywordsReplacement,
-    }, {
-      re: /{{ git_url }}/g,
-      replacement: gitUrl,
-    }, {
-      re: /{{ description }}/g,
-      replacement: description,
-    }, {
-      re: /{{ create_date }}/g,
-      replacement: createDate,
-    },
+      cc.replace(/^./, m => m.toUpperCase()) },
+    { re: /(my-new-package)/g, replacement: packageName },
+    { re: /(mnp)/g, replacement: name },
   ]
   return regexes
 }
 
 const updatePackageJson = async (path, {
-  packageName, description, gitUrl, keywords, authorName, authorEmail,
-  issuesUrl, readmeUrl,
+  keywords, readme_url,
 }, homepage = true) => {
   try {
     const packageJson = resolve(path, 'package.json')
     const p = await bosom(packageJson)
     const pp = {
       ...p,
-      name: packageName,
-      description,
-      repository: {
-        type: 'git',
-        url: gitUrl,
-      },
       keywords,
-      author: `${authorName} <${authorEmail}>`,
-      bugs: {
-        url: issuesUrl,
-      },
-      ...(homepage ? { homepage: readmeUrl } : {} ),
+      ...(homepage ? { homepage: readme_url } : {} ),
     }
     await bosom(packageJson, pp, { space: 2 })
   } catch (err) {/* no package.json */ }
