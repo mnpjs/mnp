@@ -7,16 +7,18 @@
           "to": "$1build"
         }
       }
-    }
-  },
-  "import": {
-    "stdlib": {
-      "path": "stdlib",
-      "packages": ["promto", "usually", "bosom",
-        "@wrote/read-dir-structure", "@wrote/wrote", "argufy",
-        "erte", "mismatch", "reloquent", "restream", "rqt", "spawncommand",
-        "@artdeco/clean-stack", "indicatrix"
-      ]
+    },
+    "build": {
+      "import": {
+        "stdlib": {
+          "path": "stdlib",
+          "packages": ["promto", "usually", "bosom",
+            "@wrote/read-dir-structure", "@wrote/wrote", "argufy",
+            "erte", "mismatch", "reloquent", "restream", "rqt", "spawncommand",
+            "@artdeco/clean-stack", "indicatrix"
+          ]
+        }
+      }
     }
   }
 }

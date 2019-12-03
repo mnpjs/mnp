@@ -21,7 +21,7 @@
     "start": "node build/bin/mnp",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "doc": "NODE_DEBUG=doc doc -o README.md",
-    "b": "alamode src -o build -i bin/index.js,bin/.eslintrc -s",
+    "b": "ALAMODE_ENV=build alamode src -o build -i bin/index.js,bin/.eslintrc -s",
     "d": "yarn-s d1",
     "d1": "typal types/index.js -u",
     "externs": "typal types/externs.js",
@@ -35,7 +35,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/dpck/depack.git"
+    "url": "git://github.com/mnpjs/mnp.git"
   },
   "keywords": [
     "npm",
