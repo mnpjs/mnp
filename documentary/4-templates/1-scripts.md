@@ -57,8 +57,8 @@ These are standard questions that can benefit any new package.
 
 - `wiki`: if set, will initialise the wiki submodule in the project dir.
 - `license`: allows to [pick a license](https://github.com/mnpjs/licenses), update `package.json` with its SPDX and add the license file into the project.
-- homepage: asks for the homepage to add to `package.json` and sets the `GitHub` URL if given.
-- keywords: creates an array of keywords to add to `package.json` and sets `GitHub` topics.
+- `homepage`: asks for the homepage to add to `package.json` and sets the `GitHub` URL if given.
+- `keywords`: creates an array of keywords to add to `package.json` and sets `GitHub` topics.
 
 **hooks**
 
