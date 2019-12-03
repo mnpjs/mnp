@@ -1,17 +1,15 @@
 import usually from 'usually'
 import { argsConfig } from './get-args'
 import { reduceUsage } from 'argufy'
+import { c } from 'erte'
 
-const u1 = `
-+ package:\ta modern Node.js package to publish on npm (default);
-+ idio:\t\ta back-end server powered by Goa;
-+ splendid:\ta static website using Splendid;
-+ structure:\tan mnp template to create new structures.`.trim()
+// + idio:\t\ta back-end server powered by Goa;
+// + structure:\tan mnp template to create new structures.`.trim()
 
 export default () => {
   const u = usually({
     usage: reduceUsage(argsConfig),
-    line: 'mnp [package-name] [-D description] [-s structure] [-cIhdv]',
+    line: 'mnp [name] [-D description] [-s structure] [-cId] [-hv]',
     description: `MNP: create My New Package.
  If no package name is given as the first argument, the program will ask
  for it in the CLI. A GitHub repository for each new package will be
@@ -19,10 +17,15 @@ export default () => {
  https://github.com/settings/tokens for the use in this application.
  The token is saved in the CWD/.mnprc file along with other configuration,
  including organisation name etc. Different types of packages, with a
- modern Node.js library by default are available, including:
+ modern Node.JS library by default are available, including:
 
 ${u1}`,
-    example: 'mnp my-new-package -s idio',
+    example: 'mnp my-new-package -s splendid',
   })
   return u
 }
+
+const u1 = `${c('package', 'magenta')}:\ta modern Node.JS package to publish on npm (default)
+\t\thttps://github.com/mnpjs/package
+${c('splendid', 'green')}:\ta static website using Splendid
+\t\thttps://github.com/mnpjs/splendid`

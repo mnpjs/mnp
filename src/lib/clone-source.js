@@ -71,8 +71,7 @@ export const getRegexes = (sets, aliases) => {
     ...rules,
     ...aliasesRules,
     { re: /myNewPackage/g, replacement: cc },
-    { re: /MyNewPackage/g, replacement:
-      cc.replace(/^./, m => m.toUpperCase()) },
+    { re: /MyNewPackage/g, replacement: cc.replace(/^./, m => m.toUpperCase()) },
     { re: /(my-new-package)/g, replacement: packageName },
     { re: /(mnp)/g, replacement: name },
   ]

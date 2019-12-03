@@ -1,7 +1,11 @@
 const { resolve } = require('path');
 const { bosom } = require('../../stdlib');
-const { clone } = require('wrote');
-let camelCase = require('camel-case'); if (camelCase && camelCase.__esModule) camelCase = camelCase.default;
+
+const camelCase = (s) => {
+  return s.replace(/-(.)/g, (m, w) => {
+    return w.toUpperCase()
+  })
+}
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -27,7 +31,6 @@ const getRegexes = (sets, aliases) => {
     .map(k => `"${k}"`).join(', ')
     .replace(/^"/, '').replace(/"$/, '')
 
-
   const answers = {
     ...sets,
     'package-name': packageName,
@@ -35,14 +38,24 @@ const getRegexes = (sets, aliases) => {
     'legal-name': legalName,
     keywords: keywordsReplacement,
     legal_name: legalName,
+    create_date,
     'create-date': create_date,
     year,
   }
-  const rules = Object.entries(answers).reduce((acc, [key, replacement]) => {
-    const rule = { re: new RegExp(`{{ ${key} }}`), replacement }
-    acc.push(rule)
-    return acc
-  }, [])
+  const rules = [{
+    re: /{{ (.+?) }}/g,
+    replacement(m, key) {
+      try {
+        const aa = key.split('.').reduce((o, i) => o[i], answers)
+        if (aa) return aa
+        throw new Error('not found')
+      } catch (err) {
+        this.api.warn('Setting %s in %s not found.', m, this.path)
+        // not found
+      }
+      return m
+    },
+  }]
   const aliasesRules = Object.entries(aliases).reduce((acc, [re, replacement]) => {
     if (typeof re == 'string') {
       re = new RegExp(re.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g')
@@ -58,8 +71,7 @@ const getRegexes = (sets, aliases) => {
     ...rules,
     ...aliasesRules,
     { re: /myNewPackage/g, replacement: cc },
-    { re: /MyNewPackage/g, replacement:
-      cc.replace(/^./, m => m.toUpperCase()) },
+    { re: /MyNewPackage/g, replacement: cc.replace(/^./, m => m.toUpperCase()) },
     { re: /(my-new-package)/g, replacement: packageName },
     { re: /(mnp)/g, replacement: name },
   ]
@@ -81,17 +93,5 @@ const updatePackageJson = async (path, {
   } catch (err) {/* no package.json */ }
 }
 
-async function cloneSource(from, to, sets = {}) {
-  const res = await clone({
-    to,
-    from,
-    regexes: getRegexes(sets),
-  })
-  await updatePackageJson(to, sets)
-  return res
-}
-
-
-module.exports = cloneSource
 module.exports.getRegexes = getRegexes
 module.exports.updatePackageJson = updatePackageJson

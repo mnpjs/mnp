@@ -1,7 +1,7 @@
-import { writeFileSync, readFileSync } from 'fs'
-import { join, dirname } from 'path'
+const { writeFileSync, readFileSync } = require('fs');
+const { join, dirname } = require('path');
 
-export default {
+module.exports={
   license: {
     text: 'Choose a license (e.g., agpl-3.0, apache-2.0, bsd-3-clause, gpl-3.0, mit, custom)\nSee full list at https://github.com/mnpjs/licenses\nLicense',
     getDefault() {

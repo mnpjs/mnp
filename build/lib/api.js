@@ -1,6 +1,6 @@
 const { join, parse, relative, normalize, basename } = require('path');
 const { spawn } = require('../../stdlib');
-const { renameSync, unlinkSync, writeFileSync } = require('fs');
+const { renameSync, unlinkSync, writeFileSync, writeFile, existsSync, lstatSync } = require('fs');
 const { indicatrix } = require('../../stdlib');
 const { aqt } = require('../../stdlib');
 const { c, b } = require('../../stdlib');
@@ -15,7 +15,7 @@ class API {
    * @param {string} projectDir
    * @param {!Array<string>} files An array with absolute paths to files.
    */
-  constructor(projectDir, files, github) {
+  constructor(projectDir, files, github, settings) {
     this.projectDir = projectDir
     this.files = files
     this.github = github
@@ -40,6 +40,16 @@ class API {
         return real
       },
     })
+    this.settings = settings
+  }
+  async fixGitignore() {
+    await this.updateFiles({
+      re: /# start template[\s\S]+?# end template(\n|$)/,
+      replacement() {
+        this.debug('Fixing .gitignore %s', this.path)
+        return ''
+      },
+    }, { file: '.gitignore' })
   }
   async spawn(command, args = [], opts = {}) {
     const { quiet, ...op } = opts
@@ -55,14 +65,14 @@ class API {
       else throw err
     }
   }
-  get askQuestions() {
-    return askQuestions
+  async askQuestions(...args) {
+    return await askQuestions(...args)
   }
-  get askSingle() {
-    return askSingle
+  async askSingle(...args) {
+    return await askSingle(...args)
   }
-  get confirm() {
-    return confirm
+  async confirm(...args) {
+    return await confirm(...args)
   }
   async unzip(file, where) {
     file = normalize(file)
@@ -97,7 +107,6 @@ class API {
       }
       return to
     } finally {
-      debugger
       unlinkSync(path)
     }
     // update config
@@ -130,8 +139,8 @@ class API {
   /**
    * @param {string} s
    */
-  warn(s) {
-    console.log(c(s, 'yellow'))
+  warn(s, ...args) {
+    console.log(c(s, 'yellow'), ...args)
   }
   /**
    * @param {string} path
@@ -141,14 +150,45 @@ class API {
     unlinkSync(p)
     this.files = this.files.filter(f => f != p)
   }
+  async initManager() {
+    if (this.settings.manager == 'yarn') {
+      await this.spawn('yarn')
+    } else if (this.settings.manager == 'npm') {
+      await this.spawn('npm', ['i'])
+    }
+  }
+  get packageJson() {
+    const p = this.resolve('package.json')
+    delete require.cache[p]
+    const packageJson = require(p)
+    return packageJson
+  }
+  json(file) {
+    const p = this.resolve(file)
+    delete require.cache[p]
+    const f = require(p)
+    return f
+  }
+  saveJson(file, data, indent = 2) {
+    const p = this.resolve(file)
+    const s = indent ? JSON.stringify(data, null, indent) : JSON.stringify(data)
+    writeFileSync(p, s)
+  }
+  updatePackageJson(data) {
+    this.saveJson('package.json', data)
+  }
   renameFile(path, newPath) {
     const p = this.resolve(path)
     const newp = this.resolve(newPath)
-    renameSync(p, newp)
-    const i = this.files.indexOf(p)
-    if (i > -1) {
-      const includesAlready = this.hasFile(newp)
-      if (!includesAlready) this.files[i] = newp
+    try {
+      renameSync(p, newp)
+      const i = this.files.indexOf(p)
+      if (i > -1) {
+        const includesAlready = this.hasFile(newp)
+        if (!includesAlready) this.files[i] = newp
+      }
+    } catch (err) {
+      if (process.env.DEBUG) console.log(err.message)
     }
   }
   /**
@@ -165,12 +205,38 @@ class API {
   hasFile(file) {
     return this.files.some(f => f == file)
   }
+  async removePackages(packages) {
+    if (this.settings.manager == 'npm') {
+      await this.spawn('npm', ['uninstall', ...packages])
+    } else if (this.settings.manager == 'yarn') {
+      await this.spawn('yarn', ['remove', ...packages])
+    }
+  }
   addFile(file) {
     const path = this.resolve(file)
     const exists = this.files.find(f => f == path)
     if (!exists) {
       this.files.push(path)
     } else if (process.env.DEBUG) console.log('File %s already present.', file)
+  }
+  async rm(path) {
+    path = this.resolve(path)
+    try {
+      const e = lstatSync(path)
+      // if (!e) return
+      await rm(path)
+      if (e.isDirectory()) {
+        this.files = this.files.filter((f) => {
+          return !f.startsWith(join(path, '/'))
+        })
+      } else if (e.isFile()) {
+        this.files = this.files.filter((f) => {
+          return f != path
+        })
+      }
+    } catch (err) {
+      this.warn(err.message)
+    }
   }
   /**
    * @param {RegExp} regex The files to remove.
@@ -213,6 +279,7 @@ class API {
     await Promise.all(f.map(async ff => {
       const content = await read(ff)
       const r = new Replaceable(rules)
+      r.api = this
       r.path = ff
       r.debug = (...args) => {
         if (process.env.DEBUG) console.log(...args)
