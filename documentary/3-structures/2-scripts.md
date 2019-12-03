@@ -1,4 +1,4 @@
-### Scripts
+<!-- ### Scripts
 
 At certain stages during the creation of a new package, `mnp` will run scripts specified in the `package.json` of a structure. For example, the `package` structure will run `yarn` to install dependencies right after the package is created.
 
@@ -26,4 +26,4 @@ If a script is given as a `.js` file which exists in the structure directory, it
 }
 ```
 
-%~%
+%~% -->

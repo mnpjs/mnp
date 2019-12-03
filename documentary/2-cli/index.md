@@ -2,9 +2,7 @@
 
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
-```sh
-mnp [package-name] [-D description] [-s structure] [--init|I] [-chdn@]
-```
+<!-- <fork>src/bin -h</fork> -->
 
 To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.
 
@@ -65,7 +63,8 @@ When launched for the first time, `mnp` will ask to complete the set-up process 
   ["`scope`", "A scope with which to create packages."],
   ["`website`", "A link location in the copyright section of the `README` file."],
   ["`trademark`", "A display text for the website link in the `README`."],
-  ["`legal name`", "A legal name placed in the `LICENCE` file."]
+  ["`legal name`", "A legal name placed in the `LICENCE` file."],
+  ["`manager`", "The package manager, either `yarn` or `npm`."]
 ]
 ```
 

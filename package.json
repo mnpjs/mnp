@@ -1,7 +1,7 @@
 {
   "name": "mnp",
   "version": "0.14.2-a",
-  "description": "Quickly create a Node.JS package with a Github repository.",
+  "description": "Create Packages From GitHub Templates. My New Package is an installer of new packages via GitHub templates with an automated script from which you ask CLI questions, update files, access GitHub API and spawn commands.",
   "main": "types/index.js",
   "bin": {
     "mnp": "build/bin/mnp.js",
