@@ -17,25 +17,10 @@
   resolved "https://registry.yarnpkg.com/@externs/nodejs/-/nodejs-1.5.0.tgz#88ff9e7a03c53d19101ee49768e598ff0f39c9ad"
   integrity sha512-2J+FRDjGfKKldTQ5YqLmhQ04/sA9swTQ6OTtPzo4xhg41u1+eiufciXiqW6u3UXEcmm413a27NakgnLbzfp0wQ==
 
-"@mnpjs/azure@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@mnpjs/azure/-/azure-1.0.1.tgz#581475e2df080d1bf521e84becd6d46873601a48"
-  integrity sha512-ZJjAoeLBC5Cjna8ZB4t6VJFsz7Txu7FA54kFmtl1YL7+dzCkO/ZJU7ipsmT1Kj3NyjMaddwNYECIEAIhHrjp4w==
-
-"@mnpjs/idio@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@mnpjs/idio/-/idio-1.3.1.tgz#1d4b17e2c36de0fa8ca87fdd69e6a60e9708e70f"
-  integrity sha512-zjtX/OeDkXeNabE3SwIRP8UFMVhuOz9Ma4rroAW56wJ15rdbRIoaDhxOFRzTDkpCHBSlGJWqYqeS0qc9V0b6Bw==
-
 "@mnpjs/licenses@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@mnpjs/licenses/-/licenses-1.0.0.tgz#f154427072c7673706a910b253e2eaeee13be7a5"
   integrity sha512-Xp2SUndtz97AJ51nZpAfsA/HG5TZ7T770d2POaGUnXMrF9VgyyfziLLcG9rqquOgjaLKYda0anWWZdYKm2SCwg==
-
-"@mnpjs/structure@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@mnpjs/structure/-/structure-1.1.1.tgz#f866f8e40110fda2029858a8dff926d813bd48b5"
-  integrity sha1-+Gb45AEQ/aICmFio3/km2BO9SLU=
 
 "@rqt/aqt@^1.3.0":
   version "1.3.0"

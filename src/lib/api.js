@@ -139,8 +139,8 @@ export default class API {
   /**
    * @param {string} s
    */
-  warn(s) {
-    console.log(c(s, 'yellow'))
+  warn(s, ...args) {
+    console.log(c(s, 'yellow'), ...args)
   }
   /**
    * @param {string} path
@@ -279,6 +279,7 @@ export default class API {
     await Promise.all(f.map(async ff => {
       const content = await read(ff)
       const r = new Replaceable(rules)
+      r.api = this
       r.path = ff
       r.debug = (...args) => {
         if (process.env.DEBUG) console.log(...args)
