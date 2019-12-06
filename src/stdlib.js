@@ -2,7 +2,7 @@ import promto from 'promto'
 import usually from 'usually'
 import bosom from 'bosom'
 import readDirStructure, { getFiles } from '@wrote/read-dir-structure'
-import { read, write, rm, ensurePath } from '@wrote/wrote'
+import { read, write, rm, ensurePath, exists } from '@wrote/wrote'
 import argufy, { reduceUsage } from 'argufy'
 import { c, b } from 'erte'
 import mismatch from 'mismatch'
@@ -15,6 +15,7 @@ import cleanStack from '@artdeco/clean-stack'
 import indicatrix from 'indicatrix'
 
 module.exports = {
+  'exists': exists,
   'ensurePath': ensurePath,
   'cleanStack': cleanStack,
   'indicatrix': indicatrix,

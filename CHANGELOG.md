@@ -1,5 +1,9 @@
 ## 6 December 2019
 
+### [1.0.2](https://github.com/mnpjs/mnp/compare/v1.0.1...v1.0.2)
+
+- [deps] `stdlib` _@wrote/wrote.exists_.
+
 ### [1.0.1](https://github.com/mnpjs/mnp/compare/v1.0.0...v1.0.1)
 
 - [deps] `stdlib` africa.
