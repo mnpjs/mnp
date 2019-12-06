@@ -9,7 +9,7 @@ const { c } = require('../../stdlib');
 module.exports=() => {
   const u = usually({
     usage: reduceUsage(argsConfig),
-    line: 'mnp [name] [-D description] [-s structure] [-cId] [-hv]',
+    line: 'mnp [name] [-t template] [-D description] [-@ scope|-n] [-pcId] [-hv]',
     description: `MNP: create My New Package.
  If no package name is given as the first argument, the program will ask
  for it in the CLI. A GitHub repository for each new package will be
@@ -20,7 +20,7 @@ module.exports=() => {
  modern Node.JS library by default are available, including:
 
 ${u1}`,
-    example: 'mnp my-new-package -s splendid',
+    example: 'mnp my-new-package -t org/template',
   })
   return u
 }

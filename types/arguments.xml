@@ -2,8 +2,11 @@
   <arg command name="name">
     The name of the new package.
   </arg>
-  <arg name="struct" short="s">
-    The structure to invoke.
+  <arg name="template" short="t" default="mnpjs/package">
+    The template to generate from.
+  </arg>
+  <arg boolean name="private" short="p">
+    Create a private repository.
   </arg>
   <arg name="desc" short="D">
     The description to add.

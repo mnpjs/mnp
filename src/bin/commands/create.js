@@ -1,14 +1,16 @@
 import { resolve, join } from 'path'
 import { c, b } from 'erte'
 import askQuestions, { askSingle } from 'reloquent'
-import { getRegexes, updatePackageJson } from '../../lib/clone-source'
+import { getRegexes } from '../../lib/clone-source'
 import git from '../../lib/git'
 import { assertNotInGitPath } from '../../lib/git-lib'
 import GitHub from '@rqt/github'
 import readDirStructure, { getFiles } from '@wrote/read-dir-structure'
 import { rm, exists } from '@wrote/wrote'
+import indicatrix from 'indicatrix'
 import API from '../../lib/api'
 import mnpQuestions from './mnp-questions'
+import { spawnSync } from 'child_process'
 // const GitHub = require(/* depack */'@rqt/github/src')
 
 const getDescription = async (description) => {
@@ -31,7 +33,7 @@ const DEFAULT_EXTENSIONS = ['js','jsx','md','html','json','css','xml']
 /**
  * @param {string} struct
  */
-const getTemplate = (struct) => {
+const getTemplate = (struct = '') => {
   const knownTemplates = {
     splendid: { 'org': 'mnpjs', name: 'splendid' },
     package: { 'org': 'mnpjs', name: 'package' },
@@ -84,7 +86,8 @@ const getAllFiles = async (path, filenames, fileExtensions) => {
  */
 export default async function runCreate(settings, {
   name,
-  struct,
+  template,
+  private: priv = false,
   token,
   description: _description,
 }) {
@@ -101,22 +104,22 @@ export default async function runCreate(settings, {
   const description = await getDescription(_description)
 
   // let ssh_url, git_url, html_url
-  const template = getTemplate(struct)
-  const repo = await github.repos.generate(template.org, template.name, {
+  const templ = getTemplate(template)
+  const repo = await indicatrix('Generating repository', github.repos.generate(templ.org, templ.name, {
     owner: org,
     name: name,
     description,
-    // private
-  })
+    private: priv,
+  }))
   const { ssh_url, html_url } = repo
 
   if (!ssh_url)
     throw new Error('GitHub repository was not created via the API.')
 
-  await github.activity.star(org, name)
+  await indicatrix('Starring', github.activity.star(org, name))
   console.log(
     '%s\n%s',
-    c('⭐️  Created and starred a new repository', 'grey'),
+    c(`⭐️ Created and starred a new${priv ? ' private' : ''} repository`, 'grey'),
     b(html_url, 'green'),
   )
 
@@ -187,14 +190,18 @@ export default async function runCreate(settings, {
   } catch (er) {
     await rm(join(path, 'mnp'))
   }
-  await updatePackageJson(path, sets, false)
 
   await git('add .', path, true)
   await git(['commit', '-m', 'initialise package'], path, true)
-  console.log('Initialised package structure, pushing.')
-  await git('push origin master', path, true)
+  await indicatrix('Initialised package structure, pushing', git('push origin master', path, true))
 
   console.log('Created a new package: %s.', c(packageName, 'green'))
+
+  try {
+    spawnSync('code', [path])
+  } catch (err) {
+    // no code
+  }
 }
 
 /**

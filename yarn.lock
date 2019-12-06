@@ -27,10 +27,10 @@
   resolved "https://registry.yarnpkg.com/@rqt/aqt/-/aqt-1.3.0.tgz#06472f50f85ab8e2a391db5b92c43ee726a8a844"
   integrity sha512-Ux0ygtQqaJE2bLuxw4J/mJpPyJGtLs1AdEdi/5FUG59CHwHiDWEsrldF4kxsJNFyWkWYT6Fe/zNTKnzv6KFREQ==
 
-"@rqt/github@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@rqt/github/-/github-1.3.0.tgz#405b01f633c0610ecd6c16d857a4782eed65912c"
-  integrity sha512-gBXVEtDkGOVLo0d3krsgWeFrQtJ+2gOA23wcCuTBdHX9OEqD1vuEQjPBxHdHZoOT+WgB9am/1rNsyqMbBFXx4g==
+"@rqt/github@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@rqt/github/-/github-1.3.1.tgz#75070036d3ed0dd7d9e39b753c4255cae5a1190a"
+  integrity sha512-R5Pq6Xkhi4zbtHDY3Vx/ea9UuaShYxaDIgHEZputDTXcpFzBRCQIebMcYlpcZgQdtGu9O8tzwmBpKXC9UAxd5Q==
 
 "@wrote/clone@^1.1.1":
   version "1.2.1"
@@ -142,11 +142,6 @@ catchment@2.0.1:
   resolved "https://registry.yarnpkg.com/catchment/-/catchment-2.0.1.tgz#df0a05ac2e1194cf280c2444d5bb564a9cc8f488"
   integrity sha512-aNvgHj+gmfld9rzUwxJJN6aT5MLBT0/R2LtqO8Xtjy/iq6PCAVLyFzYXZAs5Ew6FzwXAW5xV5XLGD5oACPtJdg==
 
-catchment@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/catchment/-/catchment-1.0.0.tgz#3061f71be0102710be84328d2f94363a165f8c4b"
-  integrity sha1-MGH3G+AQJxC+hDKNL5Q2OhZfjEs=
-
 catchment@^3.2.3, catchment@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/catchment/-/catchment-3.3.0.tgz#e57eb70183d6a75ee71da0cb8ec2e76ac01317d2"
@@ -167,10 +162,10 @@ cli-color@~0.1.6:
   dependencies:
     es5-ext "0.8.x"
 
-depack@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/depack/-/depack-1.0.0.tgz#d373bba9eeb569d9707cd3cfdd45a20fbe518c9a"
-  integrity sha512-1+gK3omxgYF/nCKThpF6xopgpVsJhsx9EcKb7FY90pisx9oF3xBnhy+NHcOUYXdc2C7gotQIRjNDq4C8NwUVug==
+depack@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/depack/-/depack-1.0.1.tgz#4b3c2a9bff91cf31466d148101336a8329db7f09"
+  integrity sha512-W1etv1UIcdoRDqN8JzwcD8T1ZUylbppmqMQulu54YMoTSMAVmqcp8lnR17og8RtvHFlI41qpi58SMgnU3C6hPQ==
   dependencies:
     "@depack/nodejs" "^1.1.4"
     "@externs/nodejs" "^1.5.0"
@@ -305,13 +300,6 @@ rqt@^4.0.0:
   resolved "https://registry.yarnpkg.com/rqt/-/rqt-4.0.0.tgz#b57f64bf1b3b8b8109617f9dc67b9dd9ea5cb4d6"
   integrity sha512-DUm6ZAt6ESeY46aFWhQwBvsOpXABRL5TTkpN/3KJjog7uk2ncYuU4UZ8FQV6qfWybihkMFCdoESNSxYQ5rSZiQ==
 
-spawncommand@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/spawncommand/-/spawncommand-1.1.0.tgz#80a56ed3c06ab3b91643cf3f6cef38bf582fdb15"
-  integrity sha1-gKVu08Bqs7kWQ88/bO84v1gv2xU=
-  dependencies:
-    catchment "^1.0.0"
-
 spawncommand@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/spawncommand/-/spawncommand-2.2.0.tgz#545791d135482bd5428c9de1e889305abde42889"
@@ -357,12 +345,10 @@ wrote@^1.4.0:
     makepromise "1.1.1"
     restream "1.2.0"
 
-yarn-s@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/yarn-s/-/yarn-s-1.1.0.tgz#8c65555d7c7ccb5a61e18440b8b0e4cb48b76b9d"
-  integrity sha1-jGVVXXx8y1ph4YRAuLDky0i3a50=
-  dependencies:
-    spawncommand "1.1.0"
+yarn-s@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/yarn-s/-/yarn-s-1.2.1.tgz#3749ffbbb1ba1b0d40db07d81d4bb536cc635c3f"
+  integrity sha512-9qnU+hBV/mDJHB//1psEH786C1LEdr8AdXhMMiSh26io0GW0tHy4DEhstgaWlR8gzKF8FMgpoYsDtQdtSAY+8Q==
 
 zoroaster@^4.1.2:
   version "4.1.2"

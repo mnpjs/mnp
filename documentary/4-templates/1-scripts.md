@@ -2,10 +2,26 @@
 
 The installation scripts are essential to update the newly created structure to the correct values. Upon installation, `mnp` will create a list of all files in the project directory, so that any transformations will be run on them. A braces `{{ repo }}` templating notation is used in files. By default, the following files are added:
 
-- files: ['LICENSE', '.gitignore', '.eslintrc']
-- extensions: ['js', 'jsx', 'md', 'html', 'json', 'css', 'xml']
+- files: `['LICENSE', '.gitignore', '.eslintrc']`
+- extensions: `['js', 'jsx', 'md', 'html', 'json', 'css', 'xml']`
 
-But this can be overriden by scripts.
+But this can be overriden by scripts:
+
+```js
+// mnp.js
+export default {
+  files: {
+    extensions: ['txt'], // override
+    extensions(ext) {
+      return [...ext, 'txt']
+    }, // extend
+    filenames: ['COPYING'], // override
+    filenames(fn) {
+      return [...fn, 'COPYING']
+    }, // extend
+  },
+}
+```
 
 **script structure**
 
@@ -98,7 +114,7 @@ When using variables in files, they are written as `{{ var }}` or `{{ var.inner 
   "license": "agpl-3.0",
   "wiki": false,
   "homepage": "https://github.com/art-deco/test3#readme",
-  "keywords": "",
+  "keywords": ["topic1", "topic2"],
   "license_spdx": "AGPL-3.0",
   "license_name": "GNU Affero General Public License v3.0",
   "package-name": "@artdeco/test3",
@@ -345,7 +361,7 @@ The `repo` object has the following structure:
 
 In addition, there are replacements that are used without braces:
 
-- `mnp`: the name of the package.
-- `my-new-package`: the full name with the scope.
-- `myNewPackage`: camel-cased name, no capital.
-- `MyNewPackage`: camel-cased name, starts with capital.
+- `mnp`: the name of the package, e.g., `hello-world`.
+- `my-new-package`: the full name with the scope, e.g., `@example/hello-world`.
+- `myNewPackage`: camel-cased name, no first capital, e.g., `helloWorld`.
+- `MyNewPackage`: camel-cased name, starts with capital, e.g., `HelloWorld`.

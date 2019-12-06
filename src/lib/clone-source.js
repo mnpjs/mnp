@@ -24,19 +24,14 @@ export const getRegexes = (sets, aliases) => {
   const {
     name, packageName, legalName,
     year = `${new Date().getFullYear()}`,
-    create_date = getDefaultCreateDate(), keywords = [],
+    create_date = getDefaultCreateDate(),
   } = sets
-
-  const keywordsReplacement = keywords
-    .map(k => `"${k}"`).join(', ')
-    .replace(/^"/, '').replace(/"$/, '')
 
   const answers = {
     ...sets,
     'package-name': packageName,
     'full-name': packageName,
     'legal-name': legalName,
-    keywords: keywordsReplacement,
     legal_name: legalName,
     create_date,
     'create-date': create_date,
@@ -44,6 +39,7 @@ export const getRegexes = (sets, aliases) => {
   }
   const rules = [{
     re: /{{ (.+?) }}/g,
+    // keywords? custom rule processor
     replacement(m, key) {
       try {
         const aa = key.split('.').reduce((o, i) => o[i], answers)

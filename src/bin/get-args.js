@@ -5,9 +5,15 @@ export const argsConfig = {
     description: 'The name of the new package.',
     command: true,
   },
-  'struct': {
-    description: 'The structure to invoke.',
-    short: 's',
+  'template': {
+    description: 'The template to generate from.',
+    default: 'mnpjs/package',
+    short: 't',
+  },
+  'private': {
+    description: 'Create a private repository.',
+    boolean: true,
+    short: 'p',
   },
   'desc': {
     description: 'The description to add.',
@@ -56,9 +62,14 @@ const args = argufy(argsConfig)
 export const _name = /** @type {string} */ (args['name'])
 
 /**
- * The structure to invoke.
+ * The template to generate from. Default `mnpjs/package`.
  */
-export const _struct = /** @type {string} */ (args['struct'])
+export const _template = /** @type {string} */ (args['template'] || 'mnpjs/package')
+
+/**
+ * Create a private repository.
+ */
+export const _private = /** @type {boolean} */ (args['private'])
 
 /**
  * The description to add.

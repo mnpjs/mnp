@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _struct, _desc } from './get-args'
+import { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _desc, _private, _template } from './get-args'
 import { askSingle } from 'reloquent'
 import getUsage from './usage'
 import signIn from '../lib/sign-in'
@@ -45,7 +45,8 @@ const getName = async (name) => {
       ...settings,
     }, {
       name,
-      struct: _struct,
+      template: _template,
+      private: _private,
       token,
       description: _desc,
     })

@@ -86,6 +86,7 @@ to create the first page and press enter when done.`)
         warn('Could not set GitHub topics: %s:%s', statusCode, statusMessage)
         warn(JSON.stringify(body, null, 2))
       }
+      return tags
     },
   },
 }

@@ -1,14 +1,16 @@
 const { resolve, join } = require('path');
 const { c, b } = require('../../../stdlib');
 const               { askQuestions, askSingle } = require('../../../stdlib');
-const { getRegexes, updatePackageJson } = require('../../lib/clone-source');
+const { getRegexes } = require('../../lib/clone-source');
 const git = require('../../lib/git');
 const { assertNotInGitPath } = require('../../lib/git-lib');
 let GitHub = require('@rqt/github'); if (GitHub && GitHub.__esModule) GitHub = GitHub.default;
 const                   { readDirStructure, getFiles } = require('../../../stdlib');
 const { rm, exists } = require('../../../stdlib');
+const { indicatrix } = require('../../../stdlib');
 const API = require('../../lib/api');
 const mnpQuestions = require('./mnp-questions');
+const { spawnSync } = require('child_process');
 // const GitHub = require(/* depack */'@rqt/github/src')
 
 const getDescription = async (description) => {
@@ -31,7 +33,7 @@ const DEFAULT_EXTENSIONS = ['js','jsx','md','html','json','css','xml']
 /**
  * @param {string} struct
  */
-const getTemplate = (struct) => {
+const getTemplate = (struct = '') => {
   const knownTemplates = {
     splendid: { 'org': 'mnpjs', name: 'splendid' },
     package: { 'org': 'mnpjs', name: 'package' },
@@ -84,7 +86,8 @@ const getAllFiles = async (path, filenames, fileExtensions) => {
  */
 async function runCreate(settings, {
   name,
-  struct,
+  template,
+  private: priv = false,
   token,
   description: _description,
 }) {
@@ -101,22 +104,22 @@ async function runCreate(settings, {
   const description = await getDescription(_description)
 
   // let ssh_url, git_url, html_url
-  const template = getTemplate(struct)
-  const repo = await github.repos.generate(template.org, template.name, {
+  const templ = getTemplate(template)
+  const repo = await indicatrix('Generating repository', github.repos.generate(templ.org, templ.name, {
     owner: org,
     name: name,
     description,
-    // private
-  })
+    private: priv,
+  }))
   const { ssh_url, html_url } = repo
 
   if (!ssh_url)
     throw new Error('GitHub repository was not created via the API.')
 
-  await github.activity.star(org, name)
+  await indicatrix('Starring', github.activity.star(org, name))
   console.log(
     '%s\n%s',
-    c('⭐️  Created and starred a new repository', 'grey'),
+    c(`⭐️ Created and starred a new${priv ? ' private' : ''} repository`, 'grey'),
     b(html_url, 'green'),
   )
 
@@ -187,14 +190,18 @@ async function runCreate(settings, {
   } catch (er) {
     await rm(join(path, 'mnp'))
   }
-  await updatePackageJson(path, sets, false)
 
   await git('add .', path, true)
   await git(['commit', '-m', 'initialise package'], path, true)
-  console.log('Initialised package structure, pushing.')
-  await git('push origin master', path, true)
+  await indicatrix('Initialised package structure, pushing', git('push origin master', path, true))
 
   console.log('Created a new package: %s.', c(packageName, 'green'))
+
+  try {
+    spawnSync('code', [path])
+  } catch (err) {
+    // no code
+  }
 }
 
 /**

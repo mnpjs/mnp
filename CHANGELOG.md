@@ -1,3 +1,9 @@
+## 6 December 2019
+
+### [1.0.0](https://github.com/mnpjs/mnp/compare/v0.14.2-a...v1.0.0)
+
+- [api] Remove structures, switch to _GitHub_ templates.
+
 ## 29 June 2019
 
 ### [0.14.2](https://github.com/dpck/depack/compare/v0.14.1...v0.14.2)

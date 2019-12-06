@@ -152,8 +152,18 @@ class API {
   }
   async initManager() {
     if (this.settings.manager == 'yarn') {
+      try {
+        this.removeFile('package-lock.json')
+      } catch (err) {
+        // ok
+      }
       await this.spawn('yarn')
     } else if (this.settings.manager == 'npm') {
+      try {
+        this.removeFile('yarn.lock')
+      } catch (err) {
+        // ok
+      }
       await this.spawn('npm', ['i'])
     }
   }
