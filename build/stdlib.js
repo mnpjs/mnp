@@ -10,7 +10,7 @@ const               { askQuestions, askSingle, confirm } = require('../stdlib');
 const { Replaceable, replace } = require('../stdlib');
 const { aqt } = require('../stdlib');
 const        { spawn, fork } = require('../stdlib');
-let africa = require('africa'); if (africa && africa.__esModule) africa = africa.default;
+const { africa } = require('../stdlib');
 const { cleanStack } = require('../stdlib');
 const { indicatrix } = require('../stdlib');
 

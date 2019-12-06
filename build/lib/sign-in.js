@@ -1,4 +1,4 @@
-let africa = require('africa'); if (africa && africa.__esModule) africa = africa.default;
+const { africa } = require('../../stdlib');
 const questions = require('../bin/questions');
 
 /**
