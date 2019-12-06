@@ -1,7 +1,7 @@
 {
   "name": "mnp",
   "version": "0.14.2-a",
-  "description": "Create Packages From GitHub Templates. My New Package is an installer of new packages via GitHub templates with an automated script from which you ask CLI questions, update files, access GitHub API and spawn commands.",
+  "description": "Create Packages From GitHub Templates. My New Package is an installer of new packages via GitHub templates: create a template and add an automated script to CLI questions, update files, access GitHub API and spawn commands during generation.",
   "main": "types/index.js",
   "bin": {
     "mnp": "build/bin/mnp.js",
@@ -33,6 +33,7 @@
     "build",
     "types/index.js",
     "src/bin/index.js",
+    "website",
     "stdlib"
   ],
   "repository": {
