@@ -32,7 +32,8 @@
   "files": [
     "build",
     "types/index.js",
-    "src/bin/index.js"
+    "src/bin/index.js",
+    "stdlib"
   ],
   "repository": {
     "type": "git",
