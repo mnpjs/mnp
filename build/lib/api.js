@@ -1,5 +1,6 @@
 const { join, parse, relative, normalize, basename } = require('path');
 const { spawn } = require('../../stdlib');
+const git = require('../lib/git');
 const { renameSync, unlinkSync, writeFileSync, writeFile, existsSync, lstatSync } = require('fs');
 const { indicatrix } = require('../../stdlib');
 const { aqt } = require('../../stdlib');
@@ -268,6 +269,9 @@ class API {
   }
   resolve(file) {
     return join(this.projectDir, file)
+  }
+  get git() {
+    return git
   }
   /**
    * @param {!Array<!_restream.Rule>} rules

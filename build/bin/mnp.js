@@ -45,7 +45,7 @@ const getName = async (name) => {
       ...settings,
     }, {
       name,
-      template: template || _template,
+      template: _template || template,
       private: _private,
       token,
       description: _desc,

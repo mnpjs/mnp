@@ -7,7 +7,6 @@ export const argsConfig = {
   },
   'template': {
     description: 'The template to generate from.',
-    default: 'mnpjs/package',
     short: 't',
   },
   'private': {
@@ -30,7 +29,7 @@ export const argsConfig = {
     short: 'd',
   },
   'init': {
-    description: 'Initialise MNP config in this directory, creating .mnprc.',
+    description: 'Initialise MNP config in this directory, creating `.mnprc`.',
     boolean: true,
     short: 'I',
   },
@@ -62,9 +61,9 @@ const args = argufy(argsConfig)
 export const _name = /** @type {string} */ (args['name'])
 
 /**
- * The template to generate from. Default `mnpjs/package`.
+ * The template to generate from.
  */
-export const _template = /** @type {string} */ (args['template'] || 'mnpjs/package')
+export const _template = /** @type {string} */ (args['template'])
 
 /**
  * Create a private repository.
@@ -87,7 +86,7 @@ export const _check = /** @type {boolean} */ (args['check'])
 export const _delete = /** @type {boolean} */ (args['delete'])
 
 /**
- * Initialise MNP config in this directory, creating .mnprc.
+ * Initialise MNP config in this directory, creating `.mnprc`.
  */
 export const _init = /** @type {boolean} */ (args['init'])
 

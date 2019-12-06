@@ -241,12 +241,11 @@ splendid:	a static website using Splendid
 
 	name          	The name of the new package.
 	--template, -t	The template to generate from.
-	              	Default: mnpjs/package.
 	--private, -p 	Create a private repository.
 	--desc, -D    	The description to add.
 	--check, -c   	Just query NPM registry to see if the package exists.
 	--delete, -d  	Remove the repository from GitHub.
-	--init, -I    	Initialise MNP config in this directory, creating .mnprc.
+	--init, -I    	Initialise MNP config in this directory, creating `.mnprc`.
 	--no-scope, -n	Don't use a scope for this package.
 	--scope, -@   	Use this specific scope for the package.
 	--help, -h    	Print the help information and exit.

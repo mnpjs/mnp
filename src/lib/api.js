@@ -1,5 +1,6 @@
 import { join, parse, relative, normalize, basename } from 'path'
 import spawn from 'spawncommand'
+import git from '../lib/git'
 import { renameSync, unlinkSync, writeFileSync, writeFile, existsSync, lstatSync } from 'fs'
 import indicatrix from 'indicatrix'
 import { aqt } from 'rqt'
@@ -268,6 +269,9 @@ export default class API {
   }
   resolve(file) {
     return join(this.projectDir, file)
+  }
+  get git() {
+    return git
   }
   /**
    * @param {!Array<!_restream.Rule>} rules
