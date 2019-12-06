@@ -54,19 +54,7 @@ npm publish
 
 When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token, and then initialise `mnp` in other directories, when it will reuse the token from the `HOME` config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes, while reusing the access token.
 
-```table
-[
-  ["Field", "Description"],
-  ["`token`", "A `GitHub` [developer token][1]."],
-  ["`organisation`", "An optional `GitHub` organisation name to create repositories for. A personal `GitHub` account is used if not supplied."],
-  ["`name`, `email`", "Author's name and email to set in the `package.json` file, and in the project directory's git config. Default values are read from the global git config."],
-  ["`scope`", "A scope with which to create packages."],
-  ["`website`", "A link location in the copyright section of the `README` file."],
-  ["`trademark`", "A display text for the website link in the `README`."],
-  ["`legal name`", "A legal name placed in the `LICENCE` file."],
-  ["`manager`", "The package manager, either `yarn` or `npm`."]
-]
-```
+<typedef narrow>types/index.xml</typedef>
 
 %GIF doc/init.gif
 Initialising the configuration.

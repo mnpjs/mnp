@@ -41,6 +41,7 @@ export default {
 - [CLI: `mnp my-new-package`](#cli-mnp-my-new-package)
   * [Creating Packages](#creating-packages)
   * [`-I`, `--init`: Configure](#-i---init-configure)
+    * [`Settings`](#type-settings)
   * [`-h`, `--help`: Show Help](#-h---help-show-help)
   * [`-c`, `--check`: Check Exists](#-c---check-check-exists)
   * [`-d`, `--delete`: Delete Repository](#-d---delete-delete-repository)
@@ -79,16 +80,124 @@ To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 
 When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token, and then initialise `mnp` in other directories, when it will reuse the token from the `HOME` config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes, while reusing the access token.
 
-|      Field      |                                                                        Description                                                                        |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `token` | A `GitHub` [developer token][1].                                                                                           |
-| `organisation` | An optional `GitHub` organisation name to create repositories for. A personal `GitHub` account is used if not supplied. |
-| `name`, `email` | Author's name and email to set in the `package.json` file, and in the project directory's git config. Default values are read from the global git config. |
-| `scope` | A scope with which to create packages.                                                                                                                    |
-| `website` | A link location in the copyright section of the `README` file.                                                             |
-| `trademark` | A display text for the website link in the `README`.                                                                       |
-| `legal name` | A legal name placed in the `LICENCE` file.                                                                                  |
-| `manager` | The package manager, either `yarn` or `npm`.                                           |
+__<a name="type-settings">`Settings`</a>__
+<table>
+ <thead><tr>
+  <th>Name</th>
+  <th>Type &amp; Description</th>
+  <th>Default</th>
+ </tr></thead>
+ <tr>
+  <td rowSpan="3" align="center"><strong>token*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The <code>GitHub</code> <a href="https://github.com/settings/tokens">personal access token</a>.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>org*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The <code>GitHub</code> organisation name to create repositories for. For personal accounts, the username should be used.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>scope*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The NPM scope with which to create packages.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">template</td>
+  <td><em>string</em></td>
+  <td rowSpan="3"><code>mnpjs/package</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The default template.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>name*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The author's name to set in the <code>package.json</code> file, and in the project directory's git config (default is looked up in global git config).
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>email*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The author's email to set in the <code>package.json</code> file, and in the project directory's git config (default is looked up in global git config).
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>website*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The link location in the copyright section of the <em>README</em> file.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>trademark*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The display text for the website link in the <em>README</em>.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>legalName*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The official legal name for placement in the <em>LICENSE</em> file.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><strong>manager*</strong></td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Package manager, such as <code>yarn</code> or <code>npm</code>.
+  </td>
+ </tr>
+</table>
 
 <details>
   <summary>Initialising configuration: <code>mnp -I</code>.</summary>
@@ -126,7 +235,7 @@ package:	a modern Node.JS package to publish on npm (default)
 splendid:	a static website using Splendid
 		https://github.com/mnpjs/splendid
 
-  mnp [name] [-t template] [-D description] [-cId] [-hv]
+  mnp [name] [-t template] [-D description] [-@ scope|-n] [-pcId] [-hv]
 
 	name          	The name of the new package.
 	--template, -t	The template to generate from.
@@ -588,8 +697,6 @@ In addition, there are replacements that are used without braces:
 ## Copyright
 
 (c) [Art Deco](https://www.artd.eco) 2019
-
-[1]: https://github.com/settings/tokens
 
 <p align="center"><a href="#table-of-contents">
   <img src="/.documentary/section-breaks/-1.svg?sanitize=true">

@@ -1,28 +1,31 @@
 <types namespace="_mnp">
   <type name="Settings">
     <prop name="token" string>
-      Personal access token.
+      The `GitHub` [personal access token](https://github.com/settings/tokens).
     </prop>
     <prop name="org" string>
-      GitHub organisation.
+      The `GitHub` organisation name to create repositories for. For personal accounts, the username should be used.
     </prop>
     <prop name="scope" string>
-      NPM scope.
+      The NPM scope with which to create packages.
+    </prop>
+    <prop name="template" string default="mnpjs/package">
+      The default template.
     </prop>
     <prop name="name" string>
-      Username (default is look up in git config).
+      The author's name to set in the `package.json` file, and in the project directory's git config (default is looked up in global git config).
     </prop>
     <prop name="email" string>
-      Email (default is looked up in git config).
+      The author's email to set in the `package.json` file, and in the project directory's git config (default is looked up in global git config).
     </prop>
     <prop name="website" string>
-      The websites.
+      The link location in the copyright section of the _README_ file.
     </prop>
     <prop name="trademark" string>
-      The trademark name for README.
+      The display text for the website link in the _README_.
     </prop>
     <prop name="legalName" string>
-      The official legal name for LICENSE.
+      The official legal name for placement in the _LICENSE_ file.
     </prop>
     <prop name="manager" string>
       Package manager, such as `yarn` or `npm`.

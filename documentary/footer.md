@@ -13,6 +13,4 @@
 
 (c) [Art Deco](https://www.artd.eco) 2019
 
-[1]: https://github.com/settings/tokens
-
 %~ -1%

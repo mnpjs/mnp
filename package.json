@@ -20,7 +20,7 @@
     "compile": "depack src/bin/mnp -o compile/bin -a -c -s --externs types/externs.js",
     "start": "node build/bin/mnp",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
-    "doc": "NODE_DEBUG=doc doc -o README.md",
+    "doc": "NODE_DEBUG=doc doc -o README.md -n _mnp",
     "wiki": "NODE_DEBUG=doc doc documentary-wiki -W wiki",
     "b": "ALAMODE_ENV=build alamode src -o build -i bin/index.js,bin/.eslintrc -s",
     "d": "yarn-s d1",
