@@ -59,7 +59,9 @@ export default {
 
 The default mode is to start creating a package. If `package-name` is not passed, the program will run in interactive mode and ask to enter details.
 
-To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory does not exist and not in a git path, create a `Github` repository, star it, clone it to the local filesystem, and fill in the default _Node.js_ package structure.
+To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for the name. `mnp` will check if the directory name is not taken and that the current working directory ins not in a git path, generate a new `Github` repository from the template, star it and clone it to the local filesystem.
+
+The default template used is `mnpjs/package` however it can be either overridden in [settings](#type-settings) during initialisation, or via the `-t org/template` flat.
 
 <table>
 <tbody>
@@ -78,7 +80,7 @@ To use the binary, enter `mnp cool-package-name`, or just `mnp` to be asked for 
 
 ### `-I`, `--init`: Configure
 
-When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token, and then initialise `mnp` in other directories, when it will reuse the token from the `HOME` config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes, while reusing the access token.
+When launched for the first time, `mnp` will ask to complete the set-up process and create a `.mnprc` file in the directory from which it was called. It is possible to create a default `.mnprc` in the `HOME` directory to remember the token and other standard settings, and then initialise `mnp` in other directories, then _MNP_ will reuse the settings from the `HOME` config, but ask for more details for the current folder. This way, it is easy to manage different organisations and scopes, while reusing the access token.
 
 __<a name="type-settings">`Settings`</a>__
 <table>
@@ -318,13 +320,12 @@ mnp package -n
 
 ## Templates
 
-When the structure is passed as `org/name`, MNP will use that template to create a new package. This means you can use your own templates and exploit the functionality of MNP. Everything that is published on _GitHub_, will be present in the new repository.
-
+When the structure is passed as `org/name`, _MNP_ will use that template to create a new package. This means you can use your own templates and exploit the functionality of _MNP_. Everything that is published on _GitHub_, will be present in the new repository.
 
 
 ### Writing Scripts
 
-The installation scripts are essential to update the newly created structure to the correct values. Upon installation, `mnp` will create a list of all files in the project directory, so that any transformations will be run on them. A braces `{{ repo }}` templating notation is used in files. By default, the following files are added:
+The installation scripts are essential to update the newly created structure to the correct values. Upon installation, `mnp` will create a list of all files in the project directory, so that any transformations will be run on them. A braces `{{ repo }}` templating notation is used in files for the replacement of settings. By default, the following files are added:
 
 - files: `['LICENSE', '.gitignore', '.eslintrc']`
 - extensions: `['js', 'jsx', 'md', 'html', 'json', 'css', 'xml']`

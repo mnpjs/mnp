@@ -1,6 +1,6 @@
 ### Writing Scripts
 
-The installation scripts are essential to update the newly created structure to the correct values. Upon installation, `mnp` will create a list of all files in the project directory, so that any transformations will be run on them. A braces `{{ repo }}` templating notation is used in files. By default, the following files are added:
+The installation scripts are essential to update the newly created structure to the correct values. Upon installation, `mnp` will create a list of all files in the project directory, so that any transformations will be run on them. A braces `{{ repo }}` templating notation is used in files for the replacement of settings. By default, the following files are added:
 
 - files: `['LICENSE', '.gitignore', '.eslintrc']`
 - extensions: `['js', 'jsx', 'md', 'html', 'json', 'css', 'xml']`
