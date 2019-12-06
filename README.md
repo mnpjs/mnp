@@ -697,7 +697,12 @@ In addition, there are replacements that are used without braces:
 
 ## Copyright
 
-(c) [Art Deco](https://www.artd.eco) 2019
+<table>
+  <tr>
+    <td><img src="https://avatars3.githubusercontent.com/u/38815725?v=4&amp;s=100" alt="{{ org }}"></td>
+    <td>© <a href="{{ website }}">{{ trademark }}</a> 2019</td>
+  </tr>
+</table>
 
 <p align="center"><a href="#table-of-contents">
   <img src="/.documentary/section-breaks/-1.svg?sanitize=true">

@@ -36,7 +36,7 @@ const getName = async (name) => {
 
     if (_check) return await runCheck(name)
 
-    const { token, scope: settingsScope, ...settings } = await signIn()
+    const { token, scope: settingsScope, template, ...settings } = await signIn()
 
     if (_delete) return await runDelete(token, settings.org, name)
 
@@ -45,7 +45,7 @@ const getName = async (name) => {
       ...settings,
     }, {
       name,
-      template: _template,
+      template: template || _template,
       private: _private,
       token,
       description: _desc,

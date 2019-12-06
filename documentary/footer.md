@@ -11,6 +11,6 @@
 
 ## Copyright
 
-(c) [Art Deco](https://www.artd.eco) 2019
+<footer />
 
 %~ -1%

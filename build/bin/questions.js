@@ -21,6 +21,15 @@ module.exports={
     },
     defaultValue: null,
   },
+  template: {
+    text: 'Default Template',
+    validation(a) {
+      if (!a) throw new Error('Default template is required.')
+      const [, org] = a.split('/')
+      if (!org) throw new Error('Please enter the template as org/repo')
+    },
+    defaultValue: 'mnpjs/package',
+  },
   name: {
     async getDefault() {
       const { stdout } = await git('config user.name', null, true)
