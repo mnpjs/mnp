@@ -1,5 +1,10 @@
 ## 6 December 2019
 
+### [1.0.3](https://github.com/mnpjs/mnp/compare/v1.0.2...v1.0.3)
+
+- [fix] Correct template order.
+- [feature] `git` api.
+
 ### [1.0.2](https://github.com/mnpjs/mnp/compare/v1.0.1...v1.0.2)
 
 - [deps] `stdlib` _@wrote/wrote.exists_.

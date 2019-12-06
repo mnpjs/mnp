@@ -270,8 +270,8 @@ class API {
   resolve(file) {
     return join(this.projectDir, file)
   }
-  get git() {
-    return git
+  async git(args = []) {
+    return await git(args, { cwd: this.projectDir })
   }
   /**
    * @param {!Array<!_restream.Rule>} rules
