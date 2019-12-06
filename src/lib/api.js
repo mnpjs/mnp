@@ -271,7 +271,7 @@ export default class API {
     return join(this.projectDir, file)
   }
   async git(args = []) {
-    return await git(args, { cwd: this.projectDir })
+    return await git(args, this.projectDir)
   }
   /**
    * @param {!Array<!_restream.Rule>} rules
