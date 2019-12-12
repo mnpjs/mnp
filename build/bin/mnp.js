@@ -36,7 +36,9 @@ const getName = async (name) => {
 
     if (_check) return await runCheck(name)
 
-    const { token, scope: settingsScope, template, ...settings } = await signIn()
+    const {
+      token, scope: settingsScope,
+      template = 'mnpjs/package', ...settings } = await signIn()
 
     if (_delete) return await runDelete(token, settings.org, name)
 

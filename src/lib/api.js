@@ -270,7 +270,8 @@ export default class API {
   resolve(file) {
     return join(this.projectDir, file)
   }
-  async git(args = []) {
+  async git(args, ...moreArgs) {
+    if (!Array.isArray(args)) args = [args, ...moreArgs]
     return await git(args, this.projectDir)
   }
   /**
