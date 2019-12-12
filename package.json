@@ -21,7 +21,7 @@
     "start": "node build/bin/mnp",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "doc": "NODE_DEBUG=doc doc -o README.md -n _mnp",
-    "wiki": "NODE_DEBUG=doc doc documentary-wiki -W wiki",
+    "wiki": "NODE_DEBUG=doc doc wiki -W wiki.git",
     "b": "ALAMODE_ENV=build alamode src -o build -i bin/index.js,bin/.eslintrc -s",
     "d": "yarn-s d1",
     "d1": "typal types/index.js -u",
