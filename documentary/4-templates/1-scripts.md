@@ -82,6 +82,7 @@ There are a number of hooks executed at different stages:
 
 - `preUpdate`: just before all files are updated.
 - `afterInit`: after the files are updated, before the installer commit.
+- `afterCommit`: after the initial commit, right before push.
 
 **existing scripts**
 

@@ -1,3 +1,11 @@
+## 12 December 2019
+
+### [1.0.4](https://github.com/mnpjs/mnp/compare/v1.0.3...v1.0.4)
+
+- [fix] Set default template to `mnp/package`.
+- [fix] Fix git api.
+- [feature] Call `afterCommit` hook.
+
 ## 6 December 2019
 
 ### [1.0.3](https://github.com/mnpjs/mnp/compare/v1.0.2...v1.0.3)
