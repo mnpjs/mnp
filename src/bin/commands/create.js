@@ -140,10 +140,11 @@ export default async function runCreate(settings, {
   }
   // read the mnp.js file
   require('alamode')()
-  let { questions, mnpQuestions: mnpq = ['license'], afterInit, preUpdate, files: {
-    extensions: fileExtensions = DEFAULT_EXTENSIONS,
-    filenames = DEFAULT_FILENAMES,
-  } = {} } = require(`${path}/mnp`)
+  let { questions, mnpQuestions: mnpq = ['license'],
+    afterInit, afterCommit, preUpdate, files: {
+      extensions: fileExtensions = DEFAULT_EXTENSIONS,
+      filenames = DEFAULT_FILENAMES,
+    } = {} } = require(`${path}/mnp`)
 
   const files = await getAllFiles(path, filenames, fileExtensions)
 
@@ -193,7 +194,8 @@ export default async function runCreate(settings, {
 
   await git('add .', path, true)
   await git(['commit', '-m', 'initialise package'], path, true)
-  await indicatrix('Initialised package structure, pushing', git('push origin master', path, true))
+  if (afterCommit) await afterCommit(sets, api.proxy)
+  await indicatrix('Initialised package structure, pushing', git('push origin master --follow-tags', path, true))
 
   console.log('Created a new package: %s.', c(packageName, 'green'))
 
