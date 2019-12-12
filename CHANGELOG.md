@@ -1,3 +1,30 @@
+## 12 December 2019
+
+### [1.0.4](https://github.com/mnpjs/mnp/compare/v1.0.3...v1.0.4)
+
+- [fix] Set default template to `mnp/package`.
+- [fix] Fix git api.
+- [feature] Call `afterCommit` hook.
+
+## 6 December 2019
+
+### [1.0.3](https://github.com/mnpjs/mnp/compare/v1.0.2...v1.0.3)
+
+- [fix] Correct template order.
+- [feature] `git` api.
+
+### [1.0.2](https://github.com/mnpjs/mnp/compare/v1.0.1...v1.0.2)
+
+- [deps] `stdlib` _@wrote/wrote.exists_.
+
+### [1.0.1](https://github.com/mnpjs/mnp/compare/v1.0.0...v1.0.1)
+
+- [deps] `stdlib` africa.
+
+### [1.0.0](https://github.com/mnpjs/mnp/compare/v0.14.2...v1.0.0)
+
+- [api] Remove structures, switch to _GitHub_ templates.
+
 ## 29 June 2019
 
 ### [0.14.2](https://github.com/dpck/depack/compare/v0.14.1...v0.14.2)

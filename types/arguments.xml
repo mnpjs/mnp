@@ -2,8 +2,11 @@
   <arg command name="name">
     The name of the new package.
   </arg>
-  <arg name="struct" short="s">
-    The structure to invoke.
+  <arg name="template" short="t">
+    The template to generate from.
+  </arg>
+  <arg boolean name="private" short="p">
+    Create a private repository.
   </arg>
   <arg name="desc" short="D">
     The description to add.
@@ -15,7 +18,7 @@
     Remove the repository from GitHub.
   </arg>
   <arg boolean name="init" short="I">
-    Initialise MNP config in this directory, creating .mnprc.
+    Initialise MNP config in this directory, creating `.mnprc`.
   </arg>
   <arg boolean name="no-scope" short="n">
     Don't use a scope for this package.

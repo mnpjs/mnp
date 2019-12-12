@@ -1,6 +1,5 @@
 import { resolve } from 'path'
 import bosom from 'bosom'
-import { clone } from 'wrote'
 
 const camelCase = (s) => {
   return s.replace(/-(.)/g, (m, w) => {
@@ -25,29 +24,34 @@ export const getRegexes = (sets, aliases) => {
   const {
     name, packageName, legalName,
     year = `${new Date().getFullYear()}`,
-    create_date = getDefaultCreateDate(), keywords = [],
+    create_date = getDefaultCreateDate(),
   } = sets
-
-  const keywordsReplacement = keywords
-    .map(k => `"${k}"`).join(', ')
-    .replace(/^"/, '').replace(/"$/, '')
-
 
   const answers = {
     ...sets,
     'package-name': packageName,
     'full-name': packageName,
     'legal-name': legalName,
-    keywords: keywordsReplacement,
     legal_name: legalName,
+    create_date,
     'create-date': create_date,
     year,
   }
-  const rules = Object.entries(answers).reduce((acc, [key, replacement]) => {
-    const rule = { re: new RegExp(`{{ ${key} }}`, 'g'), replacement }
-    acc.push(rule)
-    return acc
-  }, [])
+  const rules = [{
+    re: /{{ (.+?) }}/g,
+    // keywords? custom rule processor
+    replacement(m, key) {
+      try {
+        const aa = key.split('.').reduce((o, i) => o[i], answers)
+        if (aa) return aa
+        throw new Error('not found')
+      } catch (err) {
+        this.api.warn('Setting %s in %s not found.', m, this.path)
+        // not found
+      }
+      return m
+    },
+  }]
   const aliasesRules = Object.entries(aliases).reduce((acc, [re, replacement]) => {
     if (typeof re == 'string') {
       re = new RegExp(re.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g')
@@ -63,8 +67,7 @@ export const getRegexes = (sets, aliases) => {
     ...rules,
     ...aliasesRules,
     { re: /myNewPackage/g, replacement: cc },
-    { re: /MyNewPackage/g, replacement:
-      cc.replace(/^./, m => m.toUpperCase()) },
+    { re: /MyNewPackage/g, replacement: cc.replace(/^./, m => m.toUpperCase()) },
     { re: /(my-new-package)/g, replacement: packageName },
     { re: /(mnp)/g, replacement: name },
   ]
@@ -84,14 +87,4 @@ export const updatePackageJson = async (path, {
     }
     await bosom(packageJson, pp, { space: 2 })
   } catch (err) {/* no package.json */ }
-}
-
-export default async function cloneSource(from, to, sets = {}) {
-  const res = await clone({
-    to,
-    from,
-    regexes: getRegexes(sets),
-  })
-  await updatePackageJson(to, sets)
-  return res
 }

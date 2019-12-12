@@ -1,0 +1,1 @@
+_Splendid_ is a static website generator.

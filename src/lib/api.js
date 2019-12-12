@@ -1,5 +1,6 @@
 import { join, parse, relative, normalize, basename } from 'path'
 import spawn from 'spawncommand'
+import git from '../lib/git'
 import { renameSync, unlinkSync, writeFileSync, writeFile, existsSync, lstatSync } from 'fs'
 import indicatrix from 'indicatrix'
 import { aqt } from 'rqt'
@@ -139,8 +140,8 @@ export default class API {
   /**
    * @param {string} s
    */
-  warn(s) {
-    console.log(c(s, 'yellow'))
+  warn(s, ...args) {
+    console.log(c(s, 'yellow'), ...args)
   }
   /**
    * @param {string} path
@@ -152,8 +153,18 @@ export default class API {
   }
   async initManager() {
     if (this.settings.manager == 'yarn') {
+      try {
+        this.removeFile('package-lock.json')
+      } catch (err) {
+        // ok
+      }
       await this.spawn('yarn')
     } else if (this.settings.manager == 'npm') {
+      try {
+        this.removeFile('yarn.lock')
+      } catch (err) {
+        // ok
+      }
       await this.spawn('npm', ['i'])
     }
   }
@@ -259,6 +270,10 @@ export default class API {
   resolve(file) {
     return join(this.projectDir, file)
   }
+  async git(args, ...moreArgs) {
+    if (!Array.isArray(args)) args = [args, ...moreArgs]
+    return await git(args, this.projectDir)
+  }
   /**
    * @param {!Array<!_restream.Rule>} rules
    * @param {!Array<string>} [extensions]
@@ -279,6 +294,7 @@ export default class API {
     await Promise.all(f.map(async ff => {
       const content = await read(ff)
       const r = new Replaceable(rules)
+      r.api = this
       r.path = ff
       r.debug = (...args) => {
         if (process.env.DEBUG) console.log(...args)

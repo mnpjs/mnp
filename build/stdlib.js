@@ -2,7 +2,7 @@ const { promto } = require('../stdlib');
 const { usually } = require('../stdlib');
 const { bosom } = require('../stdlib');
 const                   { readDirStructure, getFiles } = require('../stdlib');
-const { read, write, rm, ensurePath } = require('../stdlib');
+const { read, write, rm, ensurePath, exists } = require('../stdlib');
 const         { argufy, reduceUsage } = require('../stdlib');
 const { c, b } = require('../stdlib');
 const { mismatch } = require('../stdlib');
@@ -10,11 +10,12 @@ const               { askQuestions, askSingle, confirm } = require('../stdlib');
 const { Replaceable, replace } = require('../stdlib');
 const { aqt } = require('../stdlib');
 const        { spawn, fork } = require('../stdlib');
-let africa = require('africa'); if (africa && africa.__esModule) africa = africa.default;
+const { africa } = require('../stdlib');
 const { cleanStack } = require('../stdlib');
 const { indicatrix } = require('../stdlib');
 
 module.exports = {
+  'exists': exists,
   'ensurePath': ensurePath,
   'cleanStack': cleanStack,
   'indicatrix': indicatrix,

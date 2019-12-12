@@ -1,9 +1,9 @@
 import info from '../../lib/info'
 import { c } from 'erte'
+import indicatrix from 'indicatrix'
 
 const runCheck = async (name) => {
-  console.log('Checking package %s...', name)
-  const found = await info(name)
+  const found = await indicatrix(`Checking package ${c(name, 'yellow')}`, info(name))
   console.log(
     'Package named %s is %s.',
     !found ? c(name, 'green') : c(name, 'red'),

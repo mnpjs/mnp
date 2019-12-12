@@ -5,9 +5,14 @@ export const argsConfig = {
     description: 'The name of the new package.',
     command: true,
   },
-  'struct': {
-    description: 'The structure to invoke.',
-    short: 's',
+  'template': {
+    description: 'The template to generate from.',
+    short: 't',
+  },
+  'private': {
+    description: 'Create a private repository.',
+    boolean: true,
+    short: 'p',
   },
   'desc': {
     description: 'The description to add.',
@@ -24,7 +29,7 @@ export const argsConfig = {
     short: 'd',
   },
   'init': {
-    description: 'Initialise MNP config in this directory, creating .mnprc.',
+    description: 'Initialise MNP config in this directory, creating `.mnprc`.',
     boolean: true,
     short: 'I',
   },
@@ -56,9 +61,14 @@ const args = argufy(argsConfig)
 export const _name = /** @type {string} */ (args['name'])
 
 /**
- * The structure to invoke.
+ * The template to generate from.
  */
-export const _struct = /** @type {string} */ (args['struct'])
+export const _template = /** @type {string} */ (args['template'])
+
+/**
+ * Create a private repository.
+ */
+export const _private = /** @type {boolean} */ (args['private'])
 
 /**
  * The description to add.
@@ -76,7 +86,7 @@ export const _check = /** @type {boolean} */ (args['check'])
 export const _delete = /** @type {boolean} */ (args['delete'])
 
 /**
- * Initialise MNP config in this directory, creating .mnprc.
+ * Initialise MNP config in this directory, creating `.mnprc`.
  */
 export const _init = /** @type {boolean} */ (args['init'])
 

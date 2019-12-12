@@ -66,8 +66,8 @@
       },
       "cwd": "${workspaceFolder}/../../art-deco",
       "args": [
-        "test3", // package-name
-        "-s", "package", // structure
+        "test5", // package-name
+        // "-s", "package", // structure
         "-D", "Testing new package."
         // "-d", // delete
         // "-l", // local

@@ -11,8 +11,6 @@
 
 ## Copyright
 
-(c) [Art Deco](https://artd.eco) 2019
-
-[1]: https://github.com/settings/tokens
+<footer />
 
 %~ -1%
