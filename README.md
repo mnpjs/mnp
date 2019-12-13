@@ -248,6 +248,8 @@ splendid:	a static website using Splendid
 	--init, -I    	Initialise MNP config in this directory, creating `.mnprc`.
 	--no-scope, -n	Don't use a scope for this package.
 	--scope, -@   	Use this specific scope for the package.
+	--repo, -r    	The name of the repository. By default, the package
+	              	name is used, but can be overridden.
 	--help, -h    	Print the help information and exit.
 	--version, -v 	Show the version's number and exit.
 

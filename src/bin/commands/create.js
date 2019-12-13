@@ -86,6 +86,7 @@ const getAllFiles = async (path, filenames, fileExtensions) => {
  */
 export default async function runCreate(settings, {
   name,
+  repo: repoName = name,
   template,
   private: priv = false,
   token,
@@ -107,7 +108,7 @@ export default async function runCreate(settings, {
   const templ = getTemplate(template)
   const repo = await indicatrix('Generating repository', github.repos.generate(templ.org, templ.name, {
     owner: org,
-    name: name,
+    name: repoName,
     description,
     private: priv,
   }))

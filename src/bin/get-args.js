@@ -42,6 +42,10 @@ export const argsConfig = {
     description: 'Use this specific scope for the package.',
     short: '@',
   },
+  'repo': {
+    description: 'The name of the repository. By default, the package\nname is used, but can be overridden.',
+    short: 'r',
+  },
   'help': {
     description: 'Print the help information and exit.',
     boolean: true,
@@ -53,6 +57,7 @@ export const argsConfig = {
     short: 'v',
   },
 }
+
 const args = argufy(argsConfig)
 
 /**
@@ -99,6 +104,12 @@ export const _noScope = /** @type {boolean} */ (args['no-scope'])
  * Use this specific scope for the package.
  */
 export const _scope = /** @type {string} */ (args['scope'])
+
+/**
+ * The name of the repository. By default, the package
+    name is used, but can be overridden.
+ */
+export const _repo = /** @type {string} */ (args['repo'])
 
 /**
  * Print the help information and exit.

@@ -26,6 +26,10 @@
   <arg name="scope" short="@">
     Use this specific scope for the package.
   </arg>
+  <arg string name="repo" short="r">
+    The name of the repository. By default, the package
+    name is used, but can be overridden.
+  </arg>
   <arg boolean name="help" short="h">
     Print the help information and exit.
   </arg>

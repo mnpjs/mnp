@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { _version, _help, _init, _name, _check, _delete, _scope, _noScope, _desc, _private, _template } from './get-args'
+import { _version, _help, _init, _name, _check, _delete, _scope,
+  _noScope, _desc, _private, _template, _repo } from './get-args'
 import { askSingle } from 'reloquent'
 import getUsage from './usage'
 import signIn from '../lib/sign-in'
@@ -51,6 +52,7 @@ const getName = async (name) => {
       private: _private,
       token,
       description: _desc,
+      repo: _repo,
     })
   } catch ({ controlled, message, stack }) {
     if (/Must have admin rights to Repository/.test(message)) {
