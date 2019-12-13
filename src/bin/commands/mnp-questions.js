@@ -36,7 +36,7 @@ export default {
   wiki: {
     text: 'Init Github Wiki',
     confirm: true,
-    async afterQuestions({ confirm, spawn, warn, packageJson, updatePackageJson },
+    async afterQuestions({ confirm, spawn, warn, packageJson, updatePackageJson, rm },
       answer, { name, org }) {
       if (answer) {
         const a = await confirm(`Please go to https://github.com/${org}/${name}/wiki/_new
@@ -48,6 +48,11 @@ to create the first page and press enter when done.`)
       }
       delete packageJson.scripts.wiki
       updatePackageJson(packageJson)
+      try {
+        await rm('wiki')
+      } catch (err) {
+        // ok
+      }
     },
   },
   homepage: {
