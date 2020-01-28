@@ -1,3 +1,10 @@
+## 28 January 2020
+
+### [1.1.0](https://github.com/mnpjs/mnp/compare/v1.0.5...v1.1.0)
+
+- [fix] Install wikis in `wiki.git`.
+- [feature] Use `-r` to pass the package name.
+
 ## 12 December 2019
 
 ### [1.0.4](https://github.com/mnpjs/mnp/compare/v1.0.3...v1.0.4)

@@ -1,7 +1,7 @@
 /**
  * The footer for documentation.
  */
-export const footer = () => {
+export const _footer = () => {
   const alt = '{{ org }}'
   const src = 'https://avatars3.githubusercontent.com/u/38815725?v=4&s=100'
   const href = '{{ website }}'
