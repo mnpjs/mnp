@@ -36,14 +36,14 @@ export default {
   wiki: {
     text: 'Init Github Wiki',
     confirm: true,
-    async afterQuestions({ confirm, spawn, warn, packageJson, updatePackageJson, rm },
+    async afterQuestions({ confirm, git, warn, packageJson, updatePackageJson, rm },
       answer, { name, org }) {
       if (answer) {
         const a = await confirm(`Please go to https://github.com/${org}/${name}/wiki/_new
 to create the first page and press enter when done.`)
         if (!a) return warn('Wiki not created.')
         const m = `git@github.com:${org}/${name}.wiki.git`
-        await spawn('git', ['submodule', 'add', m, 'wiki.git'])
+        await git('submodule', 'add', m, 'wiki.git')
         return m
       }
       delete packageJson.scripts.wiki
