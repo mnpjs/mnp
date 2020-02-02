@@ -1,3 +1,9 @@
+## 3 February 2020
+
+### [1.1.1](https://github.com/mnpjs/mnp/compare/v1.1.0...v1.1.1)
+
+- [fix] Fix custom licenses.
+
 ## 28 January 2020
 
 ### [1.1.0](https://github.com/mnpjs/mnp/compare/v1.0.5...v1.1.0)
