@@ -64,13 +64,14 @@
       "env": {
         "NODE_DEBUG": "mnp,aqt",
       },
-      "cwd": "${workspaceFolder}/../../art-deco",
+      "cwd": "${workspaceFolder}/../../adc",
       "args": [
-        "test5", // package-name
+        "trapcss", // package-name
         // "-s", "package", // structure
-        "-D", "Testing new package."
+        "-D", "Removes unused selectors from CSS files to achieve maximum optimisation. Can be used as an API function or with CLI.",
         // "-d", // delete
         // "-l", // local
+        "-n", // no scope
         // "-c", // check
         // "-l", // local
       ],

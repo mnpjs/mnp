@@ -166,6 +166,8 @@ export default class API {
         // ok
       }
       await this.spawn('npm', ['i'])
+    } else {
+      this.warn('Your manager (yarn/npm) is not configured in settings.')
     }
   }
   get packageJson() {

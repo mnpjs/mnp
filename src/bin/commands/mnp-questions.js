@@ -9,18 +9,20 @@ export default {
     },
     // https://spdx.org/licenses/
     afterQuestions({ warn, addFile, resolve: res }, license) {
-      if (license == 'custom') return {
-        name: 'SEE LICENSE IN LICENSE',
-        spdx: 'SEE LICENSE IN LICENSE',
+      const custom = {
+        license_name: 'SEE LICENSE IN LICENSE',
+        license_spdx: 'SEE LICENSE IN LICENSE',
+        license: {
+          name: 'SEE LICENSE IN LICENSE',
+          spdx: 'SEE LICENSE IN LICENSE',
+        },
       }
+      if (license == 'custom') return custom
       const r = require('@mnpjs/licenses')
       const e = license in r
       if (!e) {
-        warn(`Unknown license ${license}, settings custom`)
-        return {
-          name: 'SEE LICENSE IN LICENSE',
-          spdx: 'SEE LICENSE IN LICENSE',
-        }
+        warn(`Unknown license ${license}, settings custom.`)
+        return custom
       }
 
       const l = join(dirname(require.resolve('@mnpjs/licenses/package.json')), 'licenses', `${license}.txt`)
@@ -30,6 +32,10 @@ export default {
       return {
         license_spdx: r[license].spdx,
         license_name: r[license].name,
+        license: {
+          name: r[license].name,
+          spdx: r[license].spdx,
+        },
       }
     },
   },
