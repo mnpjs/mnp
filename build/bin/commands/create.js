@@ -124,7 +124,11 @@ async function runCreate(settings, {
     b(html_url, 'green'),
   )
 
-  await git(['clone', ssh_url, path])
+  const { code } = await git(['clone', ssh_url, path])
+  if (code) {
+    console.log('git clone failed.\nYou should call mnp % -d and try again.', repoName)
+    return
+  }
 
   console.log('Setting user %s<%s>...', userName, email)
   await git(['config', 'user.name', userName], path)

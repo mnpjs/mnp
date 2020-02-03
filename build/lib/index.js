@@ -9,9 +9,12 @@ const error = (text) => {
   throw err
 }
 
-const spawn2 = (program, args = [], options) => {
+const spawn2 = (program, args = [], options = {}) => {
   if (process.platform == 'win32') {
-    return spawn('cmd', ['/s', '/c', program, ...args], options)
+    return spawn(program, args, {
+      shell: process.platform == 'win32',
+      ...options,
+    })
   }
   return spawn(program, args, options)
 }
