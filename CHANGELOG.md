@@ -1,5 +1,9 @@
 ## 3 February 2020
 
+### [1.1.7](https://github.com/mnpjs/mnp/compare/v1.1.6...v1.1.7)
+
+- [fix] Init commit message on win.
+
 ### [1.1.6](https://github.com/mnpjs/mnp/compare/v1.1.5...v1.1.6)
 
 - [deps] Update `makePromise` again to remove length check.
