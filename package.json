@@ -1,6 +1,6 @@
 {
   "name": "mnp",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Create Packages From GitHub Templates. My New Package is an installer of new packages via GitHub templates: create a template and add an automated script to CLI questions, update files, access GitHub API and spawn commands during generation.",
   "main": "types/index.js",
   "bin": {
