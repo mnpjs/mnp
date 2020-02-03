@@ -126,7 +126,7 @@ export default async function runCreate(settings, {
 
   const { code } = await git(['clone', ssh_url, path])
   if (code) {
-    console.log('git clone failed.\nYou should call mnp % -d and try again.', repoName)
+    console.log('git clone failed.\nYou should call mnp %s -d and try again.', repoName)
     return
   }
 
