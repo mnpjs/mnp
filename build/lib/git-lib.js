@@ -1,9 +1,7 @@
-const { spawn } = require('../../stdlib');
+const { spawn2 } = require('./');
 
 const assertNotInGitPath = async () => {
-  const { promise } = spawn('git', ['rev-parse', '--git-dir'], {
-    shell: process.platform == 'win32',
-  })
+  const { promise } = spawn2('git', ['rev-parse', '--git-dir'])
   const gitRes = await promise
   if (/\.git/.test(gitRes.stdout)) {
     throw new Error('Current dir is in git path!')

@@ -9,6 +9,13 @@ const error = (text) => {
   throw err
 }
 
+const spawn2 = (program, args = [], options) => {
+  if (process.platform == 'win32') {
+    return spawn('cmd', ['/s', '/c', program, ...args], options)
+  }
+  return spawn(program, args, options)
+}
+
 const getStructure = (name = 'package') => {
   let path
   try {
@@ -79,6 +86,7 @@ const runOnCreate = async (cwd, structurePath, script) => {
   await promise
 }
 
+module.exports.spawn2 = spawn2
 module.exports.getStructure = getStructure
 module.exports.create = create
 module.exports.getProgWithArgs = getProgWithArgs

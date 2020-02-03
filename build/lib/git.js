@@ -1,4 +1,4 @@
-const { spawn } = require('../../stdlib');
+const { spawn2 } = require('./');
 
 /**
  * Run a git command.
@@ -13,10 +13,7 @@ async function git(args, cwd, noPipe = false) {
   } else if (typeof args == 'string') {
     a = args.split(' ')
   }
-  const { promise, stdout, stderr } = spawn('git', a, cwd ? { cwd,
-    shell: process.platform == 'win32' } : {
-    shell: process.platform == 'win32',
-  })
+  const { promise, stdout, stderr } = spawn2('git', a, cwd ? { cwd } : {})
   if (!noPipe) {
     stdout.pipe(process.stdout)
     stderr.pipe(process.stderr)
