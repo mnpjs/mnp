@@ -126,7 +126,7 @@ async function runCreate(settings, {
 
   const { code } = await git(['clone', ssh_url, path])
   if (code) {
-    console.log('git clone failed.\nYou should call mnp % -d and try again.', repoName)
+    console.log('git clone failed.\nYou should call mnp %s -d and try again.', repoName)
     return
   }
 
@@ -198,7 +198,10 @@ async function runCreate(settings, {
   }
 
   await git('add .', path, true)
-  await git(['commit', '-m', 'initialise package'], path, true)
+  const initPackage = 'initialise package'
+  await git([
+    'commit', '-m', process.platform == 'win32' ? `"${initPackage}"` : initPackage
+  ], path, true)
   if (afterCommit) await afterCommit(sets, api.proxy)
   await indicatrix('Initialised package structure, pushing', git('push origin master --follow-tags', path, true))
 

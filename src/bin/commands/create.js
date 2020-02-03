@@ -198,7 +198,10 @@ export default async function runCreate(settings, {
   }
 
   await git('add .', path, true)
-  await git(['commit', '-m', 'initialise package'], path, true)
+  const initPackage = 'initialise package'
+  await git([
+    'commit', '-m', process.platform == 'win32' ? `"${initPackage}"` : initPackage
+  ], path, true)
   if (afterCommit) await afterCommit(sets, api.proxy)
   await indicatrix('Initialised package structure, pushing', git('push origin master --follow-tags', path, true))
 
