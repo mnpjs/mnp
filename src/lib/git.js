@@ -13,7 +13,10 @@ async function git(args, cwd, noPipe = false) {
   } else if (typeof args == 'string') {
     a = args.split(' ')
   }
-  const { promise, stdout, stderr } = spawn('git', a, cwd ? { cwd } : {})
+  const { promise, stdout, stderr } = spawn('git', a, cwd ? { cwd,
+    shell: process.platform == 'win32' } : {
+    shell: process.platform == 'win32',
+  })
   if (!noPipe) {
     stdout.pipe(process.stdout)
     stderr.pipe(process.stderr)

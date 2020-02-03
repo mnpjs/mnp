@@ -55,6 +55,7 @@ export default class API {
   async spawn(command, args = [], opts = {}) {
     const { quiet, ...op } = opts
     const { promise } = spawn(command, args, {
+      shell: process.platform == 'win32',
       cwd: this.projectDir,
       stdio: 'inherit',
       ...op,

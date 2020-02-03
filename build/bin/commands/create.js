@@ -201,7 +201,9 @@ async function runCreate(settings, {
   console.log('Created a new package: %s.', c(packageName, 'green'))
 
   try {
-    spawnSync('code', [path])
+    spawnSync('code', [path], {
+      shell: process.platform == 'win32',
+    })
   } catch (err) {
     // no code
   }
