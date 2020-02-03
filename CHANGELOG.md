@@ -1,5 +1,9 @@
 ## 3 February 2020
 
+### [1.1.3](https://github.com/mnpjs/mnp/compare/v1.1.0...v1.1.2)
+
+- [fix] Try spawn git via cmd.
+
 ### [1.1.2](https://github.com/mnpjs/mnp/compare/v1.1.0...v1.1.2)
 
 - [fix] Try to fix the shell spawn for Win.
