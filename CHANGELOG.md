@@ -1,5 +1,9 @@
 ## 3 February 2020
 
+### [1.1.2](https://github.com/mnpjs/mnp/compare/v1.1.0...v1.1.2)
+
+- [fix] Try to fix the shell spawn for Win.
+
 ### [1.1.1](https://github.com/mnpjs/mnp/compare/v1.1.0...v1.1.1)
 
 - [fix] Fix custom licenses.
