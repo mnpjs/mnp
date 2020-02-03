@@ -1,5 +1,9 @@
 ## 3 February 2020
 
+### [1.1.6](https://github.com/mnpjs/mnp/compare/v1.1.5...v1.1.6)
+
+- [deps] Update `makePromise` again to remove length check.
+
 ### [1.1.5](https://github.com/mnpjs/mnp/compare/v1.1.4...v1.1.5)
 
 - [deps] Update `makePromise` for better error messages.

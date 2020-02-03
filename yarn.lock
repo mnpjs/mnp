@@ -249,9 +249,9 @@ makepromise@1.1.1:
     erotic "0.2.0"
 
 makepromise@^3.0.3, makepromise@^3.1.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/makepromise/-/makepromise-3.1.1.tgz#50d8cb9be11b333c7cfb3312c95d53b42052869d"
-  integrity sha512-AjFdTLAqd73GVf+y/JmToJBiLSU1YvHUGFTaNUgXRxCL7XqTHrwJfZEHN96NFS/Iw9m3aoKk4ZYNijao706idw==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/makepromise/-/makepromise-3.2.0.tgz#5967d982e01cdc5d044c544489c9e2a7abebc3b0"
+  integrity sha512-Hb8mGdLkE/rba1McbPdQl3NU86ovEm3RXhKFsuxUQ2SxLfMOXP5aES/2BLVWigpS0hoBy0NBIYnHHvouLdDuzg==
   dependencies:
     erotic "^2.1.0"
 
