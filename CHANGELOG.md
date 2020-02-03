@@ -1,5 +1,9 @@
 ## 3 February 2020
 
+### [1.1.5](https://github.com/mnpjs/mnp/compare/v1.1.4...v1.1.5)
+
+- [deps] Update `makePromise` for better error messages.
+
 ### [1.1.4](https://github.com/mnpjs/mnp/compare/v1.1.3...v1.1.4)
 
 - [fix] Return on Git Clone fail.
