@@ -1,3 +1,9 @@
+## 1 March 2020
+
+### [1.1.8](https://github.com/mnpjs/mnp/compare/v1.1.7...v1.1.8)
+
+- [deps] Update deps.
+
 ## 3 February 2020
 
 ### [1.1.7](https://github.com/mnpjs/mnp/compare/v1.1.6...v1.1.7)
