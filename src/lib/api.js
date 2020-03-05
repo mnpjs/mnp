@@ -279,7 +279,7 @@ export default class API {
   }
   /**
    * @param {!Array<!_restream.Rule>} rules
-   * @param {!Array<string>} [extensions]
+   * @param {Target} [target]
    */
   async updateFiles(rules, { extensions, file: filename, files } = {}) {
     let fn
@@ -306,4 +306,41 @@ export default class API {
       await write(ff, res)
     }))
   }
+  /**
+   * Keeps JS blocks, remving the wrapping.
+   * @param {string} name
+   * @param {Target} [target]
+   */
+  async keepBlocks(name, target) {
+    const re = new RegExp(`(\r?\n)?/\\* ${name}-(start|end) \\*/`, 'g')
+    await this.updateFiles({
+      re,
+      replacement() {
+        this.debug(`Kepping block ${name} in ${this.file}.`)
+        return ''
+      },
+    }, target)
+  }
+  /**
+   * Removes JS blocks.
+   * @param {string} name The name of the block.
+   * @param {Target} [target]
+   */
+  async removeBlocks(name, target) {
+    const re = new RegExp(`(\r?\n)?/\\* ${name}-start \\*/[\\s\\S]+?/\\* ${name}-end \\*/`, 'g')
+    await this.updateFiles({
+      re,
+      replacement() {
+        this.debug(`Removing block ${name} from ${this.file}.`)
+        return ''
+      },
+    }, target)
+  }
 }
+
+/**
+ * @typedef {Object} Target
+ * @prop {!Array<string>} extensions
+ * @prop {string} file
+ * @prop {!Array<string>} files
+ */
