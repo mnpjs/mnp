@@ -20,6 +20,26 @@ abc
     equal(res, `hello
 `)
   },
+  async'removes multiple blocks'({ TEMP, write, read }) {
+    const f = 'test.js'
+    const path = await write(f, `hello
+/* block-start */
+abc
+/* block-end */
+def
+/* block-start */
+abc
+/* block-end */
+`)
+    const api = new API(TEMP, [
+      path,
+    ])
+    await api.removeBlocks('block')
+    const res = await read(f)
+    equal(res, `hello
+def
+`)
+  },
   async'removes blocks same line'({ TEMP, write, read }) {
     const f = 'test.js'
     const path = await write(f, 'hello /* block-start */abc/* block-end */')
