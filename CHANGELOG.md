@@ -1,5 +1,9 @@
 ## 5 March 2020
 
+### [1.2.1](https://github.com/mnpjs/mnp/compare/v1.2.0...v1.2.1)
+
+- [fix] Annotate API more.
+
 ### [1.2.0](https://github.com/mnpjs/mnp/compare/v1.1.8...v1.2.0)
 
 - [feature] Remove blocks API.

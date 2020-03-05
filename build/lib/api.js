@@ -15,9 +15,12 @@ class API {
   /**
    * @param {string} projectDir
    * @param {!Array<string>} files An array with absolute paths to files.
+   * @param {import('@rqt/github')} github GitHub client.
+   * @param {import('../../').Settings} settings The settings.
    */
   constructor(projectDir, files, github, settings) {
     this.projectDir = projectDir
+    /** @type {!Array<string>} */
     this.files = files
     this.github = github
     this.proxy = new Proxy(this, {
@@ -52,6 +55,12 @@ class API {
       },
     }, { file: '.gitignore' })
   }
+  /**
+   * Execute a command asynchronously in the project dir.
+   * @param {string} command
+   * @param {!Array<string>} [args] arguments
+   * @param {import('child_process').SpawnOptions} [opts] Spawn options.
+   */
   async spawn(command, args = [], opts = {}) {
     const { quiet, ...op } = opts
     const { promise } = spawn(command, args, {
@@ -113,12 +122,20 @@ class API {
     }
     // update config
   }
+  /**
+   * Writes file to the project directory synchrnously.
+   * @param {string} path The path to the file in the project dir.
+   * @param {Buffer|string} data The contents to write.
+   */
   writeFileSync(path, data) {
     const p = this.resolve(path)
     writeFileSync(p, data)
   }
-  async download(url, opts = {}) {
-    const { followRedirects = true, ...op } = opts
+  /**
+   * Downloads a file.
+   * @param {string} url The url to the file.
+   */
+  async download(url, { followRedirects = true, ...op } = {}) {
     const { body, statusCode, statusMessage, headers } = await aqt(url, {
       headers: {
         'user-agent': 'Mozilla/5.0 Node.JS MNP Installer (https://www.npmjs.com/mnp)',
@@ -128,7 +145,7 @@ class API {
     })
     if (statusCode == 302 && followRedirects) {
       return await this.download(headers.location, {
-        ...opts,
+        ...op,
         followRedirects: false,
       })
     }
@@ -145,52 +162,92 @@ class API {
     console.log(c(s, 'yellow'), ...args)
   }
   /**
-   * @param {string} path
+   * Removes file from the project synchrnously.
+   * @param {string} path The path to the file to remove inside the project dir.
    */
   removeFile(path) {
     const p = this.resolve(path)
     unlinkSync(p)
     this.files = this.files.filter(f => f != p)
   }
+  /**
+   * Calls either `yarn` or `npm i`, and removes `package-lock.json` or `yarn.lock` respectively.
+   */
   async initManager() {
-    if (this.settings.manager == 'yarn') {
+    const { manager } = this.settings
+    if (!manager) {
+      this.warn('Your manager (yarn/npm) is not configured in settings.')
+      return
+    }
+    if (manager == 'yarn') {
       try {
         this.removeFile('package-lock.json')
       } catch (err) {
         // ok
       }
       await this.spawn('yarn')
-    } else if (this.settings.manager == 'npm') {
+    } else if (manager == 'npm') {
       try {
         this.removeFile('yarn.lock')
       } catch (err) {
         // ok
       }
       await this.spawn('npm', ['i'])
-    } else {
-      this.warn('Your manager (yarn/npm) is not configured in settings.')
     }
   }
+  /**
+   * Reads package.json of the project and returns it as an object.
+   * @return {{
+   * name: string,
+   * version: string,
+   * description: string,
+   * main: string,
+   * files: Array<string>,
+   * bin: Object<string, string>,
+   * keywords: Array<string>,
+   * scripts: Object<string, string>,
+   * dependencies: Object<string, string>,
+   * devDependencies: Object<string, string>,
+   * }}
+   */
   get packageJson() {
     const p = this.resolve('package.json')
     delete require.cache[p]
     const packageJson = require(p)
     return packageJson
   }
+  /**
+   * Reads file as JSON.
+   * @param {string} file Path to the file inside of the project dir.
+   */
   json(file) {
     const p = this.resolve(file)
     delete require.cache[p]
     const f = require(p)
     return f
   }
-  saveJson(file, data, indent = 2) {
-    const p = this.resolve(file)
+  /**
+   * Saves file as serialised JSON
+   * @param {string} path The path to the file inside the project dir.
+   * @param {Object} data Data to serialise and write to the file.
+   */
+  saveJson(path, data, indent = 2) {
+    const p = this.resolve(path)
     const s = indent ? JSON.stringify(data, null, indent) : JSON.stringify(data)
     writeFileSync(p, s)
   }
+  /**
+   * Saves package.json contents with new data.
+   * @param {Object} data The new package.json object.
+   */
   updatePackageJson(data) {
     this.saveJson('package.json', data)
   }
+  /**
+   * Renames file.
+   * @param {string} path Old path.
+   * @param {string} newPath New path.
+   */
   renameFile(path, newPath) {
     const p = this.resolve(path)
     const newp = this.resolve(newPath)
@@ -206,11 +263,12 @@ class API {
     }
   }
   /**
-   * @param {string} text
-   * @param {Promise} promise
+   * Show loading indicator with ellipsis, e.g., `Fetching data...`
+   * @param {string} text The loading text to show.
+   * @param {Promise} promise The promise, or function to await for.
    */
-  loading(text, promise) {
-    return indicatrix(text, promise)
+  async loading(text, promise) {
+    return await indicatrix(text, promise)
   }
   /**
    * Returns whether the list of files contains this entry.
@@ -219,10 +277,14 @@ class API {
   hasFile(file) {
     return this.files.some(f => f == file)
   }
+  /**
+   * Removes installed packages. Useful to clear up dependencies used for installation.
+   */
   async removePackages(packages) {
-    if (this.settings.manager == 'npm') {
+    const { manager } = this.settings
+    if (manager == 'npm') {
       await this.spawn('npm', ['uninstall', ...packages])
-    } else if (this.settings.manager == 'yarn') {
+    } else if (manager == 'yarn') {
       await this.spawn('yarn', ['remove', ...packages])
     }
   }
@@ -233,6 +295,10 @@ class API {
       this.files.push(path)
     } else if (process.env.DEBUG) console.log('File %s already present.', file)
   }
+  /**
+   * Removes files and directories by path.
+   * @param {string} path The path to the file or directory inside the project dir.
+   */
   async rm(path) {
     path = this.resolve(path)
     try {
@@ -253,6 +319,7 @@ class API {
     }
   }
   /**
+   * Removes files by regex synchronously.
    * @param {RegExp} regex The files to remove.
    */
   removeFiles(regex) {
@@ -270,9 +337,20 @@ class API {
     })
     this.files = leftFiles
   }
-  resolve(file) {
-    return join(this.projectDir, file)
+  /**
+   * Returns path to the file inside the project dir.
+   * @param {string} path Relative path to the file.
+   */
+  resolve(path) {
+    return join(this.projectDir, path)
   }
+  /**
+   * Runs `git` inside the project.
+   * - `git('add', '.')`
+   * - `git('add .')`
+   * - `git(['add', '.'])`
+   * @param {string|Array<string>} args A string with args like `add .` or `add` or an array with arguments.
+   */
   async git(args, ...moreArgs) {
     if (!Array.isArray(args)) args = [args, ...moreArgs]
     return await git(args, this.projectDir)
@@ -280,7 +358,7 @@ class API {
   /**
    * Update files using a regular expression.
    * @param {!Array<!_restream.Rule>} rules
-   * @param {Target} [target]
+   * @param {Target} [target] What files to update.
    */
   async updateFiles(rules, target = {}) {
     if (Array.isArray(target)) {
@@ -314,7 +392,7 @@ class API {
     }))
   }
   /**
-   * Keeps JS blocks, remving the wrapping.
+   * Keeps JS blocks, remving the wrapping, e.g., `/＊ block-start ＊/ [- block contents -] /＊ block-end ＊/`, where block is the name of the block will remain just `[-block contents-]`.
    * @param {string} name
    * @param {Target} [target]
    */
@@ -329,7 +407,7 @@ class API {
     }, target)
   }
   /**
-   * Removes JS blocks.
+   * Removes JS blocks completely, like `/＊ block-start ＊/ [- block contents -] /＊ block-end ＊/`, where block is the name of the block. The example will be gone from the file completely.
    * @param {string} name The name of the block.
    * @param {Target} [target]
    */
