@@ -38,7 +38,7 @@ const getRegexes = (sets, aliases) => {
     year,
   }
   const rules = [{
-    re: /{{ (.+?) }}/g,
+    re: /{{ (\S+?) }}/g,
     // keywords? custom rule processor
     replacement(m, key) {
       try {
