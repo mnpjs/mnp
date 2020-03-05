@@ -3,6 +3,7 @@ const { c, b } = require('../../../stdlib');
 const               { askQuestions, askSingle } = require('../../../stdlib');
 const { getRegexes } = require('../../lib/clone-source');
 const git = require('../../lib/git');
+const { versionGte } = require('../../lib');
 const { assertNotInGitPath } = require('../../lib/git-lib');
 let GitHub = require('@rqt/github'); if (GitHub && GitHub.__esModule) GitHub = GitHub.default;
 const                   { readDirStructure, getFiles } = require('../../../stdlib');
@@ -11,6 +12,7 @@ const { indicatrix } = require('../../../stdlib');
 const API = require('../../lib/api');
 const mnpQuestions = require('./mnp-questions');
 const { spawnSync } = require('child_process');
+const { version: V } = require('../../../package');
 // const GitHub = require(/* depack */'@rqt/github/src')
 
 const getDescription = async (description) => {
@@ -149,7 +151,11 @@ async function runCreate(settings, {
     afterInit, afterCommit, preUpdate, files: {
       extensions: fileExtensions = DEFAULT_EXTENSIONS,
       filenames = DEFAULT_FILENAMES,
-    } = {} } = require(`${path}/mnp`)
+    } = {}, api: mnpApi } = require(`${path}/mnp`)
+  if (mnpApi) {
+    const ok = versionGte(V, mnpApi)
+    if (!ok) throw new Error(`Template requires MNP version ${mnpApi}, you have ${V}`)
+  }
 
   const files = await getAllFiles(path, filenames, fileExtensions)
 
@@ -200,7 +206,7 @@ async function runCreate(settings, {
   await git('add .', path, true)
   const initPackage = 'initialise package'
   await git([
-    'commit', '-m', process.platform == 'win32' ? `"${initPackage}"` : initPackage
+    'commit', '-m', process.platform == 'win32' ? `"${initPackage}"` : initPackage,
   ], path, true)
   if (afterCommit) await afterCommit(sets, api.proxy)
   await indicatrix('Initialised package structure, pushing', git('push origin master --follow-tags', path, true))

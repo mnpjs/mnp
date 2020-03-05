@@ -102,6 +102,24 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch Test",
+      "program": "${workspaceFolder}/src/bin/index.js",
+      "env": {
+        "NODE_DEBUG": "mnp,aqt",
+      },
+      "cwd": "${workspaceFolder}/../../adc",
+      "args": [
+        "mnp.test", // package-name
+        "-D", "Art Deco Test.",
+      ],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Zoroaster",
       "program": "${workspaceFolder}/node_modules/.bin/zoroaster",
       "args": [

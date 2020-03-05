@@ -3,6 +3,7 @@ import { c, b } from 'erte'
 import askQuestions, { askSingle } from 'reloquent'
 import { getRegexes } from '../../lib/clone-source'
 import git from '../../lib/git'
+import { versionGte } from '../../lib'
 import { assertNotInGitPath } from '../../lib/git-lib'
 import GitHub from '@rqt/github'
 import readDirStructure, { getFiles } from '@wrote/read-dir-structure'
@@ -11,6 +12,7 @@ import indicatrix from 'indicatrix'
 import API from '../../lib/api'
 import mnpQuestions from './mnp-questions'
 import { spawnSync } from 'child_process'
+import { version as V } from '../../../package'
 // const GitHub = require(/* depack */'@rqt/github/src')
 
 const getDescription = async (description) => {
@@ -149,7 +151,11 @@ export default async function runCreate(settings, {
     afterInit, afterCommit, preUpdate, files: {
       extensions: fileExtensions = DEFAULT_EXTENSIONS,
       filenames = DEFAULT_FILENAMES,
-    } = {} } = require(`${path}/mnp`)
+    } = {}, api: mnpApi } = require(`${path}/mnp`)
+  if (mnpApi) {
+    const ok = versionGte(V, mnpApi)
+    if (!ok) throw new Error(`Template requires MNP version ${mnpApi}, you have ${V}`)
+  }
 
   const files = await getAllFiles(path, filenames, fileExtensions)
 
@@ -200,7 +206,7 @@ export default async function runCreate(settings, {
   await git('add .', path, true)
   const initPackage = 'initialise package'
   await git([
-    'commit', '-m', process.platform == 'win32' ? `"${initPackage}"` : initPackage
+    'commit', '-m', process.platform == 'win32' ? `"${initPackage}"` : initPackage,
   ], path, true)
   if (afterCommit) await afterCommit(sets, api.proxy)
   await indicatrix('Initialised package structure, pushing', git('push origin master --follow-tags', path, true))

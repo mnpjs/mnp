@@ -1,3 +1,10 @@
+## 5 March 2020
+
+### [1.2.0](https://github.com/mnpjs/mnp/compare/v1.1.8...v1.2.0)
+
+- [feature] Remove blocks API.
+- [doc] Export _Question_ and _PreUpdate_ types.
+
 ## 1 March 2020
 
 ### [1.1.8](https://github.com/mnpjs/mnp/compare/v1.1.7...v1.1.8)

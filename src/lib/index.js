@@ -88,3 +88,54 @@ export const runOnCreate = async (cwd, structurePath, script) => {
   }
   await promise
 }
+
+/**
+ * Parse the given version, or use Node's version for parsing.
+ * @param {string} [version] Package version, e.g., 8.9.3.
+ * @returns {Version} parsed version
+ */
+const parseVersion = (version) => {
+  const re = /(\d+)\.(\d+)\.(\d+)/
+  const [, ma, mi, p] = re.exec(version)
+  const major = parseInt(ma, 10)
+  const minor = parseInt(mi, 10)
+  const patch = parseInt(p, 10)
+  return { major, minor, patch }
+}
+
+/**
+ * Check if the target version is greater than or equal to the source one.
+ * @param {string} source version to compare.
+ * @param {string} target version to be compared against, e.g., 5.10.0
+ * @returns {boolean} Whether the version is greater than or equal to
+ * the given one.
+ */
+export const versionGte = (source, target) => {
+  const {
+    major: sourceMajor,
+    minor: sourceMinor,
+    patch: sourcePatch,
+  } = parseVersion(source)
+
+  const { major, minor, patch } = parseVersion(target)
+
+  if (major == sourceMajor && minor == sourceMinor && patch == sourcePatch) {
+    return true
+  }
+
+  if (major == sourceMajor) {
+    if (minor == sourceMinor) {
+      return sourcePatch > patch
+    }
+    return sourceMinor > minor
+  }
+  return sourceMajor > major
+}
+
+
+/**
+ * @typedef {Object} Version
+ * @property {number} major
+ * @property {number} minor
+ * @property {number} patch
+ */

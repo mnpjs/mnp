@@ -15,3 +15,18 @@ export {}
  * @prop {string} legalName The official legal name for placement in the _LICENSE_ file.
  * @prop {string} manager Package manager, such as `yarn` or `npm`.
  */
+
+/**
+ * @typedef {Object} Question
+ * @prop {boolean} [confirm] Whether this is a confirmation question.
+ * @prop {string} [text] The text to show to the user.
+ * @prop {(api: API, answer: string|boolean, settings: Object) => Promise<void>} [afterQuestions] Logic to execute after questions are asked.
+ */
+
+/**
+ * @typedef {(settings: Settings, api: API) => Promise<void>} PreUpdate
+ */
+
+/**
+ * @typedef {import('../src/lib/api').default} API
+ */

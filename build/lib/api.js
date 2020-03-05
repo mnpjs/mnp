@@ -278,10 +278,17 @@ class API {
     return await git(args, this.projectDir)
   }
   /**
+   * Update files using a regular expression.
    * @param {!Array<!_restream.Rule>} rules
    * @param {Target} [target]
    */
-  async updateFiles(rules, { extensions, file: filename, files } = {}) {
+  async updateFiles(rules, target = {}) {
+    if (Array.isArray(target)) {
+      target = { files: target }
+    } else if (typeof target == 'string') {
+      target = { file: target }
+    }
+    const { extensions, file: filename, files } = /** @type {ExtendedTarget} */ (target)
     let fn
     if (typeof filename == 'string') fn = [this.resolve(filename)]
     else if (Array.isArray(files)) fn = files.map(f => this.resolve(f))
@@ -339,7 +346,11 @@ class API {
 }
 
 /**
- * @typedef {Object} Target
+ * @typedef {string|!Array<string>|ExtendedTarget} Target
+ */
+
+/**
+ * @typedef {Object} ExtendedTarget
  * @prop {!Array<string>} extensions
  * @prop {string} file
  * @prop {!Array<string>} files
