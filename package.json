@@ -34,6 +34,7 @@
     "types/index.js",
     "src/bin/index.js",
     "website",
+    "src/lib/api.js",
     "stdlib"
   ],
   "repository": {
